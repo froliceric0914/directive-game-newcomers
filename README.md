@@ -1,5 +1,7 @@
 ![Development progress](docs/development-progress.svg)
 
+[试玩已发布版本](https://shinzanmono-seven-days-wei.froliceric.chatgpt.site)
+
 <!-- 每日更新：修改 docs/development-progress.svg 中标注的百分比和目标宽度。 -->
 
 # 新参者 · 人形町散步
