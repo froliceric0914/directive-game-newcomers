@@ -1,0 +1,308 @@
+{
+  "chapters": [
+    {
+      "chapterId": "ch01",
+      "title": "仙贝店的女孩",
+      "initialSuspect": {
+        "id": "takura_shinichi",
+        "name": "田仓慎一",
+        "reason": "案发当天去过峰子家，而且行动时间存在无法立即解释的空白。"
+      },
+      "reviewQuestion": "田仓隐瞒了自己的行动。根据这一章取得的证据和证言，他是否仍值得怀疑？",
+      "choices": [
+        {
+          "id": "clear",
+          "label": "排除嫌疑"
+        },
+        {
+          "id": "keep",
+          "label": "继续怀疑"
+        }
+      ],
+      "expectedOutcome": "clear",
+      "resolution": {
+        "clear": {
+          "archiveAs": "conclusion",
+          "text": "田仓确实说了谎，但他隐瞒的是诊断证明和上川家的私人秘密。现有事实不足以把他的行动与峰子之死联系起来。"
+        },
+        "keep": {
+          "archiveAs": "doubt",
+          "text": "田仓仍被保留为疑点人物。之后可以在警局重新审视他的行动时间。"
+        }
+      }
+    },
+
+    {
+      "chapterId": "ch02",
+      "title": "料亭的小伙计",
+      "initialSuspect": {
+        "id": "sasaki_shuhei",
+        "name": "佐佐木修平",
+        "reason": "他购买过与峰子家现场高度对应的人形烧，而且对人形烧的去向撒了谎。"
+      },
+      "reviewQuestion": "修平为什么要隐瞒人形烧的去向？这足以说明他与杀人有关吗？",
+      "choices": [
+        {
+          "id": "clear",
+          "label": "排除嫌疑"
+        },
+        {
+          "id": "keep",
+          "label": "继续怀疑"
+        }
+      ],
+      "expectedOutcome": "clear",
+      "resolution": {
+        "clear": {
+          "archiveAs": "conclusion",
+          "text": "人形烧经过多人转手才来到峰子手中。修平隐瞒了事实，但这一秘密与杀人本身没有直接关系。"
+        },
+        "keep": {
+          "archiveAs": "doubt",
+          "text": "修平关于人形烧的最初说法仍然令人怀疑，暂时保留。"
+        }
+      }
+    },
+
+    {
+      "chapterId": "ch03",
+      "title": "陶瓷器店的媳妇",
+      "initialSuspect": {
+        "id": "yanagisawa_maki",
+        "name": "柳泽麻纪",
+        "reason": "峰子被害前刚购买了一把新的厨剪，而麻纪与这次购买直接有关。"
+      },
+      "reviewQuestion": "峰子购买剪刀，是不是与案件准备或凶器有关？麻纪是否仍值得怀疑？",
+      "choices": [
+        {
+          "id": "clear",
+          "label": "排除嫌疑"
+        },
+        {
+          "id": "keep",
+          "label": "继续怀疑"
+        }
+      ],
+      "expectedOutcome": "clear",
+      "resolution": {
+        "clear": {
+          "archiveAs": "conclusion",
+          "text": "厨剪来自一次购物误会。峰子是在帮助麻纪购买适合老人剪食物的剪刀，与杀人没有直接关系。"
+        },
+        "keep": {
+          "archiveAs": "doubt",
+          "text": "厨剪的来源已经得到部分解释，但玩家仍决定保留麻纪作为疑点人物。"
+        }
+      },
+      "newDoubt": {
+        "id": "sakura_chopsticks",
+        "text": "峰子为什么还特意寻找樱花纹样的夫妇筷？"
+      }
+    },
+
+    {
+      "chapterId": "ch04",
+      "title": "钟表店的狗",
+      "initialSuspect": {
+        "id": "terada_genichi",
+        "name": "寺田玄一",
+        "reason": "寺田对自己与峰子的见面地点明显说了假话。"
+      },
+      "reviewQuestion": "寺田为什么谎称自己在滨町公园遇见峰子？这个谎言是否与杀人有关？",
+      "choices": [
+        {
+          "id": "clear",
+          "label": "排除嫌疑"
+        },
+        {
+          "id": "keep",
+          "label": "继续怀疑"
+        }
+      ],
+      "expectedOutcome": "clear",
+      "resolution": {
+        "clear": {
+          "archiveAs": "conclusion",
+          "text": "寺田确实隐瞒了真实的行动地点，但没有证据表明这个秘密与峰子死亡直接相关。"
+        },
+        "keep": {
+          "archiveAs": "doubt",
+          "text": "寺田对地点撒谎这一点仍被保留在警局档案。"
+        }
+      },
+      "newDoubt": {
+        "id": "why_suitengu",
+        "text": "真正值得追查的是：峰子为什么去了与安产和孩子有关的水天宫？"
+      }
+    },
+
+    {
+      "chapterId": "ch05",
+      "title": "西饼店的店员",
+      "initialSuspect": {
+        "id": "kitamura_miyuki",
+        "name": "北村美雪",
+        "reason": "峰子频繁来到西饼店，并持续观察怀孕的美雪，两人之间似乎存在尚未解释的关系。"
+      },
+      "suspectType": "relationship",
+      "reviewQuestion": "峰子和美雪之间是否真的存在秘密关系？美雪是否需要继续作为案件相关人物被怀疑？",
+      "choices": [
+        {
+          "id": "clear",
+          "label": "排除嫌疑"
+        },
+        {
+          "id": "keep",
+          "label": "继续怀疑"
+        }
+      ],
+      "expectedOutcome": "clear",
+      "resolution": {
+        "clear": {
+          "archiveAs": "conclusion",
+          "text": "峰子和美雪实际上并不认识。峰子只是误把怀孕的美雪当成弘毅的女朋友。"
+        },
+        "keep": {
+          "archiveAs": "doubt",
+          "text": "玩家仍认为峰子频繁观察美雪这一行为存在尚未解释之处。"
+        }
+      },
+      "majorConclusion": "峰子以为自己即将成为祖母。这解释了她关注美雪、育儿资料以及前往水天宫的行为。"
+    },
+
+    {
+      "chapterId": "ch06",
+      "title": "翻译家的朋友",
+      "initialSuspect": {
+        "id": "yoshioka_tomoko",
+        "name": "吉冈多美子",
+        "reason": "多美子和峰子死亡前发生过争执，两人的长期合作关系也即将结束。"
+      },
+      "reviewQuestion": "峰子与多美子的最后一次争执，是否可能构成杀人动机？",
+      "choices": [
+        {
+          "id": "clear",
+          "label": "排除嫌疑"
+        },
+        {
+          "id": "keep",
+          "label": "继续怀疑"
+        }
+      ],
+      "expectedOutcome": "clear",
+      "resolution": {
+        "clear": {
+          "archiveAs": "conclusion",
+          "text": "峰子实际上已经准备与多美子和好。樱花夫妇筷正是她准备送给多美子的结婚礼物。"
+        },
+        "keep": {
+          "archiveAs": "doubt",
+          "text": "两人死前确实发生过冲突，因此玩家选择暂时保留这一人物关系疑点。"
+        }
+      },
+      "resolveDoubt": "sakura_chopsticks"
+    },
+
+    {
+      "chapterId": "ch07",
+      "title": "保洁公司的社长",
+      "initialSuspect": {
+        "id": "kiyose_naohiro",
+        "name": "清濑直弘",
+        "reason": "直弘是峰子的前夫。峰子正在重新咨询财产问题，而宫本祐理又让婚外关系成为一种可能解释。"
+      },
+      "reviewQuestion": "直弘是否因为财产或婚外关系问题，有足够理由杀死峰子？",
+      "choices": [
+        {
+          "id": "clear",
+          "label": "排除嫌疑"
+        },
+        {
+          "id": "keep",
+          "label": "继续怀疑"
+        }
+      ],
+      "expectedOutcome": "clear",
+      "resolution": {
+        "clear": {
+          "archiveAs": "conclusion",
+          "text": "所谓直弘与宫本祐理的婚外关系并不成立。现阶段没有足够证据支持直弘是凶手。"
+        },
+        "keep": {
+          "archiveAs": "doubt",
+          "text": "财产问题仍然存在，因此玩家暂时不愿完全排除直弘。"
+        }
+      },
+      "nextSuspect": {
+        "id": "kishida_yasaku",
+        "name": "岸田要作",
+        "reason": "调查公司关系后发现，岸田长期控制清濑公司的财务，并与峰子并不像他自己声称的那样陌生。"
+      }
+    },
+
+    {
+      "chapterId": "ch08",
+      "title": "民间艺术品店的顾客",
+      "initialSuspect": {
+        "id": "kishida_yasaku",
+        "name": "岸田要作",
+        "reason": "岸田案发当天的行动、送给孙子的陀螺以及后来替换的陀螺线都出现异常。"
+      },
+      "reviewQuestion": "失窃的陀螺、消失的原装绳和岸田的行动能否让你排除他？",
+      "choices": [
+        {
+          "id": "clear",
+          "label": "排除嫌疑"
+        },
+        {
+          "id": "keep",
+          "label": "继续怀疑"
+        }
+      ],
+      "expectedOutcome": "keep",
+      "resolution": {
+        "clear": {
+          "archiveAs": "doubt",
+          "text": "目前仍有多项事实无法解释。即使玩家选择排除，岸田相关物证仍作为未解决疑点保留。"
+        },
+        "keep": {
+          "archiveAs": "doubt",
+          "text": "继续怀疑岸田。重点疑点：失窃陀螺的来源、原装陀螺线的去向，以及案发日晚的时间空白。"
+        }
+      }
+    },
+
+    {
+      "chapterId": "ch09",
+      "title": "日本桥的刑警",
+      "initialSuspect": {
+        "id": "kishida_yasaku",
+        "name": "岸田要作",
+        "reason": "此前累计的财务、时间、人物关系与陀螺线证据都开始指向岸田。"
+      },
+      "reviewQuestion": "现在掌握的证据是否已经足以把岸田从“疑点人物”升级为案件核心嫌疑人？",
+      "choices": [
+        {
+          "id": "clear",
+          "label": "排除嫌疑"
+        },
+        {
+          "id": "confirm",
+          "label": "确认核心嫌疑"
+        }
+      ],
+      "expectedOutcome": "confirm",
+      "resolution": {
+        "clear": {
+          "archiveAs": "doubt",
+          "text": "大量相互独立的线索仍然无法在排除岸田的前提下得到合理解释。案件暂不结束。"
+        },
+        "confirm": {
+          "archiveAs": "conclusion",
+          "text": "岸田的财务动机、与峰子的真实关系、作案时间空白以及陀螺线物证形成了能够相互支持的完整链条。"
+        }
+      },
+      "finalState": "confirmed"
+    }
+  ]
+}

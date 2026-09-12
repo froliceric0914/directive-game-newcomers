@@ -1,0 +1,198 @@
+{
+  "locationId": "mineko_apartment",
+  "name": "峰子公寓的证物",
+
+  "ui": {
+    "description": "在峰子的房间发现的物品与信息。随着调查推进，新的疑点会逐渐出现。",
+    "tabs": ["current", "resolved"],
+    "hideFutureEvidence": true
+  },
+
+  "evidence": [
+    {
+      "id": "insurance_material",
+      "title": "保险公司宣传册与田仓名片",
+      "unlockChapter": 1,
+      "type": "document",
+      "before": {
+        "summary": "房间内发现保险公司的宣传资料和田仓慎一的名片。",
+        "questions": ["田仓为什么来过峰子家？", "他离开峰子家后去了哪里？"]
+      },
+      "investigation": {
+        "locationId": "senbei_shop",
+        "label": "仙贝店"
+      },
+      "after": {
+        "details": [
+          "确认田仓案发当天到过峰子家。",
+          "继续核对他离开后的行动和时间。"
+        ],
+        "result": "田仓的行动存在隐瞒，但需要结合证言判断是否与案件有关。"
+      }
+    },
+
+    {
+      "id": "ningyoyaki",
+      "title": "人形烧",
+      "unlockChapter": 2,
+      "type": "object",
+      "before": {
+        "summary": "峰子房间里发现了一盒吃剩的人形烧。",
+        "questions": ["是谁买来的人形烧？", "为什么会出现在峰子的房间？"]
+      },
+      "investigation": {
+        "locationId": "restaurant",
+        "label": "料亭"
+      },
+      "after": {
+        "details": [
+          "进一步确认了人形烧的来源。",
+          "塑料盒上的痕迹提供了新的信息。",
+          "它与现场其他接触痕迹之间存在值得注意的差异。"
+        ],
+        "result": "人形烧看似与案件直接有关，但调查后需要重新判断它的意义。"
+      }
+    },
+
+    {
+      "id": "new_scissors",
+      "title": "未拆包装的新厨剪",
+      "unlockChapter": 3,
+      "type": "object",
+      "before": {
+        "summary": "房间里发现一把仍保留包装和价签的新厨剪。",
+        "questions": [
+          "峰子为什么需要一把新的厨剪？",
+          "她原来的剪刀是否不能使用？"
+        ]
+      },
+      "investigation": {
+        "locationId": "chapter3_investigation",
+        "label": "第三章调查地点"
+      },
+      "after": {
+        "details": [
+          "峰子原本已经有可以使用的厨剪。",
+          "新剪刀的购买目的并不像最初想象的那么简单。"
+        ],
+        "result": "剪刀本身不是直接凶器线索，需要结合邮件理解购买原因。"
+      }
+    },
+
+    {
+      "id": "6300_email",
+      "title": "“买了，六千三百元”邮件",
+      "unlockChapter": 3,
+      "type": "digital",
+      "before": {
+        "summary": "峰子的邮件中出现了一笔六千三百元的购买记录。",
+        "questions": ["六千三百元买的是什么？", "这封邮件是写给谁的？"]
+      },
+      "investigation": {
+        "locationId": "chapter3_investigation",
+        "label": "第三章调查地点"
+      },
+      "linkedEvidence": ["new_scissors"],
+      "after": {
+        "details": [
+          "邮件中的价格与新厨剪产生关联。",
+          "两条原本独立的现场信息可以放在一起理解。"
+        ],
+        "result": "邮件解释了剪刀线索的一部分。"
+      }
+    },
+
+    {
+      "id": "dog_square_email",
+      "title": "未写完的“小狗与广场”邮件",
+      "unlockChapter": 4,
+      "type": "digital",
+      "before": {
+        "summary": "峰子在未写完的邮件里提到，在一个广场摸小狗时遇见了钟表店老板。",
+        "questions": ["她所说的广场在哪里？", "为什么峰子经常去那里？"]
+      },
+      "investigation": {
+        "locationId": "clock_shop",
+        "label": "钟表店"
+      },
+      "after": {
+        "details": [
+          "所谓的“小狗”并不一定是玩家最初理解的意思。",
+          "这条线索开始指向峰子搬来之后的私人行动。"
+        ],
+        "result": "峰子的行动轨迹出现了新的解释，但原因仍需继续调查。"
+      }
+    },
+
+    {
+      "id": "childcare_magazines",
+      "title": "育儿杂志",
+      "unlockChapter": 5,
+      "type": "object",
+      "before": {
+        "summary": "峰子的房间里放着与她当前生活状态并不相称的育儿杂志。",
+        "questions": [
+          "峰子为什么阅读育儿杂志？",
+          "她身边是否有即将出生的孩子？"
+        ]
+      },
+      "investigation": {
+        "locationId": "chapter5_investigation",
+        "label": "第五章调查地点"
+      },
+      "linkedEvidence": ["dog_square_email"],
+      "after": {
+        "details": [
+          "育儿杂志与峰子近期的私人行动存在联系。",
+          "此前关于她频繁前往某处的疑问开始得到解释。"
+        ],
+        "result": "这条线索主要解释峰子的生活，而不是直接证明凶手身份。"
+      }
+    },
+
+    {
+      "id": "lawyer_correspondence",
+      "title": "律师相关邮件",
+      "unlockChapter": 7,
+      "type": "digital",
+      "before": {
+        "summary": "峰子离婚后仍然与相关人士讨论财产问题。",
+        "questions": [
+          "离婚已经结束，她为什么重新调查财产？",
+          "她究竟发现了什么？"
+        ]
+      },
+      "investigation": {
+        "locationId": "chapter7_investigation",
+        "label": "相关调查地点"
+      },
+      "after": {
+        "details": ["峰子的私人调查开始与清濑公司的财务问题产生联系。"],
+        "result": "调查方向开始从峰子的私人生活转向真正可能与案件有关的问题。"
+      }
+    },
+
+    {
+      "id": "public_phone_call",
+      "title": "案发前的公用电话来电",
+      "unlockChapter": 9,
+      "type": "phone",
+      "before": {
+        "summary": "案发前，峰子的手机收到了一通来自公用电话的来电。",
+        "questions": ["来电者是谁？", "为什么没有使用自己的手机？"]
+      },
+      "investigation": {
+        "locationId": "chapter9_investigation",
+        "label": "最终调查"
+      },
+      "after": {
+        "details": [
+          "来电者与峰子应该相当熟悉。",
+          "使用公用电话本身具有调查价值。",
+          "这通电话与案发时间线开始产生直接联系。"
+        ],
+        "result": "进入案件核心推理。"
+      }
+    }
+  ]
+}
