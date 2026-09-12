@@ -1,3 +1,7 @@
+![Development progress](docs/development-progress.svg)
+
+<!-- 每日更新：修改 docs/development-progress.svg 中标注的百分比和目标宽度。 -->
+
 # 新参者 · 人形町散步
 
 以《新参者》为蓝本的交互阅读原型：操纵加贺漫游街区，访问仙贝店、记录见闻，并按地点分页阅读原著。当前不启用推理判定或章节解锁。

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="92" viewBox="0 0 800 92" role="img" aria-labelledby="title description">
+  <title id="title">Development progress: 60%</title>
+  <desc id="description">An animated development progress bar that fills to sixty percent.</desc>
+  <defs>
+    <linearGradient id="fill" x1="0" x2="1">
+      <stop offset="0" stop-color="#586d5b"/>
+      <stop offset="1" stop-color="#a6654c"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="track-clip">
+      <rect x="24" y="48" width="752" height="18" rx="9"/>
+    </clipPath>
+  </defs>
+
+  <text x="24" y="29" fill="#586d5b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="600">DEVELOPMENT PROGRESS</text>
+  <text x="776" y="29" fill="#a6654c" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="700">60%</text>
+  <rect x="24" y="48" width="752" height="18" rx="9" fill="#e5dfd2"/>
+  <!-- Daily update: change both 60% labels and both 451.2 targets. Target = percentage × 7.52. -->
+  <rect x="24" y="48" width="0" height="18" rx="9" fill="url(#fill)">
+    <animate attributeName="width" from="0" to="451.2" dur="1.2s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+  </rect>
+  <rect x="-120" y="48" width="110" height="18" fill="url(#shine)" clip-path="url(#track-clip)">
+    <animate attributeName="x" from="-120" to="800" begin="1.2s" dur="1.8s" repeatCount="indefinite"/>
+  </rect>
+  <image href="../public/assets/characters/kaga/avatar.png" x="0" y="36" width="42" height="42" preserveAspectRatio="xMidYMid slice">
+    <animate attributeName="x" from="0" to="451.2" dur="1.2s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+  </image>
+</svg>
