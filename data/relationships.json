@@ -1,0 +1,51 @@
+{
+  "status": "partial",
+  "source": "既有角色资料与已核对的原著关系，仅记录确定关系。",
+  "entries": [
+    {
+      "from": "fumitaka",
+      "to": "naho",
+      "type": "father"
+    },
+    {
+      "from": "satoko",
+      "to": "naho",
+      "type": "grandmother"
+    },
+    {
+      "from": "mineko",
+      "to": "hiroki",
+      "type": "mother"
+    },
+    {
+      "from": "naohiro",
+      "to": "hiroki",
+      "type": "father"
+    },
+    {
+      "from": "mineko",
+      "to": "naohiro",
+      "type": "former-spouse"
+    },
+    {
+      "from": "hiroki",
+      "to": "ami",
+      "type": "partner"
+    },
+    {
+      "from": "mineko",
+      "to": "tomoko",
+      "type": "university-friend"
+    },
+    {
+      "from": "yasaku",
+      "to": "katsuya",
+      "type": "father"
+    },
+    {
+      "from": "yasaku",
+      "to": "shota",
+      "type": "grandfather"
+    }
+  ]
+}

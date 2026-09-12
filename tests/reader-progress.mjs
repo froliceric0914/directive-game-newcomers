@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readProgress,writeProgress,scrollProgress} from '../dist/reader-progress.mjs';
+const values=new Map(),storage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v)};
+assert.equal(readProgress(storage,'readerProgress:1'),null);
+writeProgress(storage,'readerProgress:1',.36);
+writeProgress(storage,'readerBookmark:1',.2);
+writeProgress(storage,'readerProgress:2',.7);
+assert.equal(readProgress(storage,'readerProgress:1'),.36);
+assert.equal(readProgress(storage,'readerBookmark:1'),.2);
+assert.equal(readProgress(storage,'readerProgress:2'),.7);
+assert.equal(scrollProgress({scrollTop:360,scrollHeight:1500,clientHeight:500}),.36);
+assert.equal(scrollProgress({scrollTop:0,scrollHeight:500,clientHeight:500}),0);
+writeProgress(storage,'readerProgress:1',2);assert.equal(readProgress(storage,'readerProgress:1'),1);
+values.set('corrupt','nope');assert.equal(readProgress(storage,'corrupt'),0);
+const blocked={getItem(){throw Error()},setItem(){throw Error()}};
+assert.equal(readProgress(blocked,'x'),null);assert.equal(writeProgress(blocked,'x',.5),false);
+console.log('PASS: relative progress, per-chapter isolation, independent bookmarks, and unavailable storage.');

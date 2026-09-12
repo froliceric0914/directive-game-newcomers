@@ -1,0 +1,71 @@
+{
+  "entries": [
+    {
+      "id": "senbei-jacket",
+      "locationId": "sokaya",
+      "type": "observation",
+      "title": "一件西装上衣",
+      "text": "菜穗回忆：田仓那天穿着灰色正装，而且穿着上衣。",
+      "question": "加贺为什么更在意“穿着上衣”？",
+      "qualification": "这是一份见闻，还不是案件的结论。",
+      "source": {
+        "chapterId": 1,
+        "excerpt": "senbei-reading.json"
+      }
+    },
+    {
+      "id": "ningyoyaki-route",
+      "locationId": "kiku",
+      "type": "testimony",
+      "title": "被转送的人形烧",
+      "text": "料亭送出的人形烧先到了死者邻居手里，后来才被转送给峰子。",
+      "question": "点心原本是送给谁的？",
+      "qualification": "礼物的转送路线还不能指向凶手。"
+    },
+    {
+      "id": "kitchen-scissors",
+      "locationId": "ubukeya",
+      "type": "observation",
+      "title": "一把买错的剪刀",
+      "text": "峰子代人买了厨剪，但对方真正需要的是能剪食物的小剪刀。",
+      "question": "为什么已经有剪刀，还需要再买一把？",
+      "qualification": "这件物品揭示的是家人间没有说出口的关心。"
+    },
+    {
+      "id": "mineko-reason",
+      "locationId": "tamahide",
+      "type": "testimony",
+      "title": "母亲搬来的理由",
+      "text": "弘毅得知母亲一直在默默关注自己。她以为儿子将有孩子，想提供经济帮助。",
+      "question": "峰子为什么以为弘毅即将成为父亲？",
+      "qualification": "这是理解峰子的线索，不是凶案结论。"
+    },
+    {
+      "id": "account-review",
+      "locationId": "kaiseiken",
+      "type": "testimony",
+      "title": "被要求重新核对的账户",
+      "text": "峰子曾要求税务师岸田核对旧账。这次查账可能触及某人的利益。",
+      "question": "重新查账会影响谁？",
+      "qualification": "查账要求需要由警方用账目继续验证。"
+    },
+    {
+      "id": "spinning-top-string",
+      "locationId": "craft",
+      "type": "observation",
+      "title": "两种陀螺线",
+      "text": "玩具店同款陀螺原配捻绳，民艺店的陀螺配组绳；两种绳的结构不同。",
+      "question": "岸田孙子的陀螺线来自哪里？",
+      "qualification": "商品差异需要与实物和警方证据继续核对。"
+    },
+    {
+      "id": "walking-route",
+      "locationId": "benkei",
+      "type": "observation",
+      "title": "水天宫的方向",
+      "text": "狗在岔路口的迟疑，加上峰子提及的子宝犬铜像，都把散步路线指向水天宫。",
+      "question": "玄一为什么隐瞒去水天宫的事？",
+      "qualification": "隐瞒牵挂不等于隐瞒凶案。"
+    }
+  ]
+}

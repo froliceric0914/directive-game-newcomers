@@ -12,11 +12,14 @@ for(const mode of ['talk','notes','read']){
 assert.equal(sceneAction('ArrowLeft','talk'),'previous-line');
 assert.equal(sceneAction('ArrowRight','talk'),'primary');
 assert.equal(sceneAction('e','notes'),'primary');
-assert.equal(sceneAction('ArrowLeft','read'),'previous-page');
-assert.equal(sceneAction('PageDown','read'),'next-page');
+assert.equal(sceneAction('ArrowLeft','read'),null);
+assert.equal(sceneAction('PageDown','read'),null);
 assert.equal(sceneAction('1','read'),'excerpt');
 assert.equal(sceneAction('2','read'),'chapter');
 assert.equal(sceneAction('1','talk'),null);
 assert.equal(sceneAction('t','read',true),null,'standalone reader cannot open shop dialogue');
 assert.equal(sceneAction('j','read',true),null);
 console.log('PASS: contextual shortcuts, uppercase keys, standalone reading and native keyboard navigation.');
+
+assert.equal(sceneAction('b','read'),'bookmark');
+assert.equal(sceneAction('g','read'),'goto-bookmark');

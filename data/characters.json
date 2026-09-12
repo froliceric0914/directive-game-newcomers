@@ -1,0 +1,235 @@
+{
+  "kaga": {
+    "id": "kaga",
+    "name": "加贺恭一郎",
+    "venueId": null,
+    "role": "玩家",
+    "portraits": {
+      "casual": "assets/characters/kaga/casual.png",
+      "formal": "assets/characters/kaga/formal.png",
+      "conversation": "assets/characters/kaga/casual-1.png",
+      "map": "assets/characters/kaga/avatar.png"
+    },
+    "defaultPortrait": "casual"
+  },
+  "naho": {
+    "id": "naho",
+    "name": "上川菜穗",
+    "venueId": "sokaya",
+    "role": "店家的孙女",
+    "portraits": {
+      "shop": "assets/characters/naho.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "satoko": {
+    "id": "satoko",
+    "name": "上川聪子",
+    "venueId": "sokaya",
+    "role": "店家的祖母",
+    "portraits": {
+      "shop": "assets/characters/satoko.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "fumitaka": {
+    "id": "fumitaka",
+    "name": "上川文孝",
+    "venueId": "sokaya",
+    "role": "仙贝店店主",
+    "portraits": {
+      "shop": "assets/characters/fumitaka.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "takura": {
+    "id": "takura",
+    "name": "田仓慎一",
+    "venueId": "sokaya",
+    "role": "到访的保险业务员",
+    "portraits": {
+      "work": "assets/characters/takura.png"
+    },
+    "defaultPortrait": "work"
+  },
+  "shuhei": {
+    "id": "shuhei",
+    "name": "佐佐木修平",
+    "venueId": "kiku",
+    "role": "料亭学徒",
+    "portraits": {
+      "shop": "assets/characters/shuhei.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "yoriko": {
+    "id": "yoriko",
+    "name": "枝川赖子",
+    "venueId": "kiku",
+    "role": "料亭老板娘",
+    "portraits": {
+      "shop": "assets/characters/yoriko.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "taiji": {
+    "id": "taiji",
+    "name": "枝川泰治",
+    "venueId": "kiku",
+    "role": "料亭老板",
+    "portraits": {
+      "shop": "assets/characters/taiji.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "suzue": {
+    "id": "suzue",
+    "name": "柳泽铃江",
+    "venueId": "yanagisawa",
+    "role": "柳泽商店家人",
+    "portraits": {
+      "shop": "assets/characters/suzue.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "maki": {
+    "id": "maki",
+    "name": "柳泽麻纪",
+    "venueId": "yanagisawa",
+    "role": "柳泽家的儿媳",
+    "portraits": {
+      "casual": "assets/characters/maki.png"
+    },
+    "defaultPortrait": "casual"
+  },
+  "genichi": {
+    "id": "genichi",
+    "name": "寺田玄一",
+    "venueId": "terada",
+    "role": "钟表店店主",
+    "portraits": {
+      "shop": "assets/characters/genichi.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "miyuki": {
+    "id": "miyuki",
+    "name": "北村美雪",
+    "venueId": "quattro",
+    "role": "西饼店店员",
+    "portraits": {
+      "casual": "assets/characters/miyuki.png"
+    },
+    "defaultPortrait": "casual"
+  },
+  "craft-owner": {
+    "id": "craft-owner",
+    "name": "民艺品店主",
+    "venueId": "craft",
+    "role": "店主头像（文件以职务命名）",
+    "portraits": {
+      "shop": "assets/characters/craft-owner.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "craft-clerk": {
+    "id": "craft-clerk",
+    "name": "民艺品店员",
+    "venueId": "craft",
+    "role": "店员头像（文件以职务命名）",
+    "portraits": {
+      "shop": "assets/characters/craft-clerk.png"
+    },
+    "defaultPortrait": "shop"
+  },
+  "naohiro": {
+    "id": "naohiro",
+    "name": "清濑直弘",
+    "venueId": "cleaning-company",
+    "role": "保洁公司社长",
+    "portraits": {
+      "work": "assets/characters/naohiro.png"
+    },
+    "defaultPortrait": "work"
+  },
+  "yuri": {
+    "id": "yuri",
+    "name": "宫本祐理",
+    "venueId": "cleaning-company",
+    "role": "社长秘书",
+    "portraits": {
+      "work": "assets/characters/yuri.png"
+    },
+    "defaultPortrait": "work"
+  },
+  "yasaku": {
+    "id": "yasaku",
+    "name": "岸田要作",
+    "venueId": "kishida-office",
+    "role": "税务师",
+    "portraits": {
+      "work": "assets/characters/yasaku.png"
+    },
+    "defaultPortrait": "work"
+  },
+  "katsuya": {
+    "id": "katsuya",
+    "name": "岸田克哉",
+    "venueId": "kishida-home",
+    "role": "岸田要作的儿子",
+    "portraits": {
+      "casual": "assets/characters/katsuya.png"
+    },
+    "defaultPortrait": "casual"
+  },
+  "shota": {
+    "id": "shota",
+    "name": "翔太",
+    "venueId": "kishida-home",
+    "role": "岸田要作的孙子",
+    "portraits": {
+      "casual": "assets/characters/shota.png"
+    },
+    "defaultPortrait": "casual"
+  },
+  "hiroki": {
+    "id": "hiroki",
+    "name": "清濑弘毅",
+    "venueId": "hiroki-ami",
+    "role": "峰子的儿子",
+    "portraits": {
+      "casual": "assets/characters/hiroki.png"
+    },
+    "defaultPortrait": "casual"
+  },
+  "ami": {
+    "id": "ami",
+    "name": "青山亚美",
+    "venueId": "hiroki-ami",
+    "role": "弘毅的女友",
+    "portraits": {
+      "casual": "assets/characters/ami.png"
+    },
+    "defaultPortrait": "casual"
+  },
+  "tomoko": {
+    "id": "tomoko",
+    "name": "吉冈多美子",
+    "venueId": "tomoko",
+    "role": "峰子的大学好友、翻译",
+    "portraits": {
+      "casual": "assets/characters/tomoko.png"
+    },
+    "defaultPortrait": "casual"
+  },
+  "mineko": {
+    "id": "mineko",
+    "name": "三井峰子",
+    "venueId": "mineko-home",
+    "role": "故事中心人物",
+    "portraits": {
+      "casual": "assets/characters/mineko.png"
+    },
+    "defaultPortrait": "casual"
+  }
+}

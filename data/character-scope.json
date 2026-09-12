@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "v1Core": [
+    {
+      "id": "kaga",
+      "name": "Kaga Kyoichiro",
+      "role": "player character"
+    },
+    {
+      "id": "mineko",
+      "name": "Mitsui Mineko",
+      "role": "case center"
+    }
+  ],
+  "v1PrimaryNpc": [
+    { "id": "naho", "name": "Kamikawa Naho" },
+    { "id": "takura", "name": "Takura Shinichi" },
+    { "id": "shuhei", "name": "Sasaki Shuhei" },
+    { "id": "maki", "name": "Yanagisawa Maki" },
+    { "id": "genichi", "name": "Terada Genichi" },
+    { "id": "miyuki", "name": "Kitamura Miyuki" },
+    { "id": "tomoko", "name": "Yoshioka Tomoko" },
+    { "id": "hiroki", "name": "Kiyose Hiroki" },
+    { "id": "ami", "name": "Aoyama Ami" },
+    { "id": "naohiro", "name": "Kiyose Naohiro" },
+    { "id": "yuri", "name": "Miyamoto Yuri" },
+    { "id": "yasaku", "name": "Kishida Yasaku" },
+    { "id": "katsuya", "name": "Kishida Katsuya" },
+    { "id": "shota", "name": "Shota" }
+  ],
+  "v2Secondary": [
+    { "id": "satoko", "name": "Kamikawa Satoko" },
+    { "id": "fumitaka", "name": "Kamikawa Fumitaka" },
+    { "id": "taiji", "name": "Edagawa Taiji" },
+    { "id": "yoriko", "name": "Edagawa Yoriko" },
+    { "id": "suzue", "name": "Yanagisawa Suzue" },
+    { "id": "craft-owner", "name": "folk-craft shop owner" },
+    { "id": "craft-clerk", "name": "folk-craft shop clerk" }
+  ],
+  "rules": {
+    "v1PrimaryNpcCapabilities": [
+      "dedicated avatar",
+      "dedicated dialogue portrait",
+      "direct interactive NPC scene",
+      "police-board character node when relevant"
+    ],
+    "v2AllowedUses": [
+      "dialogue text",
+      "novel excerpts",
+      "clue descriptions",
+      "relationship explanations"
+    ],
+    "v2DeferredFeatures": [
+      "avatars",
+      "dedicated scenes",
+      "extra UI",
+      "detailed character states"
+    ],
+    "otherMinorCharacters": "V2 unless explicitly promoted",
+    "futureStoryMapping": [
+      "location",
+      "primaryNpc",
+      "dialogue",
+      "clues",
+      "linkedLocations"
+    ]
+  }
+}

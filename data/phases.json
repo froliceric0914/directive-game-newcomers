@@ -1,0 +1,39 @@
+{
+  "active": "exploration-prototype",
+  "phases": [
+    {
+      "id": "exploration-prototype",
+      "name": "街道与书页",
+      "status": "implemented",
+      "locationIds": [
+        "kiku",
+        "ubukeya",
+        "tamahide",
+        "kaiseiken",
+        "sokaya",
+        "craft",
+        "benkei",
+        "shigemori",
+        "suitengu"
+      ]
+    }
+  ],
+  "proposedChapters": [
+    {
+      "id": "neighborhood",
+      "name": "日本桥的人们",
+      "status": "deferred"
+    },
+    {
+      "id": "mineko-trail",
+      "name": "峰子的足迹",
+      "status": "deferred"
+    },
+    {
+      "id": "mineko-death",
+      "name": "峰子之死",
+      "status": "deferred"
+    }
+  ],
+  "note": "章节切换与新场景方案讨论已暂停；本次目录调整不引入解锁或推理机制。"
+}
