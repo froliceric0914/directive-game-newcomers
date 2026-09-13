@@ -5,7 +5,7 @@ import {createVisit} from './visit.mjs';
 import {zoomCameraFrame} from './camera.mjs';
 import {start,locations,step,nearby} from './walk-map.mjs';
 import {clues,locations as storyLocations,suspectReview,minekoApartmentEvidence} from './game-data.mjs';
-import {currentChapterNumber,locationState,visibleEvidence} from './location-state.mjs';
+import {currentChapterNumber,locationState,storyProgress,visibleEvidence} from './location-state.mjs';
 let player={...start},steps=0,lastLocation='';
 const $=s=>document.querySelector(s),escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const esc=escape;
@@ -13,16 +13,13 @@ $('#app').innerHTML=`<header class="header"><div class="brand-mark">新</div><di
 const detailScreen=$('main');
 detailScreen.id='ningyocho-screen';
 detailScreen.hidden=true;
-detailScreen.querySelector('.map-panel').insertAdjacentHTML('afterbegin','<button class="map-back" data-screen="kodemmacho">← 返回小传马町</button>');
+detailScreen.querySelector('.map-panel').insertAdjacentHTML('afterbegin','<button class="map-back" data-screen="kodemmacho">← 返回小传马町</button><section class="story-progress compact" id="map-story-progress" aria-label="故事进度"></section>');
 $('.header').outerHTML=`<header class="case-header"><div class="case-brand"><div class="brand-mark">新</div><div><h1>新参者 <span>人形町七日</span></h1><p>NIHONBASHI · A NEIGHBORHOOD MYSTERY</p></div></div><div class="case-status"><div>六月 · 调查第 <strong>01</strong> 天 / 07</div><div class="stamina" aria-label="六点精力"><i></i><i></i><i></i><i></i><i></i><i></i><span>6 / 6 精力</span></div><button class="text-button" id="guide">玩法与说明 ⓘ</button></div></header>`;
-detailScreen.insertAdjacentHTML('beforebegin',`<nav class="case-tabs" aria-label="调查功能"><button data-top="roam" class="active">街区漫游</button><button data-top="notes">调查手帐 <b>1</b></button><button data-top="deduction">线索推理</button></nav><main class="hub-screen" id="hub-screen"><section class="hub-scene"><div class="hub-copy"><span>日本桥 / INVESTIGATION HUB</span><h2>人形町七日</h2><p>从街巷与日常小事开始，慢慢认识三井峰子。</p></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div></section></main><main class="area-screen" id="kodemmacho-screen" hidden><section class="area-scene"><button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>小传马町 / KODENMACHO</span><h2>案件从这里开始。</h2><p>新的关系被确认后，调查范围才会逐渐展开。</p></div><div class="case-locations"><button data-case-location="minekoApartment"><span>居</span><lkj></span><strong>峰子公寓</strong><small>案发现场 · 可调查</small></button><button data-unlock="kiyoseCompany" disabled><span>?</span><strong>尚未发现</strong><small>需要新的关系线索</small></button><button data-unlock="kishidaOffice" disabled><span>?</span><strong>尚未发现</strong><small>需要新的财务线索</small></button></div><p class="area-status" role="status">峰子公寓从调查开始即可进入。</p><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho" class="active">小传马町</button><button data-screen="police">警局</button></div></section></main><main class="police-screen" id="police-screen" hidden><button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>把事实放在一起。</h2><p>这里将用于整理线索与人物关系。正式推理机制将在后续加入。</p></div><div class="police-grid"><article><small>CLUES</small><h3>收集的线索</h3><p>查看从街区与调查地点带回的事实。</p></article><article><small>RELATIONSHIPS</small><h3>人物与关系</h3><p>确认人与地点之间已经查明的联系。</p></article><article><small>SUMMARY</small><h3>调查总结</h3><p>记录当前问题，并决定下一步调查方向。</p></article></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div></main>`);
-const locationUnlocks={minekoApartment:true,kiyoseCompany:false,kishidaOffice:false};
-document.querySelector('lkj')?.remove();
-document.querySelector('[data-case-location="minekoApartment"]').innerHTML='<span>居</span><strong>峰子公寓</strong><small>案发现场 · 可调查</small>';
+detailScreen.insertAdjacentHTML('beforebegin',`<nav class="case-tabs" aria-label="调查功能"><button data-top="roam" class="active">街区漫游</button><button data-top="notes">调查手帐 <b>1</b></button><button data-top="deduction">线索推理</button></nav><main class="hub-screen" id="hub-screen"><section class="hub-scene"><div class="hub-copy"><span>日本桥 / INVESTIGATION HUB</span><h2>人形町七日</h2><p>从街巷与日常小事开始，慢慢认识三井峰子。</p></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div></section></main><main class="area-screen" id="kodemmacho-screen" hidden><section class="area-scene reading-home"><div class="area-copy"><span>小传马町 / STORY PROGRESS</span><h2>沿着峰子的足迹阅读。</h2><p>章节是故事进度；街区地图帮助你找到下一段故事发生的地方。</p></div><section class="story-progress hero" id="hub-story-progress" aria-label="故事进度"></section><p class="area-status" role="status">阅读与调查进度会保存在当前浏览器。</p><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho" class="active">小传马町</button><button data-screen="police">警局</button></div></section></main><main class="police-screen" id="police-screen" hidden><button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>把事实放在一起。</h2><p>这里将用于整理线索与人物关系。正式推理机制将在后续加入。</p></div><div class="police-grid"><article><small>CLUES</small><h3>收集的线索</h3><p>查看从街区与调查地点带回的事实。</p></article><article><small>RELATIONSHIPS</small><h3>人物与关系</h3><p>确认人与地点之间已经查明的联系。</p></article><article><small>SUMMARY</small><h3>调查总结</h3><p>记录当前问题，并决定下一步调查方向。</p></article></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div></main>`);
 $('#kodemmacho-screen .back-hub')?.remove();
 $('#police-screen').innerHTML=`<button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>嫌疑复核与警局档案</h2><p>根据已经取得的事实作出调查判断。</p></div><section class="suspect-review" id="suspect-review"></section><section class="police-archive"><div class="archive-head"><div><small>POLICE ARCHIVE</small><h3>警局档案</h3></div><div class="archive-tabs"><button data-archive="all" class="active">全部</button><button data-archive="conclusion">结论</button><button data-archive="doubt">疑点</button></div></div><div id="archive-list"></div></section><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div>`;
 $('#police-screen .back-hub').dataset.screen='kodemmacho';
-$('#police-screen').insertAdjacentHTML('afterend',`<main class="evidence-screen" id="apartment-screen" hidden><button class="back-hub" data-screen="kodemmacho">← 返回小传马町</button><div class="apartment-layout"><section class="apartment-scene"><header class="evidence-heading"><small>CRIME SCENE · MINEKO APARTMENT</small><h2>峰子公寓</h2><p>45岁的峰子独居在这里。房间整洁明亮，仍留着她生活的气息。</p></header><div class="apartment-image" role="img" aria-label="峰子公寓室内调查场景"><div id="evidence-hotspots"></div></div><p class="scene-guidance">ⓘ 点击场景中的放大镜，查看当前发现的证物。</p></section><section class="evidence-panel"><header><small>INVESTIGATION NOTES</small><h2>收集到的线索</h2><p>${escape(minekoApartmentEvidence.ui.description)}</p></header><nav class="evidence-tabs"><button data-evidence-tab="current" class="active">当前线索</button><button data-evidence-tab="resolved">已厘清</button></nav><section id="apartment-evidence"></section></section></div></main>`);
+$('#police-screen').insertAdjacentHTML('afterend',`<main class="evidence-screen" id="apartment-screen" hidden><button class="back-hub" data-screen="kodemmacho">← 返回小传马町</button><div class="apartment-layout"><section class="apartment-scene"><header class="evidence-heading"><small>CRIME SCENE · MINEKO APARTMENT</small><h2>峰子公寓</h2><p>45岁的峰子独居在这里。房间整洁明亮，仍留着她生活的气息。</p></header><div class="apartment-image" role="img" aria-label="峰子公寓室内调查场景"><div id="evidence-hotspots"></div></div><div class="scene-guidance"><span>ⓘ 点击场景中的放大镜，查看当前发现的证物。</span><button class="primary" id="complete-apartment">完成现场查看，继续故事 →</button></div></section><section class="evidence-panel"><header><small>INVESTIGATION NOTES</small><h2>收集到的线索</h2><p>${escape(minekoApartmentEvidence.ui.description)}</p></header><nav class="evidence-tabs"><button data-evidence-tab="current" class="active">当前线索</button><button data-evidence-tab="resolved">已厘清</button></nav><section id="apartment-evidence"></section></section></div></main>`);
 $('.apartment-image').setAttribute('role','group');
 const viewport=$('.map-scroll');
 const stage=document.createElement('div');stage.className='camera-stage';
@@ -45,6 +42,8 @@ const reader=$('#modal');
 function stop(){movement.clear();}
 let savedReviews={};
 try{savedReviews=JSON.parse(localStorage.getItem('suspectReviews')||'{}')}catch{}
+let apartmentComplete=localStorage.getItem('storyProgress:minekoApartment')==='complete'||Object.keys(savedReviews).length>0,storyReadyReviews=new Set();
+try{storyReadyReviews=new Set(JSON.parse(localStorage.getItem('storyReadyReviews')||'[]'))}catch{}
 const collectedClues=new Set(),reviewById=Object.fromEntries(suspectReview.chapters.map(chapter=>[chapter.chapterId,chapter]));
 let selectedReview=null,archiveFilter='all',evidenceTab='current';
 const investigationChapterByLocation={};
@@ -53,9 +52,25 @@ for(const chapter of suspectReview.chapters){
  const place=locations.find(item=>item.npc&&item.reading?.kind==='story'&&item.reading.chapterIds.includes(number));
  if(place&&!investigationChapterByLocation[place.id])investigationChapterByLocation[place.id]=number;
 }
+const storyNodes=[{id:'mineko-apartment',label:'峰子公寓',chapterId:null,locationId:null,screen:'apartment'},...suspectReview.chapters.map((chapter,index)=>({id:chapter.chapterId,label:chapter.title,chapterId:index+1,locationId:Object.keys(investigationChapterByLocation).find(id=>investigationChapterByLocation[id]===index+1)??null}))];
+function storySnapshot(){return storyProgress(savedReviews,apartmentComplete,suspectReview.chapters.length)}
+function currentStoryNode(){const snapshot=storySnapshot();return snapshot.complete?null:storyNodes[snapshot.currentIndex]}
+function storyNodeState(node,index){if(index===0)return apartmentComplete?'completed':index===storySnapshot().currentIndex?'current':'future';if(savedReviews[node.id])return'completed';return index===storySnapshot().currentIndex?'current':'future'}
+function storyAction(node){if(!node)return'回顾已完成章节';if(node.screen==='apartment')return'继续调查峰子公寓';const place=locations.find(item=>item.id===node.locationId);return place?'前往'+place.name:'继续阅读'}
+function storyProgressMarkup(compact=false){
+ const snapshot=storySnapshot(),current=currentStoryNode();
+ const track=storyNodes.map((node,index)=>{const state=storyNodeState(node,index),number=String(index+1).padStart(2,'0');return `<button class="story-node ${state}" data-story-node="${node.id}" ${state==='future'?'disabled':''} ${state==='current'?'aria-current="step"':''}><span>${state==='completed'?'✓':state==='current'?'●':'○'}</span><small>${number}</small><strong>${esc(node.label)}</strong></button>`}).join('<i aria-hidden="true"></i>');
+ const heading=`<header><div><small>STORY PROGRESS</small><strong>${compact?'故事进度':'峰子的足迹'}</strong></div><b>${snapshot.complete?snapshot.total:snapshot.currentIndex+1} / ${snapshot.total}</b></header>`;
+ const currentCard=current?`<div class="current-story"><span>当前章节</span><strong>${esc(current.label)}</strong><button class="primary" data-story-continue>${storyAction(current)} →</button></div>`:'<div class="current-story complete"><span>故事进度</span><strong>已完成全部章节</strong></div>';
+ return heading+`<div class="story-track">${track}</div>`+currentCard;
+}
+function renderStoryProgress(){
+ for(const [id,compact] of [['#hub-story-progress',false],['#map-story-progress',true]]){const container=$(id);if(!container)continue;container.innerHTML=storyProgressMarkup(compact);requestAnimationFrame(()=>{const track=container.querySelector('.story-track'),current=track?.querySelector('.story-node.current');if(track&&current)track.scrollLeft=Math.max(0,current.offsetLeft-(track.clientWidth-current.clientWidth)/2)})}
+}
 function stateForPlace(place){
  const chapter=investigationChapterByLocation[place.id];
- return locationState({chapter,currentChapter:currentChapterNumber(savedReviews),review:savedReviews['ch'+String(chapter).padStart(2,'0')],ambient:!chapter});
+ const snapshot=storySnapshot(),currentChapter=snapshot.currentChapter??(snapshot.complete?suspectReview.chapters.length+1:0);
+ return locationState({chapter,currentChapter,review:savedReviews['ch'+String(chapter).padStart(2,'0')],ambient:!chapter});
 }
 function renderMapStates(){
  const labels={locked:'尚未调查',active:'当前调查',visited_suspect:'已访问 · 仍有疑点',visited_cleared:'已访问 · 嫌疑已排除',ambient:'街区地点'};
@@ -63,6 +78,7 @@ function renderMapStates(){
   const element=document.querySelector(`[data-shop="${place.id}"]`),state=stateForPlace(place);
   element.classList.remove('locked','active','visited_suspect','visited_cleared','ambient');element.classList.add(state);element.dataset.locationState=state;
   let status=element.querySelector('.location-status');if(!status){status=document.createElement('em');status.className='location-status';element.append(status)}status.textContent=labels[state];
+  element.classList.toggle('story-current',currentStoryNode()?.locationId===place.id);
  }
 }
 function evidenceState(item){
@@ -77,9 +93,10 @@ function renderApartment(){
  const icons={document:'文',object:'物',digital:'邮',phone:'话'};
  $('#apartment-evidence').innerHTML=evidence.length?`<div class="evidence-grid">${evidence.map(item=>{const id='ch'+String(item.unlockChapter).padStart(2,'0'),choice=savedReviews[id],investigated=!!choice,state=evidenceState(item);return `<details class="evidence-card ${state}" data-evidence-card="${item.id}"><summary><i>${icons[item.type]??'证'}</i><div><small>第 ${item.unlockChapter} 章</small><h3>${escape(item.title)}</h3><p>${escape(item.before.summary)}</p></div><span>${state==='resolved'?'已厘清':'有疑点'}</span></summary><div class="evidence-detail"><strong>发现时的问题</strong><ul>${item.before.questions.map(question=>`<li>${escape(question)}</li>`).join('')}</ul>${investigated?`<div class="investigation-notes"><strong>调查备注</strong><ul>${item.after.details.map(detail=>`<li>${escape(detail)}</li>`).join('')}</ul><strong>加贺的判断</strong><p>${escape(item.after.result)}</p></div>`:''}<p class="related-location">相关地点：${escape(item.investigation.label)}</p>${state==='question'?`<button class="primary" data-evidence-location="${item.unlockChapter}">沿着这条线索调查 →</button>`:''}</div></details>`}).join('')}</div>`:'<div class="evidence-empty">这一栏目前没有证物记录。</div>';
  document.querySelectorAll('[data-evidence-tab]').forEach(button=>button.classList.toggle('active',button.dataset.evidenceTab===evidenceTab));
+ $('#complete-apartment').hidden=apartmentComplete;
 }
 function readyReviewIds(){
- const ids=new Set(Object.keys(savedReviews));
+ const ids=new Set([...Object.keys(savedReviews),...storyReadyReviews]);
  for(const clueId of collectedClues){
   const clue=clues.entries.find(item=>item.id===clueId),reading=storyLocations.readings[clue?.locationId];
   for(const chapterId of reading?.chapterIds??[])ids.add('ch'+String(chapterId).padStart(2,'0'));
@@ -108,9 +125,10 @@ function renderPolice(){
  $('#archive-list').innerHTML=entries.length?entries.map(entry=>`<details class="archive-item ${entry.resolved?'resolved':''}"><summary><span><small>${esc(entry.chapter)}</small><strong>${esc(entry.character)}</strong></span><b>${entry.type==='conclusion'?'结论':'疑点'}${entry.resolved?' · 已解决':''}</b></summary><div><strong>${esc(entry.decision)}</strong><p>${esc(entry.text)}</p></div></details>`).join(''):'<p class="archive-empty">档案尚为空。</p>';
  document.querySelectorAll('[data-archive]').forEach(button=>button.classList.toggle('active',button.dataset.archive===archiveFilter));
  renderMapStates();
+ renderStoryProgress();
 }
 function collectClue(id){collectedClues.add(id);renderPolice()}
-const scene=createVisit(reader,{stop,onClue:collectClue,onClose:()=>{stop();viewport.focus({preventScroll:true})}});
+const scene=createVisit(reader,{stop,onClue:collectClue,onClose:()=>{stop();if(activeScreen==='ningyocho')viewport.focus({preventScroll:true})},canCompleteChapter:id=>currentStoryNode()?.chapterId===id,onChapterComplete:id=>{const chapterId='ch'+String(id).padStart(2,'0');storyReadyReviews.add(chapterId);localStorage.setItem('storyReadyReviews',JSON.stringify([...storyReadyReviews]));selectedReview=chapterId;showScreen('police')}});
 let activeScreen='hub';
 const screens={hub:$('#hub-screen'),ningyocho:detailScreen,kodemmacho:$('#kodemmacho-screen'),police:$('#police-screen'),apartment:$('#apartment-screen')};
 function showScreen(name){
@@ -119,9 +137,17 @@ function showScreen(name){
  document.querySelectorAll('.case-tabs button').forEach(button=>button.classList.toggle('active',button.dataset.top===(name==='police'?'deduction':'roam')));
  document.querySelectorAll('.area-switcher button').forEach(button=>button.classList.toggle('active',button.dataset.screen===name));
  document.querySelector('footer').hidden=name!=='ningyocho';
- if(name==='ningyocho'){renderMapStates();camera=null;followPlayer();viewport.focus({preventScroll:true})}
+ renderStoryProgress();
+ if(name==='ningyocho'){const destination=locations.find(place=>place.id===currentStoryNode()?.locationId);if(destination){player={...destination.door};visual={...player};lastLocation=''}renderMapStates();camera=null;update(destination?'当前故事地点：'+destination.name:'当前章节可从上方故事进度继续阅读。');viewport.focus({preventScroll:true})}
  if(name==='police')renderPolice();
  if(name==='apartment')renderApartment();
+}
+function openStoryNode(node){
+ if(!node)return;
+ if(node.screen==='apartment'){showScreen('apartment');return}
+ const place=locations.find(item=>item.id===node.locationId);
+ if(place){showScreen('ningyocho');player={...place.door};visual={...player};lastLocation='';camera=null;update((storyNodeState(node,storyNodes.indexOf(node))==='current'?'当前故事地点：':'回顾故事地点：')+place.name);return}
+ scene.openChapter(node.chapterId);
 }
 function update(message){const l=nearby(player);
  const related=l?.reading;
@@ -173,10 +199,11 @@ document.querySelectorAll('[data-dx]').forEach(b=>{
 $('#reset').onclick=()=>{if(reader.open)return;movement.reset();player={...start};visual={...player};camera=null;steps=0;update('已回到车站，重新出发。')};
 $('#read-sample').onclick=openReading;
 document.querySelectorAll('[data-screen]').forEach(button=>button.onclick=()=>showScreen(button.dataset.screen));
+document.addEventListener('click',event=>{const trigger=event.target.closest('[data-story-node],[data-story-continue]');if(!trigger)return;const node=trigger.dataset.storyNode?storyNodes.find(item=>item.id===trigger.dataset.storyNode):currentStoryNode();openStoryNode(node)});
 document.querySelector('[data-top="roam"]').onclick=()=>showScreen('kodemmacho');
 document.querySelector('[data-top="notes"]').onclick=()=>{showScreen('ningyocho');$('#notebook').open=true};
 document.querySelector('[data-top="deduction"]').onclick=()=>showScreen('police');
-document.querySelector('[data-case-location="minekoApartment"]').onclick=()=>showScreen('apartment');
+$('#complete-apartment').onclick=()=>{apartmentComplete=true;localStorage.setItem('storyProgress:minekoApartment','complete');renderStoryProgress();showScreen('kodemmacho')};
 $('#apartment-screen').addEventListener('click',event=>{
  const hotspot=event.target.closest('[data-evidence-id]');if(hotspot){const item=minekoApartmentEvidence.evidence.find(entry=>entry.id===hotspot.dataset.evidenceId);evidenceTab=evidenceState(item)==='resolved'?'resolved':'current';renderApartment();const card=document.querySelector(`[data-evidence-card="${item.id}"]`);card.open=true;card.scrollIntoView({behavior:'smooth',block:'nearest'});return}
  const tab=event.target.closest('[data-evidence-tab]');if(tab){evidenceTab=tab.dataset.evidenceTab;renderApartment();return}
@@ -189,13 +216,12 @@ $('#police-screen').addEventListener('click',event=>{
  const review=event.target.closest('[data-review]');
  if(review){selectedReview=review.dataset.review;renderPolice();return}
  const choice=event.target.closest('[data-choice]');
- if(choice&&selectedReview){savedReviews[selectedReview]=choice.dataset.choice;localStorage.setItem('suspectReviews',JSON.stringify(savedReviews));renderPolice();return}
+ if(choice&&selectedReview){savedReviews[selectedReview]=choice.dataset.choice;storyReadyReviews.delete(selectedReview);localStorage.setItem('suspectReviews',JSON.stringify(savedReviews));localStorage.setItem('storyReadyReviews',JSON.stringify([...storyReadyReviews]));renderPolice();return}
  const reconsider=event.target.closest('[data-reconsider]');
- if(reconsider){delete savedReviews[reconsider.dataset.reconsider];localStorage.setItem('suspectReviews',JSON.stringify(savedReviews));selectedReview=reconsider.dataset.reconsider;renderPolice();return}
+ if(reconsider){delete savedReviews[reconsider.dataset.reconsider];storyReadyReviews.add(reconsider.dataset.reconsider);localStorage.setItem('suspectReviews',JSON.stringify(savedReviews));localStorage.setItem('storyReadyReviews',JSON.stringify([...storyReadyReviews]));selectedReview=reconsider.dataset.reconsider;renderPolice();return}
  const filter=event.target.closest('[data-archive]');
  if(filter){archiveFilter=filter.dataset.archive;renderPolice()}
 });
 $('#guide').onclick=()=>{showScreen('kodemmacho');$('.area-status').textContent='从人形町收集事实，回警局整理关系，再逐步打开新的调查地点。'};
-Object.entries(locationUnlocks).forEach(([id,unlocked])=>{const button=document.querySelector(`[data-unlock="${id}"]`);if(button&&unlocked)button.disabled=false});
 if(matchMedia('(max-width: 850px)').matches)$('#notebook').open=false;
 update();showScreen('kodemmacho');requestAnimationFrame(tick);

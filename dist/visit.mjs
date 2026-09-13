@@ -3,7 +3,7 @@ import {clues,locations} from './game-data.mjs';
 import {chapters,readingForLocation} from './location-reading.mjs';
 import {sceneAction} from './shortcuts.mjs';
 import {npcs,portraitFor} from './npcs.mjs';
-export function createVisit(dialog,{stop,onClose,onClue=()=>{}}){
+export function createVisit(dialog,{stop,onClose,onClue=()=>{},onChapterComplete=()=>{},canCompleteChapter=()=>false}){
  let mode='talk',returnMode='talk',line=0,origin=false,notes=false,request=0,fullChapter=false,readingPlace=null,chapterId=1,scene=null,clue=null;
  let cleanupReading=()=>{};
  const storage={getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value)};
@@ -21,12 +21,12 @@ export function createVisit(dialog,{stop,onClose,onClue=()=>{}}){
  const token=request,full=fullChapter,id=chapterId;
  const linked=readingForLocation(readingPlace?.id);
  q('.scene-content').innerHTML=`<div class="book-view ${full?'full-book':'excerpt-book'}">
- ${full?'<div class="focus-toolbar"><button id="exit-reading" aria-keyshortcuts="Escape">退出阅读 <kbd>Esc</kbd></button><span id="reader-progress">0%</span><div><button id="save-bookmark" aria-keyshortcuts="b" disabled>书签 <kbd>B</kbd></button><button id="goto-bookmark" aria-keyshortcuts="g" hidden>回到书签 <kbd>G</kbd></button></div></div>':''}
+ ${full?`<div class="focus-toolbar"><div><button id="exit-reading" aria-keyshortcuts="Escape">退出阅读 <kbd>Esc</kbd></button>${canCompleteChapter(id)?'<button class="complete-chapter" id="complete-chapter">完成本章阅读 →</button>':''}</div><span id="reader-progress">0%</span><div><button id="save-bookmark" aria-keyshortcuts="b" disabled>书签 <kbd>B</kbd></button><button id="goto-bookmark" aria-keyshortcuts="g" hidden>回到书签 <kbd>G</kbd></button></div></div>`:''}
  <div class="reading-document" tabindex="0" role="region" aria-label="${full?'章节全文':'相关片段'}"><article class="reading-column"><div class="book-heading"><small>东野圭吾 著 · 岳远坤 译</small><h3 id="chapter-title">正在翻开书页…</h3><div class="reading-scope" aria-label="阅读范围"><button id="read-excerpt" aria-keyshortcuts="1">相关片段 <kbd>1</kbd></button><button id="read-chapter" aria-keyshortcuts="2">${chapters[id].label}全文 <kbd>2</kbd></button></div></div><div class="novel-text"></div></article></div>
  ${full?'<span id="reader-notice" class="reader-notice" role="status" aria-live="polite"></span>':''}</div>`;
- q('#read-excerpt').hidden=!!readingPlace&&readingPlace.id!=='sokaya';
+ q('#read-excerpt').hidden=!readingPlace||readingPlace.id!=='sokaya';
  q('.scene-foot span').textContent='新参者 · '+chapters[id].label;
- if(full)q('#exit-reading').onclick=exitReading;
+ if(full){q('#exit-reading').onclick=exitReading;const complete=q('#complete-chapter');if(complete)complete.onclick=()=>{closeScene();onChapterComplete(id)}}
  if(linked&&linked.chapterIds.length>1){
  const label=document.createElement('label');label.className='chapter-select';label.innerHTML='选择篇章 <kbd>C</kbd> <select aria-label="选择篇章" aria-keyshortcuts="c">'+linked.chapterIds.map(n=>`<option value="${n}" ${n===id?'selected':''}>${chapters[n].label} · ${chapters[n].title}</option>`).join('')+'</select>';
  q('.book-heading').append(label);q('select').onchange=e=>{chapterId=Number(e.target.value);fullChapter=true;show('read')};
@@ -64,9 +64,10 @@ export function createVisit(dialog,{stop,onClose,onClue=()=>{}}){
  dialog.addEventListener('cancel',e=>{e.preventDefault();exitReading()});
  dialog.addEventListener('close',()=>{cleanupReading();cleanupReading=()=>{};request++;dialog.classList.remove('focused-reader');document.body.classList.remove('in-scene');onClose()});
  function open(readOnly=false,place=null){stop();origin=readOnly;readingPlace=place??locations.map.locations.find(item=>item.id==='sokaya');scene=locations.scenes[readingPlace.id];clue=clues.entries.find(item=>item.id===scene.clueId);line=0;notes=false;chapterId=readingForLocation(readingPlace.id)?.chapterIds[0]??1;fullChapter=!!readOnly&&!!place;shell();document.body.classList.add('in-scene');if(!dialog.open)dialog.showModal();show(readOnly?'read':'talk')}
+ function openChapter(id,place=null){stop();origin=true;readingPlace=place;scene=place?locations.scenes[place.id]:null;clue=scene?clues.entries.find(item=>item.id===scene.clueId):null;line=0;notes=false;chapterId=id;fullChapter=true;shell();document.body.classList.add('in-scene');if(!dialog.open)dialog.showModal();show('read')}
  function openAmbient(place){stop();origin=false;readingPlace=place;chapterId=readingForLocation(place.id)?.chapterIds[0]??1;shell();q('.scene-tabs').hidden=true;q('.scene-content').innerHTML=`<article class="location-summary"><small>街区地点</small><h3>${esc(place.name)}</h3><p>${esc(place.kind)}</p><p class="muted">这里是街区漫游地点，暂时没有独立调查对话或证据。</p><button class="primary" id="summary-close">返回街道</button></article>`;q('#summary-close').onclick=closeScene;document.body.classList.add('in-scene');if(!dialog.open)dialog.showModal()}
  function openSummary(place,summary){stop();origin=false;readingPlace=place;chapterId=readingForLocation(place.id)?.chapterIds[0]??1;shell();q('.scene-tabs').hidden=true;q('.scene-content').innerHTML=`<article class="location-summary"><small>调查完毕</small><h3>${esc(summary.suspectName)} · 嫌疑已排除</h3><p>${esc(summary.text)}</p><div class="summary-actions"><button id="summary-close">查看结论</button><button class="primary" id="summary-read">阅读全文</button></div></article>`;q('#summary-close').onclick=closeScene;q('#summary-read').onclick=()=>open(true,place);document.body.classList.add('in-scene');if(!dialog.open)dialog.showModal()}
- return {open,openAmbient,openSummary,key(key,repeat=false){
+ return {open,openChapter,openAmbient,openSummary,key(key,repeat=false){
  if(key.toLowerCase()==='c'&&mode==='read'&&q('select')){if(!repeat)q('select').focus();return true;}
  const action=sceneAction(key,mode,origin);if(!action)return false;if(repeat)return true;
  const click=selector=>{const button=q(selector);if(button&&!button.disabled&&!button.hidden)button.click()};
