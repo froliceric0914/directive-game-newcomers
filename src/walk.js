@@ -56,12 +56,13 @@ const storyNodes=[{id:'mineko-apartment',label:'峰子公寓',chapterId:null,loc
 function storySnapshot(){return storyProgress(savedReviews,apartmentComplete,suspectReview.chapters.length)}
 function currentStoryNode(){const snapshot=storySnapshot();return snapshot.complete?null:storyNodes[snapshot.currentIndex]}
 function storyNodeState(node,index){if(index===0)return apartmentComplete?'completed':index===storySnapshot().currentIndex?'current':'future';if(savedReviews[node.id])return'completed';return index===storySnapshot().currentIndex?'current':'future'}
-function storyAction(node){if(!node)return'回顾已完成章节';if(node.screen==='apartment')return'继续调查峰子公寓';const place=locations.find(item=>item.id===node.locationId);return place?'前往'+place.name:'继续阅读'}
 function storyProgressMarkup(compact=false){
  const snapshot=storySnapshot(),current=currentStoryNode();
- const track=storyNodes.map((node,index)=>{const state=storyNodeState(node,index),number=String(index+1).padStart(2,'0');return `<button class="story-node ${state}" data-story-node="${node.id}" ${state==='future'?'disabled':''} ${state==='current'?'aria-current="step"':''}><span>${state==='completed'?'✓':state==='current'?'●':'○'}</span><small>${number}</small><strong>${esc(node.label)}</strong></button>`}).join('<i aria-hidden="true"></i>');
+ const track=storyNodes.map((node,index)=>{const state=storyNodeState(node,index),number=String(index+1).padStart(2,'0'),connector=index<storyNodes.length-1?`<i class="${index<snapshot.currentIndex?'completed':''}" aria-hidden="true"></i>`:'';return `<button class="story-node ${state}" data-story-node="${node.id}" ${state==='future'?'disabled':''} ${state==='current'?'aria-current="step"':''}>${state==='current'?`<span class="story-avatar"><img src="${portraitFor('kaga','map')}" alt="加贺当前所在章节"></span>`:''}<span class="story-label"><small>${number}</small><strong>${esc(node.label)}</strong></span><span class="story-dot" aria-hidden="true"></span></button>${connector}`}).join('');
  const heading=`<header><div><small>STORY PROGRESS</small><strong>${compact?'故事进度':'峰子的足迹'}</strong></div><b>${snapshot.complete?snapshot.total:snapshot.currentIndex+1} / ${snapshot.total}</b></header>`;
- const currentCard=current?`<div class="current-story"><span>当前章节</span><strong>${esc(current.label)}</strong><button class="primary" data-story-continue>${storyAction(current)} →</button></div>`:'<div class="current-story complete"><span>故事进度</span><strong>已完成全部章节</strong></div>';
+ const place=current&&locations.find(item=>item.id===current.locationId);
+ const actions=current?(compact?(place?`<button class="story-map-action" data-story-map>定位 ${esc(place.name)}</button>`:`<button class="primary" data-story-read>${current.screen==='apartment'?'继续调查':'继续阅读'}</button>`):`<div class="story-actions"><button class="primary" data-story-read>${current.screen==='apartment'?'继续调查':'继续阅读'}</button>${place?'<button class="story-map-action" data-story-map>前往地图探索</button>':''}</div>`):'';
+ const currentCard=current?`<div class="current-story"><span>当前章节</span><strong>${esc(current.label)}</strong>${actions}</div>`:'<div class="current-story complete"><span>故事进度</span><strong>已完成全部章节</strong></div>';
  return heading+`<div class="story-track">${track}</div>`+currentCard;
 }
 function renderStoryProgress(){
@@ -142,11 +143,11 @@ function showScreen(name){
  if(name==='police')renderPolice();
  if(name==='apartment')renderApartment();
 }
-function openStoryNode(node){
+function openStoryNode(node,preferMap=false){
  if(!node)return;
  if(node.screen==='apartment'){showScreen('apartment');return}
  const place=locations.find(item=>item.id===node.locationId);
- if(place){showScreen('ningyocho');player={...place.door};visual={...player};lastLocation='';camera=null;update((storyNodeState(node,storyNodes.indexOf(node))==='current'?'当前故事地点：':'回顾故事地点：')+place.name);return}
+ if(preferMap&&place){showScreen('ningyocho');player={...place.door};visual={...player};lastLocation='';camera=null;update((storyNodeState(node,storyNodes.indexOf(node))==='current'?'当前故事地点：':'回顾故事地点：')+place.name);return}
  scene.openChapter(node.chapterId);
 }
 function update(message){const l=nearby(player);
@@ -199,7 +200,7 @@ document.querySelectorAll('[data-dx]').forEach(b=>{
 $('#reset').onclick=()=>{if(reader.open)return;movement.reset();player={...start};visual={...player};camera=null;steps=0;update('已回到车站，重新出发。')};
 $('#read-sample').onclick=openReading;
 document.querySelectorAll('[data-screen]').forEach(button=>button.onclick=()=>showScreen(button.dataset.screen));
-document.addEventListener('click',event=>{const trigger=event.target.closest('[data-story-node],[data-story-continue]');if(!trigger)return;const node=trigger.dataset.storyNode?storyNodes.find(item=>item.id===trigger.dataset.storyNode):currentStoryNode();openStoryNode(node)});
+document.addEventListener('click',event=>{const trigger=event.target.closest('[data-story-node],[data-story-read],[data-story-map]');if(!trigger)return;const node=trigger.dataset.storyNode?storyNodes.find(item=>item.id===trigger.dataset.storyNode):currentStoryNode(),fromMap=!!trigger.closest('#map-story-progress');openStoryNode(node,trigger.hasAttribute('data-story-map')||(fromMap&&trigger.hasAttribute('data-story-node')))});
 document.querySelector('[data-top="roam"]').onclick=()=>showScreen('kodemmacho');
 document.querySelector('[data-top="notes"]').onclick=()=>{showScreen('ningyocho');$('#notebook').open=true};
 document.querySelector('[data-top="deduction"]').onclick=()=>showScreen('police');
