@@ -3,7 +3,7 @@ import {clues,locations} from './game-data.mjs';
 import {chapters,readingForLocation} from './location-reading.mjs';
 import {sceneAction} from './shortcuts.mjs';
 import {npcs,portraitFor} from './npcs.mjs';
-export function createVisit(dialog,{stop,onClose,onClue=()=>{},onChapterComplete=()=>{},canCompleteChapter=()=>false}){
+export function createVisit(dialog,{stop,onClose,onClue=()=>{},onChapterComplete=()=>{},canCompleteChapter=()=>false,nextChapterStep=()=>null}){
  let mode='talk',returnMode='talk',line=0,origin=false,notes=false,request=0,fullChapter=false,readingPlace=null,chapterId=1,scene=null,clue=null;
  let cleanupReading=()=>{};
  const storage={getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value)};
@@ -23,10 +23,11 @@ export function createVisit(dialog,{stop,onClose,onClue=()=>{},onChapterComplete
  q('.scene-content').innerHTML=`<div class="book-view ${full?'full-book':'excerpt-book'}">
  ${full?`<div class="focus-toolbar"><div><button id="exit-reading" aria-keyshortcuts="Escape">退出阅读 <kbd>Esc</kbd></button>${canCompleteChapter(id)?'<button class="complete-chapter" id="complete-chapter">完成本章阅读 →</button>':''}</div><span id="reader-progress">0%</span><div><button id="save-bookmark" aria-keyshortcuts="b" disabled>书签 <kbd>B</kbd></button><button id="goto-bookmark" aria-keyshortcuts="g" hidden>回到书签 <kbd>G</kbd></button></div></div>`:''}
  <div class="reading-document" tabindex="0" role="region" aria-label="${full?'章节全文':'相关片段'}"><article class="reading-column"><div class="book-heading"><small>东野圭吾 著 · 岳远坤 译</small><h3 id="chapter-title">正在翻开书页…</h3><div class="reading-scope" aria-label="阅读范围"><button id="read-excerpt" aria-keyshortcuts="1">相关片段 <kbd>1</kbd></button><button id="read-chapter" aria-keyshortcuts="2">${chapters[id].label}全文 <kbd>2</kbd></button></div></div><div class="novel-text"></div></article></div>
+ ${full?'<section class="chapter-end" id="chapter-end" hidden aria-label="本章读完后的下一步"></section>':''}
  ${full?'<span id="reader-notice" class="reader-notice" role="status" aria-live="polite"></span>':''}</div>`;
  q('#read-excerpt').hidden=!readingPlace||readingPlace.id!=='sokaya';
  q('.scene-foot span').textContent='新参者 · '+chapters[id].label;
- if(full){q('#exit-reading').onclick=exitReading;const complete=q('#complete-chapter');if(complete)complete.onclick=()=>{closeScene();onChapterComplete(id)}}
+ if(full)q('#exit-reading').onclick=exitReading;
  if(linked&&linked.chapterIds.length>1){
  const label=document.createElement('label');label.className='chapter-select';label.innerHTML='选择篇章 <kbd>C</kbd> <select aria-label="选择篇章" aria-keyshortcuts="c">'+linked.chapterIds.map(n=>`<option value="${n}" ${n===id?'selected':''}>${chapters[n].label} · ${chapters[n].title}</option>`).join('')+'</select>';
  q('.book-heading').append(label);q('select').onchange=e=>{chapterId=Number(e.target.value);fullChapter=true;show('read')};
@@ -44,14 +45,16 @@ export function createVisit(dialog,{stop,onClose,onClue=()=>{},onChapterComplete
  scroller.focus({preventScroll:true});
  if(!full){scroller.scrollTop=0;return;}
  const key='readerProgress:'+id,bookmarkKey='readerBookmark:'+id;
- let timer,noticeTimer,bookmark=readProgress(storage,bookmarkKey);
+ let timer,noticeTimer,endShown=false,bookmark=readProgress(storage,bookmarkKey);
  const range=()=>Math.max(0,scroller.scrollHeight-scroller.clientHeight);
  scroller.scrollTop=(readProgress(storage,key)??0)*range();
  const update=()=>{q('#reader-progress').textContent=Math.round(scrollProgress(scroller)*100)+'%'};
  const save=()=>{clearTimeout(timer);writeProgress(storage,key,scrollProgress(scroller))};
- const onScroll=()=>{update();clearTimeout(timer);timer=setTimeout(save,200)};
+ const finish=route=>{closeScene();onChapterComplete(id,route)};
+ const showChapterEnd=()=>{if(endShown)return;endShown=true;const next=nextChapterStep(id),available=next?.available;q('#chapter-end').innerHTML=available?`<article><small>CHAPTER COMPLETE</small><h3>新的线索已经指向下一处地点。</h3><p>你可以继续阅读，也可以回到街区看看故事发生的地方。</p><div class="chapter-end-actions"><button class="primary" data-end="continue">继续下一章</button>${next.hasMap?'<button data-end="map">前往地图探索</button>':''}<button class="tertiary" data-end="directory">返回故事目录</button></div></article>`:`<article><small>CHAPTER COMPLETE</small><h3>这一章读完了，但调查还没有结束。</h3><p>峰子的房间里，也许还有之前没有留意到的东西。</p><div class="chapter-end-actions"><button class="primary" data-end="apartment">返回峰子公寓寻找线索</button><button data-end="police">前往警局整理线索</button><button class="tertiary" data-end="directory">返回故事目录</button></div></article>`;q('#chapter-end').hidden=false;q('#chapter-end').onclick=event=>{const action=event.target.closest('[data-end]')?.dataset.end;if(!action)return;if(action==='continue'){q('#chapter-end').hidden=true;openChapter(next.id);return}finish(action)};q('#chapter-end').querySelector('.primary')?.focus()};
+ const onScroll=()=>{update();clearTimeout(timer);timer=setTimeout(save,200);if(range()<=scroller.scrollTop+4)showChapterEnd()};
  const notice=message=>{clearTimeout(noticeTimer);q('#reader-notice').textContent=message;noticeTimer=setTimeout(()=>{if(token===request)q('#reader-notice').textContent=''},2200)};
- update();q('#save-bookmark').disabled=false;q('#goto-bookmark').hidden=bookmark===null;
+ update();q('#save-bookmark').disabled=false;q('#goto-bookmark').hidden=bookmark===null;const complete=q('#complete-chapter');if(complete)complete.onclick=showChapterEnd;if(range()<=scroller.scrollTop+4)showChapterEnd();
  q('#save-bookmark').onclick=()=>{const value=scrollProgress(scroller);if(writeProgress(storage,bookmarkKey,value)){bookmark=value;q('#goto-bookmark').hidden=false;notice('书签已保存')}else notice('无法保存书签，请检查浏览器存储设置')};
  q('#goto-bookmark').onclick=()=>{if(bookmark!==null){scroller.scrollTop=bookmark*range();update();save();scroller.focus({preventScroll:true})}};
  scroller.addEventListener('scroll',onScroll,{passive:true});

@@ -94,7 +94,7 @@ function evidenceState(item){
 }
 const evidenceHotspots={insurance_material:[63,36],ningyoyaki:[52,69],new_scissors:[88,54],"6300_email":[61,45],dog_square_email:[68,44],childcare_magazines:[19,48],lawyer_correspondence:[62,40],public_phone_call:[79,29]};
 function renderApartment(){
- const current=currentChapterNumber(savedReviews);
+ const currentReviewChapter=currentChapterNumber(savedReviews),currentId='ch'+String(currentReviewChapter).padStart(2,'0'),current=storyReadyReviews.has(currentId)?Math.min(currentReviewChapter+1,suspectReview.chapters.length):currentReviewChapter;
  const visible=visibleEvidence(minekoApartmentEvidence.evidence,current),evidence=visible.filter(item=>(evidenceTab==='resolved'?'resolved':'question')===evidenceState(item));
  $('#evidence-hotspots').innerHTML=visible.map((item,index)=>{const [x,y]=evidenceHotspots[item.id]??[50+index*4,50];return `<button class="evidence-hotspot ${evidenceState(item)}" data-evidence-id="${item.id}" style="--hx:${x}%;--hy:${y}%" aria-label="查看${escape(item.title)}"><span>⌕</span><small>${escape(item.title)}</small></button>`}).join('');
  const icons={document:'文',object:'物',digital:'邮',phone:'话'};
@@ -134,7 +134,8 @@ function renderPolice(){
  renderStoryProgress();
 }
 function collectClue(id){collectedClues.add(id);renderPolice()}
-const scene=createVisit(reader,{stop,onClue:collectClue,onClose:()=>{stop();if(activeScreen==='ningyocho')viewport.focus({preventScroll:true})},canCompleteChapter:id=>currentStoryNode()?.chapterId===id,onChapterComplete:id=>{const chapterId='ch'+String(id).padStart(2,'0');storyReadyReviews.add(chapterId);localStorage.setItem('storyReadyReviews',JSON.stringify([...storyReadyReviews]));selectedReview=chapterId;showScreen('police')}});
+function nextChapterStep(id){const node=storyNodes.find(item=>item.chapterId===id+1);if(!node)return null;return {id:node.chapterId,available:storyNodeState(node,storyNodes.indexOf(node))!=='future',hasMap:!!node.locationId}}
+const scene=createVisit(reader,{stop,onClue:collectClue,onClose:()=>{stop();if(activeScreen==='ningyocho')viewport.focus({preventScroll:true})},canCompleteChapter:id=>currentStoryNode()?.chapterId===id,nextChapterStep,onChapterComplete:(id,route='police')=>{const chapterId='ch'+String(id).padStart(2,'0');if(!savedReviews[chapterId]){storyReadyReviews.add(chapterId);localStorage.setItem('storyReadyReviews',JSON.stringify([...storyReadyReviews]));selectedReview=chapterId}if(route==='map'){const next=storyNodes.find(item=>item.chapterId===id+1);openStoryNode(next,true)}else showScreen(route==='directory'?'kodemmacho':route)}});
 let activeScreen='hub';
 const screens={hub:$('#hub-screen'),ningyocho:detailScreen,kodemmacho:$('#kodemmacho-screen'),police:$('#police-screen'),apartment:$('#apartment-screen')};
 function showScreen(name){
