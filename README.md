@@ -4,6 +4,105 @@
 
 <!-- 每日更新：修改 docs/development-progress.svg 中的百分比、加贺头像 x 坐标和已完成路线终点。 -->
 
+<!-- Daily update: edit the percentage, Kaga avatar x-position, and completed route endpoint in docs/development-progress.svg. -->
+
+# Shinzanmono · A Walk Through Ningyocho
+
+An interactive reading prototype inspired by _Shinzanmono_. Follow Kaga as he investigates Mineko's apartment, walks through Ningyocho, visits local shops, reads the original novel, and reviews clues, suspects, and conclusions at the police station.
+
+## Development Log
+
+**2026-09-13** — Established the navigation hierarchy of **Kodenmacho Hub → Ningyocho Map → Investigation Location**. Added chapter-level suspect review, police-station conclusions and unresolved-clue records, four investigation states on the map, and revisit behavior. Mineko's apartment now reveals evidence progressively according to the current chapter and can lead the reader into existing locations through discovered clues. In-location dialogue, notebook access, and full Chapter N reading are now parallel entry points. Full-text reading continues to use the existing fullscreen reader with saved reading progress and bookmarks.
+
+## Project Structure
+
+```text
+.openai/                   Existing site configuration and build.mjs tooling
+src/                       Static UI and runtime logic source
+dist/                      Build output only; do not edit directly
+tests/                     Existing behavior and data checks
+AGENTS.md                  Collaboration and project rules
+README.md
+docs/
+  GAME_FLOW.md             Implemented flow, shortcuts, and current scope
+  NARRATIVE.md             Narrative principles, sources, and deferred directions
+  ART_DIRECTION.md         Visual guidelines and asset status
+data/
+  characters.json          Characters and avatars
+  relationships.json       Confirmed character relationships (partial)
+  clues.json               Current scene observations / clues
+  locations.json           Locations, map coordinates, characters, and full-text links
+  phases.json              Current phases and deferred chapters
+public/                    Novel JSON, chapters/, and assets/
+  assets/
+    characters/            kaga/casual.png, kaga/formal.png, mineko.png, etc.
+    locations/             Existing street and location artwork
+    items/                 Reserved item assets
+```
+
+## Editing and Running
+
+Treat `data/*.json` as the source of truth for structured game data and `public/assets/` as the source of truth for images.
+
+After making changes, run:
+
+```sh
+node .openai/build.mjs
+python3 -m http.server 4173 --directory dist
+```
+
+Then open:
+
+```text
+http://127.0.0.1:4173/
+```
+
+The build tooling regenerates the full `dist/` output from `src/`, `public/`, and `data/*.json`.
+
+Node.js 24 is recommended for local development.
+
+UI and runtime logic live in `src/` and intentionally remain in the existing plain JavaScript/CSS structure. The build step generates `dist/game-data.mjs` for the current data-adapter layer. Original novel JSON sources live under `public/`.
+
+Do not edit `dist/` directly.
+
+## Development Approach
+
+The project is currently in rapid MVP iteration.
+
+The priority is to build the complete reading and investigation experience with the smallest practical implementation before investing in deeper architecture or optimization.
+
+Current principles:
+
+- Keep the reading experience primary and uninterrupted.
+- Reuse existing components, data, assets, routes, and state wherever possible.
+- Prefer simple V1 solutions over speculative or highly extensible architecture.
+- Avoid unrelated refactoring during feature iteration.
+- Use manual testing as the primary validation method during rapid UI/UX development.
+- Existing unit tests are retained but are not expected to be updated or run for every MVP change.
+- Deeper deduction mechanics belong primarily in the police station rather than interrupting the Reader.
+- The map focuses on revisiting locations, NPCs, and details that may have been overlooked while reading.
+
+## Existing Checks
+
+The repository contains existing behavior and data checks under `tests/`.
+
+They can be run when needed:
+
+```sh
+node tests/walk.mjs
+node tests/camera.mjs
+node tests/movement.mjs
+node tests/shortcuts.mjs
+node tests/location-reading.mjs
+node tests/game.mjs
+```
+
+During current MVP development, these checks are optional unless a change specifically requires them.
+
+See [GAME_FLOW](docs/GAME_FLOW.md) for the implemented user flow, [NARRATIVE](docs/NARRATIVE.md) for narrative principles and source notes, and [ART_DIRECTION](docs/ART_DIRECTION.md) for visual direction and asset status.
+
+The earlier seven-day deduction prototype is preserved in the repository but is not loaded by the current experience.
+
 # 新参者 · 人形町散步
 
 以《新参者》为蓝本的交互阅读原型：跟随加贺调查峰子公寓、漫游人形町、访问店家、阅读原著，并在警局复核嫌疑与归档判断。
