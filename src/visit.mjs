@@ -36,7 +36,8 @@ export function createVisit(dialog,{stop,onClose,onClue=()=>{},onChapterComplete
  try{
  const r=await fetch(full?chapters[id].url:origin?'reading-sample.json':'senbei-reading.json');if(!r.ok)throw Error();const data=await r.json();if(token!==request||!dialog.open)return;
  q('#chapter-title').textContent=full?chapters[id].label+' · '+data.title:data.title;
- q('.novel-text').innerHTML=data.paragraphs.map(p=>`<p>${esc(p)}</p>`).join('');
+ const paragraphs=full?data.paragraphs.filter((paragraph,index)=>index>1||!paragraph.replace(/\s/g,'').startsWith(chapters[id].label)):data.paragraphs;
+ q('.novel-text').innerHTML=paragraphs.map(paragraph=>/^\d+$/.test(paragraph.trim())?`<p class="section-break" aria-label="第 ${esc(paragraph)} 节"><span>${esc(paragraph)}</span></p>`:`<p>${esc(paragraph)}</p>`).join('');
  const scroller=q('.reading-document');
  const frame=requestAnimationFrame(()=>{
  if(token!==request||!dialog.open)return;
