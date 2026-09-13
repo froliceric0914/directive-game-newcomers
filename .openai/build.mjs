@@ -1,7 +1,7 @@
 // Dependency-free build for the existing static game. Run: node .openai/build.mjs
 import {readFile,writeFile,cp,access,rm} from 'node:fs/promises';
 const root=new URL('../',import.meta.url);
-const names=['characters','relationships','clues','locations','phases','suspectReview','minekoApartmentEvidence'];
+const names=['characters','relationships','clues','locations','phases','suspectReview','minekoApartmentEvidence','chapterEndReviews'];
 const data={};
 for(const name of names)data[name]=JSON.parse(await readFile(new URL(`data/${name}.json`,root),'utf8'));
 for(const npc of Object.values(data.characters))for(const path of Object.values(npc.portraits))await access(new URL('public/'+path,root));

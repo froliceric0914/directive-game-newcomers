@@ -446,6 +446,11 @@
       "label": "第五章",
       "url": "chapters/5.json"
     },
+    "6": {
+      "title": "翻译家的朋友",
+      "label": "第六章",
+      "url": "chapters/6.json"
+    },
     "7": {
       "title": "保洁公司的社长",
       "label": "第七章",
@@ -455,6 +460,11 @@
       "title": "民间艺术品店的顾客",
       "label": "第八章",
       "url": "chapters/8.json"
+    },
+    "9": {
+      "title": "日本桥的刑警",
+      "label": "第九章",
+      "url": "chapters/9.json"
     }
   }
 }
