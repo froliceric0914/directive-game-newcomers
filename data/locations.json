@@ -89,7 +89,7 @@
       },
       {
         "id": "craft",
-        "name": "日本桥茄子·「童梦屋」",
+        "name": "茄子·「童梦屋」",
         "kind": "工艺品店",
         "x": 19,
         "y": 12,
@@ -158,12 +158,7 @@
       "kind": "咸甜味仙贝店",
       "mapLocationId": "sokaya",
       "source": "第一章",
-      "npcIds": [
-        "naho",
-        "satoko",
-        "fumitaka",
-        "takura"
-      ],
+      "npcIds": ["naho", "satoko", "fumitaka", "takura"],
       "visualKey": "sokaya"
     },
     "kiku": {
@@ -172,11 +167,7 @@
       "kind": "料亭",
       "mapLocationId": "kiku",
       "source": "第二章",
-      "npcIds": [
-        "shuhei",
-        "yoriko",
-        "taiji"
-      ],
+      "npcIds": ["shuhei", "yoriko", "taiji"],
       "visualKey": "kiku"
     },
     "craft": {
@@ -185,10 +176,7 @@
       "kind": "童梦屋",
       "mapLocationId": "craft",
       "source": "第八章",
-      "npcIds": [
-        "craft-owner",
-        "craft-clerk"
-      ],
+      "npcIds": ["craft-owner", "craft-clerk"],
       "visualKey": "craft"
     },
     "yanagisawa": {
@@ -196,10 +184,7 @@
       "name": "柳泽商店",
       "mapLocationId": null,
       "source": "第三、六章",
-      "npcIds": [
-        "suzue",
-        "maki"
-      ],
+      "npcIds": ["suzue", "maki"],
       "visualKey": "yanagisawa"
     },
     "terada": {
@@ -207,9 +192,7 @@
       "name": "寺田钟表店",
       "mapLocationId": null,
       "source": "第四章",
-      "npcIds": [
-        "genichi"
-      ],
+      "npcIds": ["genichi"],
       "visualKey": "terada"
     },
     "quattro": {
@@ -217,9 +200,7 @@
       "name": "卡特罗西饼店",
       "mapLocationId": null,
       "source": "第五章",
-      "npcIds": [
-        "miyuki"
-      ],
+      "npcIds": ["miyuki"],
       "visualKey": "quattro"
     },
     "cleaning-company": {
@@ -227,10 +208,7 @@
       "name": "清濑直弘的保洁公司",
       "mapLocationId": null,
       "source": "第七章",
-      "npcIds": [
-        "naohiro",
-        "yuri"
-      ],
+      "npcIds": ["naohiro", "yuri"],
       "visualKey": "cleaning-company"
     },
     "kishida-office": {
@@ -238,47 +216,35 @@
       "name": "岸田税务师事务所",
       "mapLocationId": null,
       "source": "第七、九章",
-      "npcIds": [
-        "yasaku"
-      ]
+      "npcIds": ["yasaku"]
     },
     "kishida-home": {
       "id": "kishida-home",
       "name": "岸田克哉家",
       "mapLocationId": null,
       "source": "第九章",
-      "npcIds": [
-        "katsuya",
-        "shota"
-      ]
+      "npcIds": ["katsuya", "shota"]
     },
     "hiroki-ami": {
       "id": "hiroki-ami",
       "name": "弘毅与亚美的人物线",
       "mapLocationId": null,
       "source": "第五章",
-      "npcIds": [
-        "hiroki",
-        "ami"
-      ]
+      "npcIds": ["hiroki", "ami"]
     },
     "tomoko": {
       "id": "tomoko",
       "name": "多美子的人物线",
       "mapLocationId": null,
       "source": "第六章",
-      "npcIds": [
-        "tomoko"
-      ]
+      "npcIds": ["tomoko"]
     },
     "mineko-home": {
       "id": "mineko-home",
       "name": "峰子的公寓",
       "mapLocationId": null,
       "source": "第五、六章",
-      "npcIds": [
-        "mineko"
-      ],
+      "npcIds": ["mineko"],
       "visualKey": "mineko-home"
     },
     "suitengu": {
@@ -287,9 +253,7 @@
       "kind": "神社",
       "mapLocationId": "suitengu",
       "source": "第四章",
-      "npcIds": [
-        "genichi"
-      ],
+      "npcIds": ["genichi"],
       "visualKey": "suitengu"
     },
     "tamahide": {
@@ -298,9 +262,7 @@
       "kind": "鸡肉料理店",
       "mapLocationId": "tamahide",
       "source": "第七章",
-      "npcIds": [
-        "hiroki"
-      ],
+      "npcIds": ["hiroki"],
       "visualKey": "tamahide"
     },
     "kaiseiken": {
@@ -309,9 +271,7 @@
       "kind": "复古咖啡店",
       "mapLocationId": "kaiseiken",
       "source": "第七章",
-      "npcIds": [
-        "hiroki"
-      ],
+      "npcIds": ["hiroki"],
       "visualKey": "kaiseiken"
     }
   },
@@ -323,26 +283,11 @@
       "clueId": "senbei-jacket",
       "background": "assets/locations/senbei-shop.png",
       "dialogue": [
-        [
-          "kaga",
-          "关于田仓先生的着装，我想再确认一下。"
-        ],
-        [
-          "naho",
-          "他那天穿着灰色正装；上次来时，是褐色的。"
-        ],
-        [
-          "kaga",
-          "颜色先放在一边。当时，他穿着西装上衣吗？"
-        ],
-        [
-          "naho",
-          "穿着。这有什么关系吗？"
-        ],
-        [
-          "kaga",
-          "还不清楚。谢谢你。"
-        ]
+        ["kaga", "关于田仓先生的着装，我想再确认一下。"],
+        ["naho", "他那天穿着灰色正装；上次来时，是褐色的。"],
+        ["kaga", "颜色先放在一边。当时，他穿着西装上衣吗？"],
+        ["naho", "穿着。这有什么关系吗？"],
+        ["kaga", "还不清楚。谢谢你。"]
       ],
       "visualKey": "sokaya"
     },
@@ -353,18 +298,12 @@
       "clueId": "ningyoyaki-route",
       "background": "assets/locations/ryotei.png",
       "dialogue": [
-        [
-          "kaga",
-          "询问人形烧的来处"
-        ],
+        ["kaga", "询问人形烧的来处"],
         [
           "yoriko",
           "人形烧并非直接送给峰子。它经过邻居的手，才出现在她的房间里。礼物的去向，比包装更值得追问。"
         ],
-        [
-          "kaga",
-          "追问芥末是给谁的"
-        ],
+        ["kaga", "追问芥末是给谁的"],
         [
           "yoriko",
           "赖子承认那是给丈夫的一个教训。她并不认识峰子，也没有料到点心会被转送。一场夫妻间的别扭，偶然走进了案件。"
@@ -379,18 +318,12 @@
       "clueId": "kitchen-scissors",
       "background": "assets/locations/ceramics-shop.png",
       "dialogue": [
-        [
-          "kaga",
-          "看看柜台上的剪刀订单"
-        ],
+        ["kaga", "看看柜台上的剪刀订单"],
         [
           "maki",
           "峰子受托买的厨剪，并不是这份订单要找的东西。订单上圈着一把小巧的食用剪。"
         ],
-        [
-          "kaga",
-          "问问这份礼物"
-        ],
+        ["kaga", "问问这份礼物"],
         [
           "maki",
           "麻纪准备把食用剪送给即将旅行的婆婆，让她能吃喜欢的食物。峰子只是帮忙买错了东西。"
@@ -404,10 +337,7 @@
       "curtain": "玉秀",
       "clueId": "mineko-reason",
       "dialogue": [
-        [
-          "kaga",
-          "谈谈母亲搬来的原因"
-        ],
+        ["kaga", "谈谈母亲搬来的原因"],
         [
           "hiroki",
           "你和弘毅拼出母亲的误会：她以为儿子即将成为父亲，因此想在附近生活，也想替他准备一些钱。"
@@ -422,10 +352,7 @@
       "curtain": "咖啡",
       "clueId": "account-review",
       "dialogue": [
-        [
-          "kaga",
-          "调查峰子最近的查账要求"
-        ],
+        ["kaga", "调查峰子最近的查账要求"],
         [
           "hiroki",
           "峰子曾要求岸田重新核对账户。对她来说，这是为儿子争取帮助；对经手账户的人来说，却可能意味着秘密将被揭开。"
@@ -441,10 +368,7 @@
       "clueId": "spinning-top-string",
       "background": "assets/locations/folk-art-shop.png",
       "dialogue": [
-        [
-          "kaga",
-          "比较两家店的陀螺线"
-        ],
+        ["kaga", "比较两家店的陀螺线"],
         [
           "craft-owner",
           "你把玩具店的同款样品与民艺店的商品作比较：一边是捻绳，另一边是组绳。不能把所有“绳子”当作同一种东西。"
@@ -458,10 +382,7 @@
       "curtain": "弁庆",
       "clueId": "walking-route",
       "dialogue": [
-        [
-          "kaga",
-          "沿散步路线走一段"
-        ],
+        ["kaga", "沿散步路线走一段"],
         [
           "genichi",
           "狗在通往水天宫的路口迟疑。你再看峰子的记录，她摸过的“小狗”可能是子宝犬铜像。路线有了另一种解释。"
@@ -477,10 +398,7 @@
       "clueId": "ningyoyaki-route",
       "background": "assets/locations/ryotei.png",
       "dialogue": [
-        [
-          "kaga",
-          "询问人形烧的来处"
-        ],
+        ["kaga", "询问人形烧的来处"],
         [
           "shuhei",
           "人形烧并非直接送给峰子。它经过邻居的手，才出现在她的房间里。礼物的去向，比包装更值得追问。"
@@ -495,18 +413,12 @@
       "clueId": "walking-route",
       "background": "assets/locations/suitengu.png",
       "dialogue": [
-        [
-          "kaga",
-          "谈谈离家的女儿"
-        ],
+        ["kaga", "谈谈离家的女儿"],
         [
           "genichi",
           "玄一说女儿的生活与自己无关。他还否认曾为了什么事特地去水天宫。语气太坚决，反而像在挡住某个话题。"
         ],
-        [
-          "kaga",
-          "沿散步路线走一段"
-        ],
+        ["kaga", "沿散步路线走一段"],
         [
           "genichi",
           "狗在通往水天宫的路口迟疑。你再看峰子的记录，她摸过的“小狗”可能是子宝犬铜像。路线有了另一种解释。"
@@ -517,66 +429,47 @@
   },
   "readings": {
     "sokaya": {
-      "chapterIds": [
-        1
-      ],
+      "chapterIds": [1],
       "kind": "story",
       "note": "仙贝店「咸甜味」的故事。"
     },
     "kiku": {
-      "chapterIds": [
-        2
-      ],
+      "chapterIds": [2],
       "kind": "story",
       "note": "松矢料亭与小伙计修平的故事。"
     },
     "ubukeya": {
-      "chapterIds": [
-        3
-      ],
+      "chapterIds": [3],
       "kind": "related",
       "note": "关联阅读：刀具店「刻剪刀」与厨剪。原著未以「产毛屋」命名此店。"
     },
     "tamahide": {
-      "chapterIds": [
-        7
-      ],
+      "chapterIds": [7],
       "kind": "related",
       "note": "关联阅读：加贺与弘毅谈到烤鸡店和鸡蛋烧。原著未确认这家店就是玉秀。"
     },
     "kaiseiken": {
-      "chapterIds": [
-        7
-      ],
+      "chapterIds": [7],
       "kind": "related",
       "note": "关联阅读：古色古香、招牌写着「大正八年创业」的咖啡馆。原著未写出快生轩店名。"
     },
     "craft": {
-      "chapterIds": [
-        8
-      ],
+      "chapterIds": [8],
       "kind": "story",
       "note": "民间艺术品店「童梦屋」的故事。"
     },
     "shigemori": {
-      "chapterIds": [
-        2
-      ],
+      "chapterIds": [2],
       "kind": "related",
       "note": "关联阅读：修平购买人形烧的情节。原著未将人形烧店命名为重盛。"
     },
     "benkei": {
-      "chapterIds": [
-        4
-      ],
+      "chapterIds": [4],
       "kind": "story",
       "note": "第四章的遛狗路线经过滨町绿道入口的弁庆雕塑。"
     },
     "suitengu": {
-      "chapterIds": [
-        4,
-        5
-      ],
+      "chapterIds": [4, 5],
       "kind": "story",
       "note": "第四章的水天宫与小狗；第五章继续讲述峰子的参拜与西饼店。"
     }

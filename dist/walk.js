@@ -64,10 +64,10 @@ detailScreen
     '<div class="area-switcher map-area-switcher"><button data-screen="ningyocho" class="active">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div>',
   );
 $(".header").outerHTML =
-  `<header class="case-header"><div class="case-brand"><div class="brand-mark">新</div><div><h1>新参者 <span>人形町七日</span></h1><p>NIHONBASHI · A NEIGHBORHOOD MYSTERY</p></div></div><div class="case-status">${isDevMode ? '<span class="dev-indicator">DEV</span>' : ""}<div>六月 · 调查第 <strong>01</strong> 天 / 07</div><div class="stamina" aria-label="六点精力"><i></i><i></i><i></i><i></i><i></i><i></i><span>6 / 6 精力</span></div><button class="text-button" id="guide">玩法与说明 ⓘ</button></div></header>`;
+  `<header class="case-header"><div class="case-brand"><div class="brand-mark">新</div><div><h1>新参者 <span>人形町纪事</span></h1><p>NIHONBASHI · A NEIGHBORHOOD MYSTERY</p></div></div><div class="case-status">${isDevMode ? '<span class="dev-indicator">DEV</span>' : ""}<div>六月 · 调查第 <strong>01</strong> 天 / 07</div><div class="stamina" aria-label="六点精力"><i></i><i></i><i></i><i></i><i></i><i></i><span>6 / 6 精力</span></div><button class="text-button" id="guide">玩法与说明 ⓘ</button></div></header>`;
 detailScreen.insertAdjacentHTML(
   "beforebegin",
-  `<nav class="case-tabs" aria-label="调查功能"><button data-top="roam" class="active">街区漫游</button><button data-top="notes">调查手帐 <b>1</b></button><button data-top="deduction">线索推理</button></nav><main class="hub-screen" id="hub-screen"><section class="hub-scene"><div class="hub-copy"><span>日本桥 / INVESTIGATION HUB</span><h2>人形町七日</h2><p>从街巷与日常小事开始，慢慢认识三井峰子。</p></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div></section></main><main class="area-screen" id="kodemmacho-screen" hidden><section class="area-scene reading-home"><div class="area-copy"><span>小传马町 / STORY PROGRESS</span><h2>沿着峰子的足迹阅读。</h2><p>章节是故事进度；街区地图帮助你找到下一段故事发生的地方。</p></div><div class="reading-dashboard"><section class="story-progress hero" id="hub-story-progress" aria-label="故事进度"></section><div class="apartment-return"><div><small id="apartment-state">调查据点</small><strong>峰子公寓</strong><span id="apartment-copy">随时返回查看已经发现的线索。</span></div><button data-screen="apartment">进入公寓</button></div></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho" class="active">小传马町</button><button data-screen="police">警局</button></div><p class="area-status" role="status">阅读与调查进度会保存在当前浏览器。</p></section></main><main class="police-screen" id="police-screen" hidden><button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>把事实放在一起。</h2><p>这里将用于整理线索与人物关系。正式推理机制将在后续加入。</p></div><div class="police-grid"><article><small>CLUES</small><h3>收集的线索</h3><p>查看从街区与调查地点带回的事实。</p></article><article><small>RELATIONSHIPS</small><h3>人物与关系</h3><p>确认人与地点之间已经查明的联系。</p></article><article><small>SUMMARY</small><h3>调查总结</h3><p>记录当前问题，并决定下一步调查方向。</p></article></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div></main>`,
+  `<nav class="case-tabs" aria-label="调查功能"><button data-top="roam" class="active">街区漫游</button><button data-top="notes">调查手帐 <b>1</b></button><button data-top="deduction">线索推理</button></nav><main class="hub-screen" id="hub-screen"><section class="hub-scene"><div class="hub-copy"><span>日本桥 / INVESTIGATION HUB</span><h2>人形町纪事</h2><p>七日循迹，在人形町的街巷中，寻找散落其中的线索，逐步揭开真相。</p></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div></section></main><main class="area-screen" id="kodemmacho-screen" hidden><section class="area-scene reading-home"><div class="area-copy"><span>小传马町 / STORY PROGRESS</span><h2>沿着峰子的足迹阅读。</h2><p>章节是故事进度；街区地图帮助你找到下一段故事发生的地方。</p></div><div class="reading-dashboard"><section class="story-progress hero" id="hub-story-progress" aria-label="故事进度"></section><div class="apartment-return"><div><small id="apartment-state">调查据点</small><strong>峰子公寓</strong><span id="apartment-copy">随时返回查看已经发现的线索。</span></div><button data-screen="apartment">进入公寓</button></div></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho" class="active">小传马町</button><button data-screen="police">警局</button></div><p class="area-status" role="status">阅读与调查进度会保存在当前浏览器。</p></section></main><main class="police-screen" id="police-screen" hidden><button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>把事实放在一起。</h2><p>这里将用于整理线索与人物关系。正式推理机制将在后续加入。</p></div><div class="police-grid"><article><small>CLUES</small><h3>收集的线索</h3><p>查看从街区与调查地点带回的事实。</p></article><article><small>RELATIONSHIPS</small><h3>人物与关系</h3><p>确认人与地点之间已经查明的联系。</p></article><article><small>SUMMARY</small><h3>调查总结</h3><p>记录当前问题，并决定下一步调查方向。</p></article></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div></main>`,
 );
 $("#kodemmacho-screen .back-hub")?.remove();
 $("#police-screen").innerHTML =
@@ -152,6 +152,7 @@ const collectedClues = new Set(),
     suspectReview.chapters.map((chapter) => [chapter.chapterId, chapter]),
   );
 let selectedReview = null,
+  reviewChapterScroll = 0,
   archiveFilter = "all",
   evidenceTab = "current";
 const investigationChapterByLocation = {};
@@ -448,6 +449,8 @@ function archiveEntries() {
   }));
 }
 function renderPolice() {
+  const previousTabs = $("#suspect-review .review-chapters");
+  if (previousTabs) reviewChapterScroll = previousTabs.scrollLeft;
   const ready = readyReviewIds();
   if (!selectedReview || !ready.includes(selectedReview))
     selectedReview =
@@ -465,6 +468,8 @@ function renderPolice() {
     button.textContent = "重新判断";
     $("#suspect-review .review-resolution").append(button);
   }
+  const renderedTabs = $("#suspect-review .review-chapters");
+  if (renderedTabs) renderedTabs.scrollLeft = reviewChapterScroll;
   const entries = archiveEntries().filter(
     (entry) => archiveFilter === "all" || entry.type === archiveFilter,
   );

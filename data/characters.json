@@ -3,7 +3,7 @@
     "id": "kaga",
     "name": "加贺恭一郎",
     "venueId": null,
-    "role": "玩家",
+    "role": "日本桥署 警部补",
     "portraits": {
       "casual": "assets/characters/kaga/casual.png",
       "formal": "assets/characters/kaga/formal.png",
@@ -16,9 +16,9 @@
     "id": "naho",
     "name": "上川菜穗",
     "venueId": "sokaya",
-    "role": "店家的孙女",
+    "role": "仙贝店 店主孙女",
     "portraits": {
-      "shop": "assets/characters/naho.png"
+      "shop": "assets/characters/transparent-profiles/naho_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -26,9 +26,9 @@
     "id": "satoko",
     "name": "上川聪子",
     "venueId": "sokaya",
-    "role": "店家的祖母",
+    "role": "仙贝店 祖母",
     "portraits": {
-      "shop": "assets/characters/satoko.png"
+      "shop": "assets/characters/transparent-profiles/satoko_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -36,9 +36,9 @@
     "id": "fumitaka",
     "name": "上川文孝",
     "venueId": "sokaya",
-    "role": "仙贝店店主",
+    "role": "仙贝店 店主",
     "portraits": {
-      "shop": "assets/characters/fumitaka.png"
+      "shop": "assets/characters/transparent-profiles/fumitaka_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -46,9 +46,9 @@
     "id": "takura",
     "name": "田仓慎一",
     "venueId": "sokaya",
-    "role": "到访的保险业务员",
+    "role": "保险公司 业务员",
     "portraits": {
-      "work": "assets/characters/takura.png"
+      "work": "assets/characters/transparent-profiles/takura_transparent.png"
     },
     "defaultPortrait": "work"
   },
@@ -56,9 +56,9 @@
     "id": "shuhei",
     "name": "佐佐木修平",
     "venueId": "kiku",
-    "role": "料亭学徒",
+    "role": "松矢料亭 学徒",
     "portraits": {
-      "shop": "assets/characters/shuhei.png"
+      "shop": "assets/characters/transparent-profiles/shuhei_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -66,9 +66,9 @@
     "id": "yoriko",
     "name": "枝川赖子",
     "venueId": "kiku",
-    "role": "料亭老板娘",
+    "role": "松矢料亭 老板娘",
     "portraits": {
-      "shop": "assets/characters/yoriko.png"
+      "shop": "assets/characters/transparent-profiles/yoriko_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -76,9 +76,9 @@
     "id": "taiji",
     "name": "枝川泰治",
     "venueId": "kiku",
-    "role": "料亭老板",
+    "role": "松矢料亭 老板",
     "portraits": {
-      "shop": "assets/characters/taiji.png"
+      "shop": "assets/characters/transparent-profiles/taiji_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -86,9 +86,9 @@
     "id": "suzue",
     "name": "柳泽铃江",
     "venueId": "yanagisawa",
-    "role": "柳泽商店家人",
+    "role": "柳泽商店 家人",
     "portraits": {
-      "shop": "assets/characters/suzue.png"
+      "shop": "assets/characters/transparent-profiles/suzue_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -96,9 +96,9 @@
     "id": "maki",
     "name": "柳泽麻纪",
     "venueId": "yanagisawa",
-    "role": "柳泽家的儿媳",
+    "role": "柳泽家 儿媳",
     "portraits": {
-      "casual": "assets/characters/maki.png"
+      "casual": "assets/characters/transparent-profiles/maki_transparent.png"
     },
     "defaultPortrait": "casual"
   },
@@ -106,9 +106,9 @@
     "id": "genichi",
     "name": "寺田玄一",
     "venueId": "terada",
-    "role": "钟表店店主",
+    "role": "钟表店 店主",
     "portraits": {
-      "shop": "assets/characters/genichi.png"
+      "shop": "assets/characters/transparent-profiles/genichi_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -116,9 +116,9 @@
     "id": "miyuki",
     "name": "北村美雪",
     "venueId": "quattro",
-    "role": "西饼店店员",
+    "role": "西饼店 店员",
     "portraits": {
-      "casual": "assets/characters/miyuki.png"
+      "casual": "assets/characters/transparent-profiles/miyuki_transparent.png"
     },
     "defaultPortrait": "casual"
   },
@@ -126,9 +126,9 @@
     "id": "craft-owner",
     "name": "民艺品店主",
     "venueId": "craft",
-    "role": "店主头像（文件以职务命名）",
+    "role": "店主",
     "portraits": {
-      "shop": "assets/characters/craft-owner.png"
+      "shop": "assets/characters/transparent-profiles/craft-owner_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -136,9 +136,9 @@
     "id": "craft-clerk",
     "name": "民艺品店员",
     "venueId": "craft",
-    "role": "店员头像（文件以职务命名）",
+    "role": "民间艺术品店 店员",
     "portraits": {
-      "shop": "assets/characters/craft-clerk.png"
+      "shop": "assets/characters/transparent-profiles/craft-clerk_transparent.png"
     },
     "defaultPortrait": "shop"
   },
@@ -146,9 +146,9 @@
     "id": "naohiro",
     "name": "清濑直弘",
     "venueId": "cleaning-company",
-    "role": "保洁公司社长",
+    "role": "保洁公司 社长",
     "portraits": {
-      "work": "assets/characters/naohiro.png"
+      "work": "assets/characters/transparent-profiles/naohiro_transparent.png"
     },
     "defaultPortrait": "work"
   },
@@ -156,9 +156,9 @@
     "id": "yuri",
     "name": "宫本祐理",
     "venueId": "cleaning-company",
-    "role": "社长秘书",
+    "role": "保洁公司 社长秘书",
     "portraits": {
-      "work": "assets/characters/yuri.png"
+      "work": "assets/characters/transparent-profiles/yuri_transparent.png"
     },
     "defaultPortrait": "work"
   },
@@ -168,7 +168,7 @@
     "venueId": "kishida-office",
     "role": "税务师",
     "portraits": {
-      "work": "assets/characters/yasaku.png"
+      "work": "assets/characters/transparent-profiles/yasaku_transparent.png"
     },
     "defaultPortrait": "work"
   },
@@ -176,9 +176,9 @@
     "id": "katsuya",
     "name": "岸田克哉",
     "venueId": "kishida-home",
-    "role": "岸田要作的儿子",
+    "role": "岸田要作 儿子",
     "portraits": {
-      "casual": "assets/characters/katsuya.png"
+      "casual": "assets/characters/transparent-profiles/katsuya_transparent.png"
     },
     "defaultPortrait": "casual"
   },
@@ -186,9 +186,9 @@
     "id": "shota",
     "name": "翔太",
     "venueId": "kishida-home",
-    "role": "岸田要作的孙子",
+    "role": "岸田要作 孙子",
     "portraits": {
-      "casual": "assets/characters/shota.png"
+      "casual": "assets/characters/transparent-profiles/shota_transparent.png"
     },
     "defaultPortrait": "casual"
   },
@@ -196,9 +196,9 @@
     "id": "hiroki",
     "name": "清濑弘毅",
     "venueId": "hiroki-ami",
-    "role": "峰子的儿子",
+    "role": "三井峰子 儿子",
     "portraits": {
-      "casual": "assets/characters/hiroki.png"
+      "casual": "assets/characters/transparent-profiles/hiroki_transparent.png"
     },
     "defaultPortrait": "casual"
   },
@@ -206,9 +206,9 @@
     "id": "ami",
     "name": "青山亚美",
     "venueId": "hiroki-ami",
-    "role": "弘毅的女友",
+    "role": "清濑弘毅 女友",
     "portraits": {
-      "casual": "assets/characters/ami.png"
+      "casual": "assets/characters/transparent-profiles/ami_transparent.png"
     },
     "defaultPortrait": "casual"
   },
@@ -216,9 +216,9 @@
     "id": "tomoko",
     "name": "吉冈多美子",
     "venueId": "tomoko",
-    "role": "峰子的大学好友、翻译",
+    "role": "峰子大学好友 · 翻译",
     "portraits": {
-      "casual": "assets/characters/tomoko.png"
+      "casual": "assets/characters/transparent-profiles/tomoko_transparent.png"
     },
     "defaultPortrait": "casual"
   },
@@ -226,9 +226,9 @@
     "id": "mineko",
     "name": "三井峰子",
     "venueId": "mineko-home",
-    "role": "故事中心人物",
+    "role": "",
     "portraits": {
-      "casual": "assets/characters/mineko.png"
+      "casual": "assets/characters/transparent-profiles/mineko_transparent.png"
     },
     "defaultPortrait": "casual"
   }
