@@ -1,0 +1,393 @@
+{
+  "mineko-home": {
+    "name": "峰子公寓",
+    "type": "investigation_hub",
+    "mood": [
+      "安静",
+      "整洁",
+      "普通人的生活突然中断"
+    ],
+    "mustHave": [
+      "单人床",
+      "电脑桌",
+      "书架",
+      "沙发与桌子",
+      "报刊架",
+      "小厨房"
+    ],
+    "signature": [
+      "电脑桌",
+      "生活空间"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "center-right",
+      "evidenceZones": [
+        "电脑桌",
+        "桌面",
+        "报刊架",
+        "生活区域"
+      ]
+    },
+    "avoid": [
+      "阴暗犯罪现场风格",
+      "血迹或夸张破坏",
+      "人物直接画进背景"
+    ]
+  },
+  "sokaya": {
+    "name": "仙贝店",
+    "type": "shop",
+    "mood": [
+      "传统",
+      "日常",
+      "街坊感"
+    ],
+    "mustHave": [
+      "木质货架",
+      "袋装或盒装仙贝",
+      "玻璃展示柜",
+      "收银台",
+      "手写价签"
+    ],
+    "signature": [
+      "成排仙贝"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "counter-front"
+    },
+    "avoid": [
+      "高级旅游纪念品店风格",
+      "人物直接画进背景"
+    ]
+  },
+  "kiku": {
+    "name": "料亭",
+    "type": "shop",
+    "mood": [
+      "传统",
+      "安静",
+      "克制",
+      "有年代感"
+    ],
+    "mustHave": [
+      "木格栅",
+      "榻榻米或传统座席",
+      "障子或拉门",
+      "料理工作区域",
+      "暖黄灯光"
+    ],
+    "signature": [
+      "木格栅",
+      "和式座席"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "right",
+      "secondaryNpcZone": "left"
+    },
+    "avoid": [
+      "现代高级酒店风格",
+      "背景关键物件被NPC完全遮挡",
+      "人物直接画进背景"
+    ]
+  },
+  "yanagisawa": {
+    "name": "陶瓷器店",
+    "type": "shop",
+    "mood": [
+      "老店",
+      "整齐",
+      "略显拥挤"
+    ],
+    "mustHave": [
+      "木质开放货架",
+      "碗",
+      "杯",
+      "盘",
+      "白瓷",
+      "青花瓷",
+      "土色陶器",
+      "柜台",
+      "包装区域"
+    ],
+    "signature": [
+      "满墙陶器"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "counter-front",
+      "clueZone": "daily-goods-area"
+    },
+    "avoid": [
+      "现代精品画廊风",
+      "把厨剪做成过度显眼的任务物件",
+      "人物直接画进背景"
+    ]
+  },
+  "terada": {
+    "name": "钟表店",
+    "type": "shop",
+    "mood": [
+      "旧式",
+      "安静",
+      "时间感强"
+    ],
+    "mustHave": [
+      "不同尺寸挂钟",
+      "腕表柜台",
+      "老式座钟",
+      "维修桌",
+      "放大镜",
+      "维修工具"
+    ],
+    "signature": [
+      "满墙钟表"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "counter-front"
+    },
+    "avoid": [
+      "所有钟表时间完全一致",
+      "奢侈腕表专卖店风格",
+      "人物直接画进背景"
+    ]
+  },
+  "suitengu": {
+    "name": "水天宫",
+    "type": "special_location",
+    "mood": [
+      "安静",
+      "城市中的神社",
+      "带有期待感"
+    ],
+    "mustHave": [
+      "神社建筑",
+      "石板路",
+      "参拜区域",
+      "子宝犬铜像"
+    ],
+    "signature": [
+      "子宝犬铜像"
+    ],
+    "composition": {
+      "background": "fixed",
+      "signatureObjectZone": "foreground-mid",
+      "npcZone": "side"
+    },
+    "avoid": [
+      "把子宝犬做成巨大的任务标记",
+      "人物直接画进背景"
+    ]
+  },
+  "quattro": {
+    "name": "西饼店",
+    "type": "shop",
+    "mood": [
+      "明亮",
+      "年轻",
+      "柔和",
+      "现代一些"
+    ],
+    "mustHave": [
+      "玻璃甜点展示柜",
+      "蛋糕",
+      "泡芙",
+      "包装盒",
+      "纸袋",
+      "浅色木材"
+    ],
+    "signature": [
+      "玻璃蛋糕柜"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "counter-front"
+    },
+    "avoid": [
+      "传统和果子店风格",
+      "大型连锁咖啡店风格",
+      "人物直接画进背景"
+    ]
+  },
+  "chopstick-shop": {
+    "name": "樱花筷子",
+    "type": "shop",
+    "mood": [
+      "传统",
+      "生活化",
+      "家庭经营感"
+    ],
+    "mustHave": [
+      "木质筷子陈列墙",
+      "不同长度和纹样的筷子",
+      "成对摆放",
+      "小木盒",
+      "包装台"
+    ],
+    "signature": [
+      "成排筷子"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "counter-front"
+    },
+    "avoid": [
+      "把筷子主题做成夸张视觉符号",
+      "人物直接画进背景"
+    ]
+  },
+  "cleaning-company": {
+    "name": "保洁公司",
+    "type": "office",
+    "mood": [
+      "实用",
+      "朴素",
+      "公司感",
+      "案件转折"
+    ],
+    "mustHave": [
+      "办公桌",
+      "文件柜",
+      "电话",
+      "纸质文件",
+      "工作排班表",
+      "荧光灯"
+    ],
+    "signature": [
+      "文件与办公桌"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "desk-front"
+    },
+    "avoid": [
+      "大型现代企业总部风格",
+      "豪华办公室",
+      "人物直接画进背景"
+    ]
+  },
+  "craft": {
+    "name": "民间艺术品店",
+    "type": "shop",
+    "mood": [
+      "传统",
+      "温暖",
+      "物件丰富",
+      "多年累积感"
+    ],
+    "mustHave": [
+      "木雕",
+      "小型民艺摆件",
+      "陶器",
+      "编织物",
+      "木盒",
+      "旧家具"
+    ],
+    "signature": [
+      "木雕与民艺品"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "counter-front"
+    },
+    "avoid": [
+      "现代艺术画廊风",
+      "陈列过度整齐",
+      "人物直接画进背景"
+    ]
+  },
+  "nihonbashi-police-station": {
+    "name": "日本桥警署",
+    "type": "police_station",
+    "mood": [
+      "朴素",
+      "克制",
+      "实用",
+      "推理空间"
+    ],
+    "mustHave": [
+      "文件柜",
+      "办公桌",
+      "电话",
+      "调查板或白板",
+      "文件夹",
+      "荧光灯"
+    ],
+    "signature": [
+      "调查桌",
+      "文件柜"
+    ],
+    "composition": {
+      "background": "fixed",
+      "kagaZone": "left-or-center",
+      "uiSafeZone": "center-right"
+    },
+    "avoid": [
+      "美剧式大型war room",
+      "过多背景细节抢占UI空间",
+      "人物直接画进背景"
+    ]
+  },
+  "tamahide": {
+    "name": "玉秀",
+    "type": "shop",
+    "mood": [
+      "传统",
+      "温暖",
+      "老店感",
+      "日常餐馆"
+    ],
+    "mustHave": [
+      "日式鸡肉料理店内景",
+      "木质桌椅或柜台",
+      "暖色灯光",
+      "简洁传统店面元素"
+    ],
+    "signature": [
+      "鸡肉料理老店氛围"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "side-or-counter-front"
+    },
+    "avoid": [
+      "现代连锁快餐店风格",
+      "夸张高级怀石料理风格",
+      "人物直接画进背景"
+    ],
+    "storyBasis": "第七章关联地点；用于加贺与弘毅谈及烤鸡店、鸡蛋烧的场景。原著未确认店名即为玉秀。"
+  },
+  "kaiseiken": {
+    "name": "快生轩",
+    "type": "cafe",
+    "mood": [
+      "古色古香",
+      "安静",
+      "怀旧",
+      "大正时代老店感"
+    ],
+    "mustHave": [
+      "复古咖啡馆内景",
+      "深色木质桌椅",
+      "老式店内陈设",
+      "写有「大正八年创业」的店内或店头标识"
+    ],
+    "signature": [
+      "「大正八年创业」标识",
+      "复古咖啡馆氛围"
+    ],
+    "composition": {
+      "background": "fixed",
+      "npcZone": "side-or-table-front"
+    },
+    "avoid": [
+      "现代精品咖啡店风格",
+      "大型连锁咖啡店风格",
+      "人物直接画进背景"
+    ],
+    "storyBasis": "第七章关联地点；原著描述为古色古香、招牌写有「大正八年创业」的咖啡馆，未写出快生轩店名。"
+  }
+}

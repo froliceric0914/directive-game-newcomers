@@ -1,5 +1,5 @@
 {
-  "locationId": "mineko_apartment",
+  "locationId": "mineko-home",
   "name": "峰子公寓的证物",
 
   "ui": {
@@ -19,7 +19,7 @@
         "questions": ["田仓为什么来过峰子家？", "他离开峰子家后去了哪里？"]
       },
       "investigation": {
-        "locationId": "senbei_shop",
+        "locationId": "sokaya",
         "label": "仙贝店"
       },
       "after": {
@@ -41,7 +41,7 @@
         "questions": ["是谁买来的人形烧？", "为什么会出现在峰子的房间？"]
       },
       "investigation": {
-        "locationId": "restaurant",
+        "locationId": "kiku",
         "label": "料亭"
       },
       "after": {
@@ -67,7 +67,7 @@
         ]
       },
       "investigation": {
-        "locationId": "chapter3_investigation",
+        "locationId": "ubukeya",
         "label": "第三章调查地点"
       },
       "after": {
@@ -89,7 +89,7 @@
         "questions": ["六千三百元买的是什么？", "这封邮件是写给谁的？"]
       },
       "investigation": {
-        "locationId": "chapter3_investigation",
+        "locationId": "ubukeya",
         "label": "第三章调查地点"
       },
       "linkedEvidence": ["new_scissors"],
@@ -112,7 +112,7 @@
         "questions": ["她所说的广场在哪里？", "为什么峰子经常去那里？"]
       },
       "investigation": {
-        "locationId": "clock_shop",
+        "locationId": "benkei",
         "label": "钟表店"
       },
       "after": {
@@ -163,7 +163,7 @@
         ]
       },
       "investigation": {
-        "locationId": "chapter7_investigation",
+        "locationId": "kaiseiken",
         "label": "相关调查地点"
       },
       "after": {
