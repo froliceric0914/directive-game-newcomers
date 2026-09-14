@@ -44,17 +44,22 @@ public/                    Novel JSON, chapters/, and assets/
 
 Treat `data/*.json` as the source of truth for structured game data and `public/assets/` as the source of truth for images.
 
-After making changes, run:
+Development with all existing content accessible:
 
 ```sh
-node .openai/build.mjs
-python3 -m http.server 4173 --directory dist
+npm run dev
 ```
 
-Then open:
+Production build:
 
-```text
-http://127.0.0.1:4173/
+```sh
+npm run build
+```
+
+Local production preview:
+
+```sh
+npm run preview
 ```
 
 The build tooling regenerates the full `dist/` output from `src/`, `public/`, and `data/*.json`.

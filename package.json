@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "node .openai/build.mjs --dev && node .openai/serve.mjs",
+    "build": "node .openai/build.mjs",
+    "preview": "node .openai/serve.mjs"
+  }
+}
