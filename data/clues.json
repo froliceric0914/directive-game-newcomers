@@ -66,6 +66,33 @@
       "text": "狗在岔路口的迟疑，加上峰子提及的子宝犬铜像，都把散步路线指向水天宫。",
       "question": "玄一为什么隐瞒去水天宫的事？",
       "qualification": "隐瞒牵挂不等于隐瞒凶案。"
+    },
+    {
+      "id": "pregnant-misunderstanding",
+      "locationId": "quattro",
+      "type": "testimony",
+      "title": "被误认的女朋友",
+      "text": "峰子经常看着怀孕的美雪，但两人并不认识。",
+      "question": "峰子为什么会把注意力放在美雪身上？",
+      "qualification": "这解释峰子的误会，不是凶案结论。"
+    },
+    {
+      "id": "sakura-chopsticks",
+      "locationId": "ubukeya",
+      "type": "observation",
+      "title": "樱花夫妇筷",
+      "text": "峰子订下樱花图案的夫妇筷，准备送给即将结婚的朋友。",
+      "question": "这份未送出的礼物说明了什么？",
+      "qualification": "这解释峰子与朋友之间未能说出口的祝福。"
+    },
+    {
+      "id": "naohiro-finances",
+      "locationId": "cleaning-company",
+      "type": "testimony",
+      "title": "重新核对的旧账",
+      "text": "峰子重新要求核对离婚时的财产与公司旧账。",
+      "question": "谁长期掌握清濑公司的账目？",
+      "qualification": "账目关系需要由警方继续核实。"
     }
   ]
 }

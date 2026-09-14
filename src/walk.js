@@ -12,7 +12,6 @@ import {
 } from "./game-data.mjs";
 import {
   currentChapterNumber,
-  locationState,
   storyProgress,
   visibleEvidence,
 } from "./location-state.mjs";
@@ -35,7 +34,7 @@ const $ = (s) => document.querySelector(s),
     );
 const esc = escape;
 $("#app").innerHTML =
-  `<header class="header"><div class="brand-mark">新</div><div><h1>人形町散步</h1><p>在街道与书页之间</p></div><div class="header-end"><span class="edition">新参者 · 阅读漫游</span><button class="text-button" id="open-reading" aria-keyshortcuts="r">打开书页 <kbd>R</kbd></button></div></header><main><section class="map-panel"><div class="map-heading"><div><span class="eyebrow">NIHONBASHI · NINGYOCHO</span><h2>日本桥，人形町。</h2></div><div class="map-tools"><span class="map-tag">街区导览图</span><div class="zoom-controls" role="group" aria-label="地图缩放"><button id="zoom-out" aria-label="缩小地图" aria-keyshortcuts="-">−</button><output id="zoom-level" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大地图" aria-keyshortcuts="+ =">+</button></div></div></div><div class="map-scroll" tabindex="0" role="region" aria-label="人形町地图，长按方向键连续移动加贺警官"><div id="map"><div class="road vertical"></div><div class="road horizontal"></div><div class="street-label">甘 酒 横 丁</div><div class="north-label">↑ 小传马町方向</div><div class="east-label">滨町公园 →</div><div class="station">人形町站<span>出发点</span></div>${locations.map((l, i) => `<div class="shop ${l.npc ? "" : "landmark"}" data-shop="${l.id}" style="--x:${l.x};--y:${l.y};--w:${l.w};--h:${l.h}"><span class="shop-number">${String(i + 1).padStart(2, "0")}</span><strong>${l.name}</strong><small>${l.kind}</small></div><div class="entrance" style="--x:${l.door.x};--y:${l.door.y}" aria-label="${l.name}入口">${l.npc ? '<span class="npc" title="' + l.npc + '">店</span>' : "◇"}</div>`).join("")}<div id="player" aria-label="加贺警官"><img src="${portraitFor("kaga", "map")}" alt="" draggable="false"></div></div></div><div class="map-caption"><span><i class="legend player-key"></i>加贺 <i class="legend npc-key"></i>店家 <i class="legend road-key"></i>街道</span><span>依参考图绘制 · 非等比例</span></div><div class="walking-bar"><div><span class="eyebrow">正在漫游</span><p id="walking-place">人形町站</p><small id="walk-hint" role="status" aria-live="polite">沿街走近一家店。</small></div><div class="move-controls"><span class="keyboard-hint">长按方向键连续移动</span><div class="dpad">${[
+  `<header class="header"><div class="brand-mark">新</div><div><h1>人形町散步</h1><p>在街道与书页之间</p></div><div class="header-end"><span class="edition">新参者 · 阅读漫游</span><button class="text-button" id="open-reading" aria-keyshortcuts="r">打开书页 <kbd>R</kbd></button></div></header><main><section class="map-panel"><div class="map-heading"><div><span class="eyebrow">NIHONBASHI · NINGYOCHO</span><h2>日本桥，人形町。</h2></div><div class="map-tools"><span class="map-tag">街区导览图</span><div class="zoom-controls" role="group" aria-label="地图缩放"><button id="zoom-out" aria-label="缩小地图" aria-keyshortcuts="-">−</button><output id="zoom-level" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大地图" aria-keyshortcuts="+ =">+</button></div></div></div><div class="map-scroll" tabindex="0" role="region" aria-label="人形町地图，长按方向键连续移动加贺警官"><div id="map"><div class="road vertical"></div><div class="road horizontal"></div><div class="street-label">甘 酒 横 丁</div><div class="north-label">↑ 小传马町方向</div><div class="east-label">滨町公园 →</div><div class="station">人形町站<span>出发点</span></div>${locations.map((l) => `<div class="shop ${l.npc ? "" : "landmark"}" data-shop="${l.id}" style="--x:${l.x};--y:${l.y};--w:${l.w};--h:${l.h}"><span class="shop-number">${String(l.trackerOrder ?? "").padStart(2, "0")}</span><strong>${l.name}</strong><small>${l.kind}</small></div><div class="entrance" style="--x:${l.door.x};--y:${l.door.y}" aria-label="${l.name}入口">${l.npc ? '<span class="npc" title="' + l.npc + '">店</span>' : "◇"}</div>`).join("")}<div id="player" aria-label="加贺警官"><img src="${portraitFor("kaga", "map")}" alt="" draggable="false"></div></div></div><div class="map-caption"><span><i class="legend player-key"></i>加贺 <i class="legend npc-key"></i>店家 <i class="legend road-key"></i>街道</span><span>依参考图绘制 · 非等比例</span></div><div class="walking-bar"><div><span class="eyebrow">正在漫游</span><p id="walking-place">人形町站</p><small id="walk-hint" role="status" aria-live="polite">沿街走近一家店。</small></div><div class="move-controls"><span class="keyboard-hint">长按方向键连续移动</span><div class="dpad">${[
     [0, -1, "↑", "上"],
     [-1, 0, "←", "左"],
     [0, 1, "↓", "下"],
@@ -155,18 +154,6 @@ let selectedReview = null,
   reviewChapterScroll = 0,
   archiveFilter = "all",
   evidenceTab = "current";
-const investigationChapterByLocation = {};
-for (const chapter of suspectReview.chapters) {
-  const number = Number(chapter.chapterId.slice(2));
-  const place = locations.find(
-    (item) =>
-      item.npc &&
-      item.reading?.kind === "story" &&
-      item.reading.chapterIds.includes(number),
-  );
-  if (place && !investigationChapterByLocation[place.id])
-    investigationChapterByLocation[place.id] = number;
-}
 const chapterLabelExceptions = { ch06: "樱花筷子", ch09: "日本桥警署" };
 const storyNodes = suspectReview.chapters.map((chapter, index) => ({
   id: chapter.chapterId,
@@ -174,10 +161,9 @@ const storyNodes = suspectReview.chapters.map((chapter, index) => ({
     chapterLabelExceptions[chapter.chapterId] ??
     chapter.title.replace(/的(?:女孩|小伙计|媳妇|狗|店员|社长|顾客|刑警)$/, ""),
   chapterId: index + 1,
-  locationId:
-    Object.keys(investigationChapterByLocation).find(
-      (id) => investigationChapterByLocation[id] === index + 1,
-    ) ?? null,
+  locationId: chapter.locationId ?? null,
+  linkedLocationIds: chapter.linkedLocationIds ?? [],
+  screen: chapter.screen ?? null,
 }));
 function storyStarted() {
   return (
@@ -283,24 +269,28 @@ function renderStoryProgress() {
 function stateForPlace(place) {
   if (isDevMode)
     return storyLocations.scenes[place.id] ? "active" : "ambient";
-  const chapter = investigationChapterByLocation[place.id];
-  const investigationStarted =
-      discoveredApartmentEvidence.has("insurance_material") ||
-      Object.keys(savedReviews).length > 0,
-    snapshot = storyProgress(
-      savedReviews,
-      investigationStarted,
-      suspectReview.chapters.length,
-    ),
-    currentChapter =
-      snapshot.currentChapter ??
-      (snapshot.complete ? suspectReview.chapters.length + 1 : 0);
-  return locationState({
-    chapter,
-    currentChapter,
-    review: savedReviews["ch" + String(chapter).padStart(2, "0")],
-    ambient: !chapter,
-  });
+  if (currentStoryNode()?.linkedLocationIds.includes(place.id)) return "active";
+  const completed = storyNodes
+    .filter(
+      (node) =>
+        node.linkedLocationIds.includes(place.id) && savedReviews[node.id],
+    )
+    .at(-1);
+  if (!completed) return "ambient";
+  return savedReviews[completed.id] === "clear"
+    ? "visited_cleared"
+    : "visited_suspect";
+}
+function chapterForPlace(place) {
+  if (!place) return null;
+  const current = currentStoryNode();
+  if (current?.linkedLocationIds.includes(place.id)) return current.chapterId;
+  return storyNodes
+    .filter(
+      (node) =>
+        node.linkedLocationIds.includes(place.id) && savedReviews[node.id],
+    )
+    .at(-1)?.chapterId;
 }
 function renderMapStates() {
   const labels = {
@@ -376,8 +366,7 @@ function renderApartment() {
             investigated = !!choice,
             state = evidenceState(item),
             place = locations.find(
-              (entry) =>
-                investigationChapterByLocation[entry.id] === item.unlockChapter,
+              (entry) => entry.id === item.investigation.locationId,
             );
           return `<details class="evidence-card ${state}" data-evidence-card="${item.id}"><summary><i>${icons[item.type] ?? "证"}</i><div><small>第 ${item.unlockChapter} 章</small><h3>${escape(item.title)}</h3><p>${escape(item.before.summary)}</p></div><span>${state === "resolved" ? "已厘清" : "有疑点"}</span></summary><div class="evidence-detail"><strong>发现时的问题</strong><ul>${item.before.questions.map((question) => `<li>${escape(question)}</li>`).join("")}</ul>${investigated ? `<div class="investigation-notes"><strong>调查备注</strong><ul>${item.after.details.map((detail) => `<li>${escape(detail)}</li>`).join("")}</ul><strong>加贺的判断</strong><p>${escape(item.after.result)}</p></div>` : ""}<p class="related-location">相关地点：${escape(item.investigation.label)}</p><div class="evidence-actions"><button data-evidence-read="${item.unlockChapter}">阅读全文</button>${place ? `<button class="primary" data-evidence-location="${item.unlockChapter}">前往相关地点</button>` : ""}</div></div></details>`;
         })
@@ -504,6 +493,8 @@ function nextChapterStep(id) {
 const scene = createVisit(reader, {
   stop,
   onClue: collectClue,
+  chapterForLocation: (id) =>
+    chapterForPlace(locations.find((place) => place.id === id)),
   onClose: () => {
     stop();
     if (activeScreen === "ningyocho") viewport.focus({ preventScroll: true });
@@ -582,6 +573,10 @@ function openStoryNode(node, preferMap = false) {
   if (!node) return;
   if (node.screen === "apartment") {
     showScreen("apartment");
+    return;
+  }
+  if (node.screen === "police") {
+    showScreen("police");
     return;
   }
   const place = locations.find((item) => item.id === node.locationId);
@@ -666,7 +661,7 @@ function update(message) {
     lastLocation = name;
     $("#location").textContent = name;
     $("#place-index").textContent = l
-      ? "地点 " + String(locations.indexOf(l) + 1).padStart(2, "0")
+      ? "故事地点 " + String(l.trackerOrder ?? "").padStart(2, "0")
       : "漫游途中";
     $("#place-description").textContent = l
       ? l.kind
@@ -712,9 +707,7 @@ function enterPlace(place) {
     return;
   }
   if (state === "visited_cleared") {
-    const id =
-        "ch" +
-        String(investigationChapterByLocation[place.id]).padStart(2, "0"),
+    const id = "ch" + String(chapterForPlace(place)).padStart(2, "0"),
       chapter = reviewById[id],
       choice = savedReviews[id];
     scene.openSummary(place, {
@@ -902,8 +895,11 @@ $("#apartment-screen").addEventListener("click", (event) => {
   const investigate = event.target.closest("[data-evidence-location]");
   if (!investigate) return;
   const chapter = Number(investigate.dataset.evidenceLocation),
+    evidence = minekoApartmentEvidence.evidence.find(
+      (item) => item.unlockChapter === chapter,
+    ),
     place = locations.find(
-      (item) => investigationChapterByLocation[item.id] === chapter,
+      (item) => item.id === evidence?.investigation.locationId,
     );
   if (!place) return;
   showScreen("ningyocho");

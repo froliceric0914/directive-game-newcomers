@@ -29,9 +29,12 @@
           "archiveAs": "doubt",
           "text": "田仓仍被保留为疑点人物。之后可以在警局重新审视他的行动时间。"
         }
-      }
+      },
+      "locationId": "sokaya",
+      "linkedLocationIds": [
+        "sokaya"
+      ]
     },
-
     {
       "chapterId": "ch02",
       "title": "料亭的小伙计",
@@ -61,9 +64,13 @@
           "archiveAs": "doubt",
           "text": "修平关于人形烧的最初说法仍然令人怀疑，暂时保留。"
         }
-      }
+      },
+      "locationId": "kiku",
+      "linkedLocationIds": [
+        "kiku",
+        "shigemori"
+      ]
     },
-
     {
       "chapterId": "ch03",
       "title": "陶瓷器店的媳妇",
@@ -97,9 +104,12 @@
       "newDoubt": {
         "id": "sakura_chopsticks",
         "text": "峰子为什么还特意寻找樱花纹样的夫妇筷？"
-      }
+      },
+      "locationId": "ubukeya",
+      "linkedLocationIds": [
+        "ubukeya"
+      ]
     },
-
     {
       "chapterId": "ch04",
       "title": "钟表店的狗",
@@ -133,9 +143,13 @@
       "newDoubt": {
         "id": "why_suitengu",
         "text": "真正值得追查的是：峰子为什么去了与安产和孩子有关的水天宫？"
-      }
+      },
+      "locationId": "benkei",
+      "linkedLocationIds": [
+        "benkei",
+        "suitengu"
+      ]
     },
-
     {
       "chapterId": "ch05",
       "title": "西饼店的店员",
@@ -167,9 +181,12 @@
           "text": "玩家仍认为峰子频繁观察美雪这一行为存在尚未解释之处。"
         }
       },
-      "majorConclusion": "峰子以为自己即将成为祖母。这解释了她关注美雪、育儿资料以及前往水天宫的行为。"
+      "majorConclusion": "峰子以为自己即将成为祖母。这解释了她关注美雪、育儿资料以及前往水天宫的行为。",
+      "locationId": "quattro",
+      "linkedLocationIds": [
+        "quattro"
+      ]
     },
-
     {
       "chapterId": "ch06",
       "title": "翻译家的朋友",
@@ -200,9 +217,12 @@
           "text": "两人死前确实发生过冲突，因此玩家选择暂时保留这一人物关系疑点。"
         }
       },
-      "resolveDoubt": "sakura_chopsticks"
+      "resolveDoubt": "sakura_chopsticks",
+      "locationId": "ubukeya",
+      "linkedLocationIds": [
+        "ubukeya"
+      ]
     },
-
     {
       "chapterId": "ch07",
       "title": "保洁公司的社长",
@@ -237,9 +257,14 @@
         "id": "kishida_yasaku",
         "name": "岸田要作",
         "reason": "调查公司关系后发现，岸田长期控制清濑公司的财务，并与峰子并不像他自己声称的那样陌生。"
-      }
+      },
+      "locationId": "cleaning-company",
+      "linkedLocationIds": [
+        "cleaning-company",
+        "tamahide",
+        "kaiseiken"
+      ]
     },
-
     {
       "chapterId": "ch08",
       "title": "民间艺术品店的顾客",
@@ -269,9 +294,12 @@
           "archiveAs": "doubt",
           "text": "继续怀疑岸田。重点疑点：失窃陀螺的来源、原装陀螺线的去向，以及案发日晚的时间空白。"
         }
-      }
+      },
+      "locationId": "craft",
+      "linkedLocationIds": [
+        "craft"
+      ]
     },
-
     {
       "chapterId": "ch09",
       "title": "日本桥的刑警",
@@ -302,7 +330,10 @@
           "text": "岸田的财务动机、与峰子的真实关系、作案时间空白以及陀螺线物证形成了能够相互支持的完整链条。"
         }
       },
-      "finalState": "confirmed"
+      "finalState": "confirmed",
+      "locationId": null,
+      "linkedLocationIds": [],
+      "screen": "police"
     }
   ]
 }

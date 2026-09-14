@@ -1,0 +1,1500 @@
+{
+  "version": 2,
+  "purpose": "Authoritative story/location/dialogue metadata for the game. Codex should consume this file instead of scanning the novel.",
+
+  "dialogueStateRules": {
+    "activeInvestigation": "Current chapter/objective actively points to this location. Kaga investigates and clue-related dialogue may occur.",
+    "visitedSuspicious": "Location has already been visited but the relevant person or question is still unresolved. Kaga may probe further, but previously granted clues must not be granted again.",
+    "visitedCleared": "The relevant suspicion has been resolved. Dialogue becomes casual, reflective, or relationship-oriented.",
+    "ambient": "No active investigation applies. Show ordinary neighborhood or NPC conversation. No clue, suspect, or progress changes."
+  },
+
+  "selectionRules": {
+    "avoidImmediateRepeat": true,
+    "preferUnseenDialogue": true,
+    "fallbackOrder": [
+      "activeInvestigation",
+      "visitedSuspicious",
+      "visitedCleared",
+      "ambient"
+    ],
+    "genericFallbackOnlyIfNoLocationDialogueExists": true
+  },
+
+  "locations": {
+    "sokaya": {
+      "id": "sokaya",
+      "name": "草加屋",
+      "kind": "仙贝店",
+      "chapterIds": [1],
+      "trackerOrder": 1,
+      "mapRequired": true,
+      "contentType": "investigation",
+      "characters": ["kaga", "naho", "takura"],
+      "storySummary": [
+        "峰子房间里的保险公司宣传册和田仓名片把调查引向田仓。",
+        "加贺在仙贝店核对田仓离开峰子住处后的行动。",
+        "这一章建立游戏的重要原则：人物说谎并不等于人物就是凶手。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "sokaya-active-01",
+            "participants": ["kaga", "naho"],
+            "lines": [
+              { "speaker": "kaga", "text": "那天这个男人来过店里吗？" },
+              { "speaker": "naho", "text": "来过。我记得他在店里待了一会儿。" },
+              { "speaker": "kaga", "text": "大概是什么时间？再仔细想想。" }
+            ]
+          },
+          {
+            "id": "sokaya-active-02",
+            "participants": ["kaga", "naho"],
+            "lines": [
+              { "speaker": "kaga", "text": "人的记忆有时会记住很奇怪的细节。" },
+              { "speaker": "naho", "text": "比如买了什么仙贝？" },
+              {
+                "speaker": "kaga",
+                "text": "或者他说过什么、在等谁。都可能有用。"
+              }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "sokaya-suspicious-01",
+            "participants": ["kaga", "naho"],
+            "lines": [
+              { "speaker": "naho", "text": "刑警先生，又是田仓先生的事？" },
+              { "speaker": "kaga", "text": "还有一点时间上的事情没完全对上。" },
+              { "speaker": "naho", "text": "原来还没有结束啊。" }
+            ]
+          },
+          {
+            "id": "sokaya-suspicious-02",
+            "participants": ["kaga", "naho"],
+            "lines": [
+              { "speaker": "kaga", "text": "你第一次说的已经很重要了。" },
+              { "speaker": "naho", "text": "那为什么还来？" },
+              { "speaker": "kaga", "text": "重要的证言，反而值得再确认一次。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "sokaya-cleared-01",
+            "participants": ["kaga", "naho"],
+            "lines": [
+              { "speaker": "naho", "text": "今天总不是来问人的吧？" },
+              { "speaker": "kaga", "text": "今天只是来买仙贝。" },
+              { "speaker": "naho", "text": "那我可要认真推荐了。" }
+            ]
+          },
+          {
+            "id": "sokaya-cleared-02",
+            "participants": ["kaga", "naho"],
+            "lines": [
+              { "speaker": "kaga", "text": "这条街上的店，我好像越来越熟了。" },
+              { "speaker": "naho", "text": "但最好别每次都是为了查案才来。" }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "sokaya-ambient-01",
+            "participants": ["shopkeeper", "customer"],
+            "lines": [
+              { "speaker": "customer", "text": "今天酱油味的还有吗？" },
+              { "speaker": "shopkeeper", "text": "刚烤好一批，在里面。" }
+            ]
+          },
+          {
+            "id": "sokaya-ambient-02",
+            "participants": ["customer_a", "customer_b"],
+            "lines": [
+              { "speaker": "customer_a", "text": "还是老味道。" },
+              { "speaker": "customer_b", "text": "所以才每次路过都要买。" }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "explicit"
+    },
+
+    "kikuya": {
+      "id": "kikuya",
+      "name": "菊家",
+      "kind": "料亭",
+      "chapterIds": [2],
+      "trackerOrder": 2,
+      "mapRequired": true,
+      "contentType": "investigation",
+      "characters": ["kaga", "shuhei"],
+      "storySummary": [
+        "峰子房间的人形烧把调查引向修平。",
+        "加贺追查人形烧从购买到最终出现在峰子房间的路径。",
+        "人形烧线最终属于重要的误导线索，而不是直接的杀人证据。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "kikuya-active-01",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              { "speaker": "kaga", "text": "这些人形烧，是你买的？" },
+              { "speaker": "shuhei", "text": "是。那天顺路买的。" },
+              {
+                "speaker": "kaga",
+                "text": "之后呢？它们为什么会到峰子女士那里？"
+              }
+            ]
+          },
+          {
+            "id": "kikuya-active-02",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              { "speaker": "kaga", "text": "我想再听一次人形烧转手的过程。" },
+              { "speaker": "shuhei", "text": "我已经说过了。" },
+              { "speaker": "kaga", "text": "顺序很重要。尤其是谁碰过盒子。" }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "kikuya-suspicious-01",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              { "speaker": "shuhei", "text": "你还怀疑我？" },
+              { "speaker": "kaga", "text": "我怀疑的是还没解释清楚的部分。" },
+              { "speaker": "shuhei", "text": "听起来没什么区别。" }
+            ]
+          },
+          {
+            "id": "kikuya-suspicious-02",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "还有一件事，我想知道你当时为什么没说。"
+              },
+              { "speaker": "shuhei", "text": "有些事跟杀人根本没有关系。" },
+              { "speaker": "kaga", "text": "那就让我确认它确实没有关系。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "kikuya-cleared-01",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              { "speaker": "shuhei", "text": "人形烧的事情总算过去了吧？" },
+              { "speaker": "kaga", "text": "至少你不用每次看见我都紧张。" },
+              { "speaker": "shuhei", "text": "这个恐怕还得习惯一阵。" }
+            ]
+          },
+          {
+            "id": "kikuya-cleared-02",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              { "speaker": "kaga", "text": "今天店里挺忙。" },
+              { "speaker": "shuhei", "text": "这才是我希望刑警看到的日常。" }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "kikuya-ambient-01",
+            "participants": ["staff", "customer"],
+            "lines": [
+              { "speaker": "staff", "text": "里面的席位已经准备好了。" },
+              { "speaker": "customer", "text": "今天还是老样子，麻烦你了。" }
+            ]
+          },
+          {
+            "id": "kikuya-ambient-02",
+            "participants": ["staff_a", "staff_b"],
+            "lines": [
+              { "speaker": "staff_a", "text": "二楼的客人快到了。" },
+              { "speaker": "staff_b", "text": "我去把茶准备好。" }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "explicit"
+    },
+
+    "yanagisawa-shop": {
+      "id": "yanagisawa-shop",
+      "name": "柳泽商店",
+      "kind": "陶瓷器店",
+      "chapterIds": [3],
+      "trackerOrder": 3,
+      "mapRequired": true,
+      "contentType": "investigation",
+      "characters": ["kaga", "maki"],
+      "storySummary": [
+        "峰子房间里出现一把仍未拆封的新厨剪。",
+        "峰子邮件中提到购买了一件价值六千三百元的物品。",
+        "加贺通过柳泽麻纪一线调查剪刀与邮件之间的关系。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "yanagisawa-active-01",
+            "participants": ["kaga", "maki"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "峰子女士说她买了一件六千三百元的东西。"
+              },
+              { "speaker": "maki", "text": "六千三百元……" },
+              { "speaker": "kaga", "text": "这个数字对你有印象吗？" }
+            ]
+          },
+          {
+            "id": "yanagisawa-active-02",
+            "participants": ["kaga", "maki"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "她明明已经有剪刀，为什么还要再买一把？"
+              },
+              { "speaker": "maki", "text": "也许她理解错了我的意思。" },
+              { "speaker": "kaga", "text": "我正想知道，她理解成了什么。" }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "yanagisawa-suspicious-01",
+            "participants": ["kaga", "maki"],
+            "lines": [
+              { "speaker": "maki", "text": "我跟案件真的没有关系。" },
+              { "speaker": "kaga", "text": "我知道剪刀不一定和案件有关。" },
+              { "speaker": "maki", "text": "那你还调查？" },
+              {
+                "speaker": "kaga",
+                "text": "因为峰子女士为什么买它，还没有完全解释清楚。"
+              }
+            ]
+          },
+          {
+            "id": "yanagisawa-suspicious-02",
+            "participants": ["kaga", "maki"],
+            "lines": [
+              { "speaker": "kaga", "text": "有时候误会本身也是一条线索。" },
+              { "speaker": "maki", "text": "哪怕只是买错了一把剪刀？" },
+              { "speaker": "kaga", "text": "尤其是这种小事。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "yanagisawa-cleared-01",
+            "participants": ["kaga", "maki"],
+            "lines": [
+              {
+                "speaker": "maki",
+                "text": "现在想起来，那把剪刀还真让人头疼。"
+              },
+              { "speaker": "kaga", "text": "小东西偶尔会把人带得很远。" }
+            ]
+          },
+          {
+            "id": "yanagisawa-cleared-02",
+            "participants": ["kaga", "maki"],
+            "lines": [
+              { "speaker": "kaga", "text": "今天不用谈剪刀。" },
+              { "speaker": "maki", "text": "那我终于可以认真招呼客人了。" }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "yanagisawa-ambient-01",
+            "participants": ["shopkeeper", "customer"],
+            "lines": [
+              { "speaker": "customer", "text": "这个杯子能单买吗？" },
+              {
+                "speaker": "shopkeeper",
+                "text": "当然。每一只纹样都有一点不同。"
+              }
+            ]
+          },
+          {
+            "id": "yanagisawa-ambient-02",
+            "participants": ["customer_a", "customer_b"],
+            "lines": [
+              { "speaker": "customer_a", "text": "这种店我能逛半天。" },
+              {
+                "speaker": "customer_b",
+                "text": "你最后还不是只买一个小碟子。"
+              }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "explicit"
+    },
+
+    "terada-clock-shop": {
+      "id": "terada-clock-shop",
+      "name": "寺田钟表店",
+      "kind": "钟表店",
+      "chapterIds": [4],
+      "trackerOrder": 4,
+      "mapRequired": true,
+      "contentType": "investigation",
+      "characters": ["kaga", "genichi"],
+      "storySummary": [
+        "峰子未写完的邮件提到在一个广场摸小狗时遇见钟表店老板。",
+        "加贺通过寺田玄一确认峰子曾经出现过的地点。",
+        "所谓小狗随后与水天宫的母子犬铜像联系起来。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "clock-active-01",
+            "participants": ["kaga", "genichi"],
+            "lines": [
+              { "speaker": "kaga", "text": "你见过三井峰子女士，对吧？" },
+              { "speaker": "genichi", "text": "见过。是在外面偶然碰到的。" },
+              { "speaker": "kaga", "text": "她当时正在摸一只“小狗”？" }
+            ]
+          },
+          {
+            "id": "clock-active-02",
+            "participants": ["kaga", "genichi"],
+            "lines": [
+              { "speaker": "kaga", "text": "我一直在找她邮件里说的那个广场。" },
+              { "speaker": "genichi", "text": "广场？" },
+              {
+                "speaker": "kaga",
+                "text": "也许她描述的地方，和我们想象的不一样。"
+              }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "clock-suspicious-01",
+            "participants": ["kaga", "genichi"],
+            "lines": [
+              {
+                "speaker": "genichi",
+                "text": "我已经把见到她的事情告诉你了。"
+              },
+              {
+                "speaker": "kaga",
+                "text": "现在我想确认的，是她为什么会在那里。"
+              }
+            ]
+          },
+          {
+            "id": "clock-suspicious-02",
+            "participants": ["kaga", "genichi"],
+            "lines": [
+              { "speaker": "kaga", "text": "你记得她当时看起来有什么不同吗？" },
+              { "speaker": "genichi", "text": "没有。很普通。" },
+              { "speaker": "kaga", "text": "普通有时就是最难解释的部分。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "clock-cleared-01",
+            "participants": ["kaga", "genichi"],
+            "lines": [
+              { "speaker": "genichi", "text": "那个“小狗”的谜总算解开了。" },
+              {
+                "speaker": "kaga",
+                "text": "峰子女士写得并没有错，只是我们先想错了。"
+              }
+            ]
+          },
+          {
+            "id": "clock-cleared-02",
+            "participants": ["kaga", "genichi"],
+            "lines": [
+              { "speaker": "kaga", "text": "老钟表总让人觉得时间走得慢一点。" },
+              {
+                "speaker": "genichi",
+                "text": "只是看起来慢。时间可从来不会等人。"
+              }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "clock-ambient-01",
+            "participants": ["shopkeeper", "customer"],
+            "lines": [
+              { "speaker": "customer", "text": "这只表每天都慢几分钟。" },
+              { "speaker": "shopkeeper", "text": "留下来吧，我替你看看。" }
+            ]
+          },
+          {
+            "id": "clock-ambient-02",
+            "participants": ["customer", "shopkeeper"],
+            "lines": [
+              { "speaker": "customer", "text": "现在还有人修这种旧表吗？" },
+              {
+                "speaker": "shopkeeper",
+                "text": "只要还有人舍不得扔，就有人修。"
+              }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "explicit"
+    },
+
+    "suitengu": {
+      "id": "suitengu",
+      "name": "水天宫",
+      "kind": "神社",
+      "chapterIds": [4, 5],
+      "trackerOrder": null,
+      "mapRequired": true,
+      "contentType": "story",
+      "characters": ["kaga", "hiroki"],
+      "storySummary": [
+        "峰子邮件中的“小狗”最终指向水天宫的母子犬铜像。",
+        "这一地点帮助解释峰子为什么频繁出现在与安产、育儿有关的地方。",
+        "水天宫与后续育儿杂志线索共同重建峰子生前的行动。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "suitengu-active-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "kaga", "text": "你母亲最近来过这里。" },
+              { "speaker": "hiroki", "text": "水天宫？为什么？" },
+              { "speaker": "kaga", "text": "这正是我想弄清楚的。" }
+            ]
+          },
+          {
+            "id": "suitengu-active-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "她邮件里提到的“小狗”，可能就在这里。"
+              },
+              { "speaker": "hiroki", "text": "你是说那座铜像？" },
+              { "speaker": "kaga", "text": "这样一来，那个“广场”也有答案了。" }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "suitengu-suspicious-01",
+            "participants": ["kaga"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "知道她来过这里还不够。重要的是，她为什么来。"
+              }
+            ]
+          },
+          {
+            "id": "suitengu-suspicious-02",
+            "participants": ["kaga"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "小狗、育儿杂志、水天宫……几件小事正在指向同一个方向。"
+              }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "suitengu-cleared-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "原来她那时候想的是这些。" },
+              {
+                "speaker": "kaga",
+                "text": "人离开以后，有些想法只能从留下的东西里慢慢看出来。"
+              }
+            ]
+          },
+          {
+            "id": "suitengu-cleared-02",
+            "participants": ["kaga"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "答案找到以后，这里又重新变回一座普通的神社了。"
+              }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "suitengu-ambient-01",
+            "participants": ["visitor_a", "visitor_b"],
+            "lines": [
+              { "speaker": "visitor_a", "text": "听说摸这里很灵验。" },
+              { "speaker": "visitor_b", "text": "那你也去试试。" }
+            ]
+          },
+          {
+            "id": "suitengu-ambient-02",
+            "participants": ["parent", "child"],
+            "lines": [
+              { "speaker": "child", "text": "妈妈，那只狗为什么是铜的？" },
+              { "speaker": "parent", "text": "因为很多人都会来摸它。" }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "explicit"
+    },
+
+    "quattro": {
+      "id": "quattro",
+      "name": "卡特罗西饼店",
+      "kind": "西饼店",
+      "chapterIds": [5],
+      "trackerOrder": 5,
+      "mapRequired": true,
+      "contentType": "investigation",
+      "characters": ["kaga", "miyuki"],
+      "storySummary": [
+        "峰子房间里的育儿杂志把调查引向北村美雪。",
+        "调查逐渐解释峰子为什么关注怀孕、育儿以及水天宫。",
+        "峰子对弘毅和美雪关系产生了自己的理解。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "quattro-active-01",
+            "participants": ["kaga", "miyuki"],
+            "lines": [
+              { "speaker": "kaga", "text": "你认识三井峰子女士吧？" },
+              { "speaker": "miyuki", "text": "认识。她来过店里。" },
+              {
+                "speaker": "kaga",
+                "text": "她有没有问过你一些关于孩子的事情？"
+              }
+            ]
+          },
+          {
+            "id": "quattro-active-02",
+            "participants": ["kaga", "miyuki"],
+            "lines": [
+              { "speaker": "kaga", "text": "她房间里有几本育儿杂志。" },
+              { "speaker": "miyuki", "text": "育儿杂志？" },
+              { "speaker": "kaga", "text": "我想知道，她是为了谁看的。" }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "quattro-suspicious-01",
+            "participants": ["kaga", "miyuki"],
+            "lines": [
+              { "speaker": "miyuki", "text": "峰子女士是不是误会了什么？" },
+              { "speaker": "kaga", "text": "我也在确认她当时究竟怎么想。" }
+            ]
+          },
+          {
+            "id": "quattro-suspicious-02",
+            "participants": ["kaga", "miyuki"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "有些误会并不会留下证据，只会留下行动。"
+              },
+              { "speaker": "miyuki", "text": "所以你才一直追她去了哪里？" },
+              { "speaker": "kaga", "text": "对。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "quattro-cleared-01",
+            "participants": ["kaga", "miyuki"],
+            "lines": [
+              { "speaker": "miyuki", "text": "她其实是在替别人高兴吧。" },
+              { "speaker": "kaga", "text": "我想，大概是。" }
+            ]
+          },
+          {
+            "id": "quattro-cleared-02",
+            "participants": ["kaga", "miyuki"],
+            "lines": [
+              { "speaker": "kaga", "text": "今天有什么推荐？" },
+              { "speaker": "miyuki", "text": "刑警先生终于问了一个普通问题。" }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "quattro-ambient-01",
+            "participants": ["customer", "staff"],
+            "lines": [
+              { "speaker": "customer", "text": "这个蛋糕今天还有吗？" },
+              { "speaker": "staff", "text": "只剩最后两个了。" }
+            ]
+          },
+          {
+            "id": "quattro-ambient-02",
+            "participants": ["customer_a", "customer_b"],
+            "lines": [
+              { "speaker": "customer_a", "text": "你不是说只买一个吗？" },
+              {
+                "speaker": "customer_b",
+                "text": "进西饼店之前说的话不能算数。"
+              }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "explicit"
+    },
+
+    "cleaning-company": {
+      "id": "cleaning-company",
+      "name": "清濑直弘的保洁公司",
+      "kind": "保洁公司",
+      "chapterIds": [7, 9],
+      "trackerOrder": 7,
+      "mapRequired": true,
+      "contentType": "investigation",
+      "characters": ["kaga", "naohiro", "yuri"],
+      "storySummary": [
+        "调查开始深入峰子离婚后的财产问题以及清濑公司的财务关系。",
+        "宫本祐理一度成为感情关系方面的调查对象。",
+        "随着感情线被逐步厘清，调查重点转向公司的金钱流向与财务管理。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "cleaning-active-01",
+            "participants": ["kaga", "naohiro"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "峰子女士离婚以后，又重新调查过你的财产。"
+              },
+              { "speaker": "naohiro", "text": "她为什么还要查这些？" },
+              { "speaker": "kaga", "text": "这正是我们正在确认的事情。" }
+            ]
+          },
+          {
+            "id": "cleaning-active-02",
+            "participants": ["kaga", "yuri"],
+            "lines": [
+              { "speaker": "kaga", "text": "公司里谁最清楚账目的事情？" },
+              {
+                "speaker": "yuri",
+                "text": "日常情况社长知道，但详细账务一直有人负责。"
+              },
+              { "speaker": "kaga", "text": "我想知道具体是谁。" }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "cleaning-suspicious-01",
+            "participants": ["kaga", "naohiro"],
+            "lines": [
+              { "speaker": "naohiro", "text": "警方还在怀疑我？" },
+              { "speaker": "kaga", "text": "有些问题已经解释了，还有些没有。" },
+              { "speaker": "naohiro", "text": "比如？" },
+              { "speaker": "kaga", "text": "钱。" }
+            ]
+          },
+          {
+            "id": "cleaning-suspicious-02",
+            "participants": ["kaga", "yuri"],
+            "lines": [
+              { "speaker": "yuri", "text": "你又来公司了。" },
+              {
+                "speaker": "kaga",
+                "text": "感情上的事情简单了一点，账上的事情却更复杂了。"
+              }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "cleaning-cleared-01",
+            "participants": ["kaga", "yuri"],
+            "lines": [
+              {
+                "speaker": "yuri",
+                "text": "至少你现在不会再问那些私人问题了吧？"
+              },
+              {
+                "speaker": "kaga",
+                "text": "只要没有新的理由，我也很愿意少问几个。"
+              }
+            ]
+          },
+          {
+            "id": "cleaning-cleared-02",
+            "participants": ["kaga", "naohiro"],
+            "lines": [
+              {
+                "speaker": "naohiro",
+                "text": "事情结束以后，公司还是得照常开。"
+              },
+              {
+                "speaker": "kaga",
+                "text": "大多数人的生活都是这样继续下去的。"
+              }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "cleaning-ambient-01",
+            "participants": ["employee_a", "employee_b"],
+            "lines": [
+              { "speaker": "employee_a", "text": "下午那栋楼临时加了一层。" },
+              { "speaker": "employee_b", "text": "我去重新排一下人手。" }
+            ]
+          },
+          {
+            "id": "cleaning-ambient-02",
+            "participants": ["employee", "yuri"],
+            "lines": [
+              { "speaker": "employee", "text": "这份确认单放这里可以吗？" },
+              { "speaker": "yuri", "text": "先放桌上，我等会儿看。" }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "explicit"
+    },
+
+    "kishida-tax-office": {
+      "id": "kishida-tax-office",
+      "name": "岸田税务事务所",
+      "kind": "税务事务所",
+      "chapterIds": [7, 9],
+      "trackerOrder": 9,
+      "mapRequired": true,
+      "contentType": "investigation",
+      "characters": ["kaga", "kishida"],
+      "storySummary": [
+        "峰子手机中保存有与岸田事务所联系的记录。",
+        "公司的财务问题最终把调查引向长期负责账目的岸田要作。",
+        "案发前来自公用电话的来电成为最终时间线中的核心证据之一。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "kishida-active-01",
+            "participants": ["kaga", "kishida"],
+            "lines": [
+              { "speaker": "kaga", "text": "峰子女士为什么联系你的事务所？" },
+              { "speaker": "kishida", "text": "我不清楚她具体想问什么。" },
+              { "speaker": "kaga", "text": "那我们就从她能接触到的账目开始。" }
+            ]
+          },
+          {
+            "id": "kishida-active-02",
+            "participants": ["kaga", "kishida"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "案发前，有人不用自己的手机给她打了电话。"
+              },
+              { "speaker": "kishida", "text": "这和我有什么关系？" },
+              { "speaker": "kaga", "text": "我还没有说和你有关系。" }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "kishida-suspicious-01",
+            "participants": ["kaga", "kishida"],
+            "lines": [
+              { "speaker": "kishida", "text": "刑警先生今天又想查哪一本账？" },
+              { "speaker": "kaga", "text": "今天想查的是时间。" }
+            ]
+          },
+          {
+            "id": "kishida-suspicious-02",
+            "participants": ["kaga", "kishida"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "账目可以重新整理，人的行动却没那么容易改。"
+              },
+              { "speaker": "kishida", "text": "你到底想说什么？" },
+              { "speaker": "kaga", "text": "等时间线完整以后再说。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "kishida-cleared-01",
+            "participants": ["office_staff_a", "office_staff_b"],
+            "lines": [
+              { "speaker": "office_staff_a", "text": "这些文件还要留多久？" },
+              {
+                "speaker": "office_staff_b",
+                "text": "先别动，等确认以后再整理。"
+              }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "kishida-ambient-01",
+            "participants": ["office_staff", "visitor"],
+            "lines": [
+              { "speaker": "visitor", "text": "我预约的是下午两点。" },
+              { "speaker": "office_staff", "text": "请稍等，我确认一下。" }
+            ]
+          },
+          {
+            "id": "kishida-ambient-02",
+            "participants": ["office_staff_a", "office_staff_b"],
+            "lines": [
+              { "speaker": "office_staff_a", "text": "这个数字又对不上。" },
+              { "speaker": "office_staff_b", "text": "先看看是不是录入错了。" }
+            ]
+          }
+        ]
+      },
+      "visual": {
+        "preferred": null,
+        "fallback": true,
+        "fallbackType": "office"
+      },
+      "sourceConfidence": "explicit"
+    },
+
+    "shigemori": {
+      "id": "shigemori",
+      "name": "人形烧店",
+      "kind": "人形烧店",
+      "chapterIds": [2],
+      "trackerOrder": null,
+      "mapRequired": true,
+      "contentType": "story",
+      "characters": ["kaga", "shuhei"],
+      "storySummary": [
+        "修平曾购买人形烧。",
+        "人形烧后来经过转手出现在峰子房间。",
+        "其中一个人形烧被加入芥末，由此进一步牵出赖子的行为。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "shigemori-active-01",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              { "speaker": "kaga", "text": "你买的是这一家的？" },
+              { "speaker": "shuhei", "text": "对。" },
+              { "speaker": "kaga", "text": "买了多少个？包装是什么样？" }
+            ]
+          },
+          {
+            "id": "shigemori-active-02",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "我想把这盒人形烧经过谁的手重新排一遍。"
+              },
+              { "speaker": "shuhei", "text": "连这个都要查？" },
+              { "speaker": "kaga", "text": "越普通的东西，越容易被忽略。" }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "shigemori-suspicious-01",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              { "speaker": "shuhei", "text": "又是人形烧？" },
+              {
+                "speaker": "kaga",
+                "text": "还有一个人的接触顺序没有解释清楚。"
+              }
+            ]
+          },
+          {
+            "id": "shigemori-suspicious-02",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              { "speaker": "shuhei", "text": "我已经记不清那么细了。" },
+              { "speaker": "kaga", "text": "那就从你确定记得的地方开始。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "shigemori-cleared-01",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              { "speaker": "shuhei", "text": "这回总不是来检查人形烧的吧？" },
+              { "speaker": "kaga", "text": "今天只是来买两个。" }
+            ]
+          },
+          {
+            "id": "shigemori-cleared-02",
+            "participants": ["kaga", "shuhei"],
+            "lines": [
+              {
+                "speaker": "shuhei",
+                "text": "以后我看到人形烧都要想起这件事。"
+              },
+              { "speaker": "kaga", "text": "至少这一次，它最后只是人形烧。" }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "shigemori-ambient-01",
+            "participants": ["shopkeeper", "customer"],
+            "lines": [
+              { "speaker": "customer", "text": "刚出炉的吗？" },
+              { "speaker": "shopkeeper", "text": "刚做好，小心烫。" }
+            ]
+          },
+          {
+            "id": "shigemori-ambient-02",
+            "participants": ["customer_a", "customer_b"],
+            "lines": [
+              { "speaker": "customer_a", "text": "你不是说只买两个？" },
+              { "speaker": "customer_b", "text": "两个是进门以前的计划。" }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "explicit"
+    },
+
+    "yoriko-hotel-bar": {
+      "id": "yoriko-hotel-bar",
+      "name": "赖子常去的酒吧",
+      "kind": "酒店地下酒吧",
+      "chapterIds": [2],
+      "trackerOrder": null,
+      "mapRequired": true,
+      "contentType": "story",
+      "characters": ["kaga", "yoriko"],
+      "storySummary": [
+        "赖子周六晚上会独自前往一家酒店地下一层的酒吧。",
+        "加贺在那里找到赖子并谈起人形烧。",
+        "芥末人形烧最终被解释为赖子的恶作剧，与杀人行为本身无关。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "yoriko-bar-active-01",
+            "participants": ["kaga", "yoriko"],
+            "lines": [
+              { "speaker": "yoriko", "text": "刑警先生连这里都找得到？" },
+              { "speaker": "kaga", "text": "找人是工作的一部分。" },
+              { "speaker": "yoriko", "text": "那今天又想问什么？" },
+              { "speaker": "kaga", "text": "人形烧。尤其是其中一个。" }
+            ]
+          },
+          {
+            "id": "yoriko-bar-active-02",
+            "participants": ["kaga", "yoriko"],
+            "lines": [
+              { "speaker": "kaga", "text": "有一个人形烧里的馅不太一样。" },
+              { "speaker": "yoriko", "text": "哪里不一样？" },
+              { "speaker": "kaga", "text": "里面多了一点芥末。" }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "yoriko-bar-suspicious-01",
+            "participants": ["kaga", "yoriko"],
+            "lines": [
+              { "speaker": "yoriko", "text": "你还是觉得我和命案有关？" },
+              {
+                "speaker": "kaga",
+                "text": "我觉得你还没有把人形烧的事全部说完。"
+              }
+            ]
+          },
+          {
+            "id": "yoriko-bar-suspicious-02",
+            "participants": ["kaga", "yoriko"],
+            "lines": [
+              { "speaker": "yoriko", "text": "有些事情说出来很丢脸。" },
+              { "speaker": "kaga", "text": "丢脸和犯罪，是两件完全不同的事。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "yoriko-bar-cleared-01",
+            "participants": ["kaga", "yoriko"],
+            "lines": [
+              { "speaker": "yoriko", "text": "今天不会再问芥末了吧？" },
+              { "speaker": "kaga", "text": "只要你别再往点心里放。" },
+              { "speaker": "yoriko", "text": "那得看对象是谁。" }
+            ]
+          },
+          {
+            "id": "yoriko-bar-cleared-02",
+            "participants": ["kaga", "yoriko"],
+            "lines": [
+              { "speaker": "yoriko", "text": "这里本来是我躲开熟人的地方。" },
+              { "speaker": "kaga", "text": "现在看来，不算特别成功。" }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "yoriko-bar-ambient-01",
+            "participants": ["bartender", "customer"],
+            "lines": [
+              { "speaker": "bartender", "text": "还是老样子？" },
+              { "speaker": "customer", "text": "嗯，今天不想换。" }
+            ]
+          },
+          {
+            "id": "yoriko-bar-ambient-02",
+            "participants": ["customer_a", "customer_b"],
+            "lines": [
+              { "speaker": "customer_a", "text": "地下的店反而比楼上安静。" },
+              { "speaker": "customer_b", "text": "所以我才喜欢这里。" }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": null, "fallback": true, "fallbackType": "bar" },
+      "sourceConfidence": "explicit",
+      "sourceNotes": "小说未给出正式酒吧店名。不要虚构现实店名。"
+    },
+
+    "hiroki-rehearsal-studio": {
+      "id": "hiroki-rehearsal-studio",
+      "name": "弘毅的剧团排练场",
+      "kind": "小剧团排练场",
+      "chapterIds": [5, 7, 9],
+      "trackerOrder": null,
+      "mapRequired": true,
+      "contentType": "story",
+      "characters": ["kaga", "hiroki", "uesugi"],
+      "storySummary": [
+        "弘毅所属的小剧团需要演员参与搭舞台、做道具以及排练。",
+        "峰子遇害后，加贺曾到排练场与弘毅谈峰子的行动。",
+        "案件结束后，加贺与上杉再次到排练场，弘毅当时暂时转向幕后工作。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "studio-active-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "kaga", "text": "你母亲最近常去水天宫。" },
+              { "speaker": "hiroki", "text": "她去那里做什么？" },
+              {
+                "speaker": "kaga",
+                "text": "我原本也不知道。现在有了一点线索。"
+              }
+            ]
+          },
+          {
+            "id": "studio-active-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "我以为自己很了解她。" },
+              { "speaker": "kaga", "text": "家人往往最容易这样想。" },
+              {
+                "speaker": "hiroki",
+                "text": "所以她搬来这里以后，我其实什么都不知道。"
+              }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "studio-suspicious-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "你还有事没告诉我？" },
+              {
+                "speaker": "kaga",
+                "text": "还有一些事情没确认。我不想先给你一个错误的答案。"
+              }
+            ]
+          },
+          {
+            "id": "studio-suspicious-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "你们总说再等等。" },
+              {
+                "speaker": "kaga",
+                "text": "因为越接近答案，越不能急着下结论。"
+              }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "studio-cleared-01",
+            "participants": ["kaga", "hiroki", "uesugi"],
+            "lines": [
+              { "speaker": "uesugi", "text": "你今天不上台？" },
+              { "speaker": "hiroki", "text": "暂时先做幕后。" },
+              { "speaker": "kaga", "text": "舞台又不会跑掉。" }
+            ]
+          },
+          {
+            "id": "studio-cleared-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              {
+                "speaker": "hiroki",
+                "text": "等我觉得自己够好了，再重新站上去。"
+              },
+              {
+                "speaker": "kaga",
+                "text": "能知道自己还差在哪里，已经不算坏事。"
+              }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "studio-ambient-01",
+            "participants": ["actor_a", "actor_b"],
+            "lines": [
+              { "speaker": "actor_a", "text": "第三场再从入口重来一次。" },
+              { "speaker": "actor_b", "text": "等我先把道具摆回去。" }
+            ]
+          },
+          {
+            "id": "studio-ambient-02",
+            "participants": ["actor", "staff"],
+            "lines": [
+              { "speaker": "actor", "text": "灯光怎么又偏了？" },
+              { "speaker": "staff", "text": "因为你刚才自己把位置挪了。" }
+            ]
+          }
+        ]
+      },
+      "visual": {
+        "preferred": null,
+        "fallback": true,
+        "fallbackType": "theatre-rehearsal"
+      },
+      "sourceConfidence": "explicit"
+    },
+
+    "kaiseiken": {
+      "id": "kaiseiken",
+      "name": "快生轩",
+      "kind": "复古咖啡店",
+      "chapterIds": [7],
+      "trackerOrder": null,
+      "mapRequired": true,
+      "contentType": "related-story",
+      "characters": ["kaga", "hiroki"],
+      "storySummary": [
+        "第七章相关调查中出现古色古香的老咖啡馆。",
+        "场景带有“大正八年创业”的老店信息。",
+        "该地图地点可承载第七章弘毅及清濑家调查线附近的故事互动。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "kaiseiken-active-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "你母亲搬来以后，和你见面的次数多吗？"
+              },
+              { "speaker": "hiroki", "text": "没有我现在希望的那么多。" },
+              {
+                "speaker": "kaga",
+                "text": "我想把她最后这段时间的行动重新拼起来。"
+              }
+            ]
+          },
+          {
+            "id": "kaiseiken-active-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "你为什么连这种小地方也要查？" },
+              {
+                "speaker": "kaga",
+                "text": "因为一个人的生活，本来就是由这些小地方组成的。"
+              }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "kaiseiken-suspicious-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "还有什么地方对不上？" },
+              {
+                "speaker": "kaga",
+                "text": "她来这里以后的生活，我们仍然只知道一部分。"
+              }
+            ]
+          },
+          {
+            "id": "kaiseiken-suspicious-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              {
+                "speaker": "kaga",
+                "text": "有时候先把案件放一边，反而更容易看清一个人。"
+              },
+              { "speaker": "hiroki", "text": "你是在说我母亲？" },
+              { "speaker": "kaga", "text": "也是在说所有被留下的人。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "kaiseiken-cleared-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "这种老店她大概会喜欢。" },
+              { "speaker": "kaga", "text": "我也这么觉得。" }
+            ]
+          },
+          {
+            "id": "kaiseiken-cleared-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "今天不谈案子？" },
+              { "speaker": "kaga", "text": "咖啡凉以前不谈。" }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "kaiseiken-ambient-01",
+            "participants": ["staff", "customer"],
+            "lines": [
+              { "speaker": "customer", "text": "这里好像一直都没怎么变。" },
+              { "speaker": "staff", "text": "老客人都这么说。" }
+            ]
+          },
+          {
+            "id": "kaiseiken-ambient-02",
+            "participants": ["customer_a", "customer_b"],
+            "lines": [
+              { "speaker": "customer_a", "text": "招牌上写的是大正八年？" },
+              { "speaker": "customer_b", "text": "难怪店里像停在以前一样。" }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "related",
+      "sourceNotes": "原著支持老咖啡馆场景，但当前资料不足以证明小说明确写出店名“快生轩”。游戏可以使用现有地图名，但不要把现实店名包装成原著明确事实。"
+    },
+
+    "tamahide": {
+      "id": "tamahide",
+      "name": "玉秀",
+      "kind": "鸡肉料理店",
+      "chapterIds": [7],
+      "trackerOrder": null,
+      "mapRequired": true,
+      "contentType": "related-story",
+      "characters": ["kaga", "hiroki"],
+      "storySummary": [
+        "第七章调查线中存在鸡肉料理与鸡蛋烧相关的街区互动。",
+        "现有地图中的玉秀可以承载这类章节相关互动。",
+        "它不应该因为不属于当前 Tracker 目标而退化为空白地点。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "tamahide-active-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "kaga", "text": "先吃点东西吧。" },
+              { "speaker": "hiroki", "text": "你不是还有问题要问？" },
+              { "speaker": "kaga", "text": "问题不会跑，鸡蛋烧会凉。" }
+            ]
+          },
+          {
+            "id": "tamahide-active-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              {
+                "speaker": "hiroki",
+                "text": "你们刑警调查的时候都会这样到处吃吗？"
+              },
+              {
+                "speaker": "kaga",
+                "text": "只有该吃的时候。顺便也听听人说话。"
+              }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "tamahide-suspicious-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "你今天好像没什么问题。" },
+              { "speaker": "kaga", "text": "有。只是还没决定该不该现在问。" }
+            ]
+          },
+          {
+            "id": "tamahide-suspicious-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "这比直接问更让人紧张。" },
+              { "speaker": "kaga", "text": "那说明暂时不问是对的。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "tamahide-cleared-01",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "hiroki", "text": "你真的只是来吃东西？" },
+              { "speaker": "kaga", "text": "刑警也是要吃饭的。" }
+            ]
+          },
+          {
+            "id": "tamahide-cleared-02",
+            "participants": ["kaga", "hiroki"],
+            "lines": [
+              { "speaker": "kaga", "text": "今天这个比上次好。" },
+              { "speaker": "hiroki", "text": "原来你还会记这种事。" }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "tamahide-ambient-01",
+            "participants": ["staff", "customer"],
+            "lines": [
+              { "speaker": "staff", "text": "鸡蛋烧马上好，请稍等。" },
+              { "speaker": "customer", "text": "不急，我就是为了这个来的。" }
+            ]
+          },
+          {
+            "id": "tamahide-ambient-02",
+            "participants": ["customer_a", "customer_b"],
+            "lines": [
+              { "speaker": "customer_a", "text": "闻到这个味道就饿了。" },
+              {
+                "speaker": "customer_b",
+                "text": "所以我才不该带你从这里经过。"
+              }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "related",
+      "sourceNotes": "目前资料不足以证明小说明确把相关鸡肉料理店写成现实中的“玉秀”。保留为游戏地图关联地点，不要声称原著直接点名。"
+    },
+
+    "domeya": {
+      "id": "domeya",
+      "name": "童梦屋",
+      "kind": "民间艺术品店",
+      "chapterIds": [8],
+      "trackerOrder": null,
+      "mapRequired": true,
+      "contentType": "story",
+      "characters": ["kaga"],
+      "storySummary": [
+        "该地点属于当前项目已经存在的人形町地图地点。",
+        "当前资源不足以安全补充具体调查事实。",
+        "在补充更明确的章节数据以前，应保留地点并使用非剧透型互动，而不是错误绑定其他章节线索。"
+      ],
+      "dialogues": {
+        "activeInvestigation": [
+          {
+            "id": "domeya-active-01",
+            "participants": ["kaga", "shopkeeper"],
+            "lines": [
+              { "speaker": "kaga", "text": "我想问一个来过这里的客人。" },
+              {
+                "speaker": "shopkeeper",
+                "text": "每天客人不少。你有更具体的特征吗？"
+              },
+              { "speaker": "kaga", "text": "有。我们慢慢来。" }
+            ]
+          }
+        ],
+        "visitedSuspicious": [
+          {
+            "id": "domeya-suspicious-01",
+            "participants": ["kaga", "shopkeeper"],
+            "lines": [
+              { "speaker": "shopkeeper", "text": "还没有找到你要找的答案？" },
+              { "speaker": "kaga", "text": "找到了一些，但还不能放到一起。" }
+            ]
+          }
+        ],
+        "visitedCleared": [
+          {
+            "id": "domeya-cleared-01",
+            "participants": ["kaga", "shopkeeper"],
+            "lines": [
+              { "speaker": "shopkeeper", "text": "今天不用问客人的事？" },
+              { "speaker": "kaga", "text": "今天看看东西。" }
+            ]
+          },
+          {
+            "id": "domeya-cleared-02",
+            "participants": ["kaga", "shopkeeper"],
+            "lines": [
+              { "speaker": "kaga", "text": "这里每件东西都有点不一样。" },
+              {
+                "speaker": "shopkeeper",
+                "text": "手工做的东西，本来就不会完全一样。"
+              }
+            ]
+          }
+        ],
+        "ambient": [
+          {
+            "id": "domeya-ambient-01",
+            "participants": ["customer", "shopkeeper"],
+            "lines": [
+              { "speaker": "customer", "text": "这个是手工做的吗？" },
+              { "speaker": "shopkeeper", "text": "是，每一件都会有一点差别。" }
+            ]
+          },
+          {
+            "id": "domeya-ambient-02",
+            "participants": ["customer_a", "customer_b"],
+            "lines": [
+              { "speaker": "customer_a", "text": "这个摆在家里应该很好看。" },
+              { "speaker": "customer_b", "text": "你上次也是这么说的。" }
+            ]
+          }
+        ]
+      },
+      "visual": { "preferred": "existing", "fallback": true },
+      "sourceConfidence": "project-existing",
+      "sourceNotes": "当前已提供资料不足以安全生成 Chapter 8 的具体原著调查内容。activeInvestigation 暂时保持通用，不授予具体 clue，之后有更完整 source data 再替换。"
+    }
+  }
+}

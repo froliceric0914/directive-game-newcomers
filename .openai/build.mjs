@@ -11,6 +11,7 @@ const characterIds=new Set([...characterScope.v1Core,...characterScope.v1Primary
 const mapIds=new Set(data.locations.map.locations.map(location=>location.id));
 const clueIds=new Set(data.clues.entries.map(clue=>clue.id));
 for(const location of data.locations.map.locations)if(location.venueId&&!data.locations.venues[location.venueId])throw Error(`Unknown venue for map location ${location.id}: ${location.venueId}`);
+for(const chapter of data.suspectReview.chapters)if(chapter.locationId&&!mapIds.has(chapter.locationId))throw Error(`Unknown Tracker location for ${chapter.chapterId}: ${chapter.locationId}`);
 for(const [id,venue] of Object.entries(data.locations.venues)){
   if(venue.mapLocationId&&!mapIds.has(venue.mapLocationId))throw Error(`Unknown mapLocationId for ${id}: ${venue.mapLocationId}`);
   for(const npcId of venue.npcIds??[])if(!characterIds.has(npcId))throw Error(`Unknown venue NPC for ${id}: ${npcId}`);
@@ -23,6 +24,11 @@ for(const [id,scene] of Object.entries(data.locations.scenes)){
   if(!characterIds.has(scene.npcId))throw Error(`Unknown scene NPC for ${id}: ${scene.npcId}`);
   if(!clueIds.has(scene.clueId))throw Error(`Unknown scene clue for ${id}: ${scene.clueId}`);
   for(const [speaker] of scene.dialogue)if(!characterIds.has(speaker))throw Error(`Unknown dialogue speaker for ${id}: ${speaker}`);
+  for(const variant of Object.values(scene.chapterVariants??{})){
+    if(!characterIds.has(variant.npcId))throw Error(`Unknown variant NPC for ${id}: ${variant.npcId}`);
+    if(!clueIds.has(variant.clueId))throw Error(`Unknown variant clue for ${id}: ${variant.clueId}`);
+    for(const [speaker] of variant.dialogue)if(!characterIds.has(speaker))throw Error(`Unknown variant speaker for ${id}: ${speaker}`);
+  }
   if(!mapLocation)throw Error(`Scene has no map location: ${id}`);
   await access(new URL('public/'+scene.background,root));
 }
