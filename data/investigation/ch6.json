@@ -1,0 +1,316 @@
+{
+  "chapterId": 6,
+  "title": "翻译家的朋友",
+  "day": {
+    "playerCharacter": "kaga",
+    "locationId": "kaiseiken",
+    "activeConversation": {
+      "id": "ch6-tomoko-active",
+      "startNode": "arrival",
+      "characters": [
+        "kaga",
+        "tomoko"
+      ],
+      "nodes": [
+        {
+          "id": "arrival",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "tomoko",
+              "text": "我们最后一次见面，并不愉快。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "所以你才一直记着？"
+            },
+            {
+              "speaker": "tomoko",
+              "text": "朋友吵架以后，最容易记得的往往就是最后那几句话。"
+            }
+          ],
+          "choices": [
+            {
+              "id": "why_fight",
+              "label": "为什么吵架？",
+              "next": "fight"
+            },
+            {
+              "id": "how_long",
+              "label": "你们认识多久了？",
+              "next": "history"
+            },
+            {
+              "id": "apology",
+              "label": "她平时会先道歉吗？",
+              "next": "apology"
+            }
+          ]
+        },
+        {
+          "id": "history",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "tomoko",
+              "text": "很久。久到很多事已经不用解释。"
+            },
+            {
+              "speaker": "tomoko",
+              "text": "她这个人，一旦觉得自己是对的，就能一直说到你认输。"
+            },
+            {
+              "speaker": "tomoko",
+              "text": "可第二天又会若无其事地问你吃饭没有。"
+            }
+          ],
+          "next": "fight"
+        },
+        {
+          "id": "apology",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "tomoko",
+              "text": "她不太会说“对不起”。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "那会怎么做？"
+            },
+            {
+              "speaker": "tomoko",
+              "text": "带点东西来，或者装作什么都没发生。很讨厌吧。"
+            }
+          ],
+          "next": "fight"
+        },
+        {
+          "id": "fight",
+          "type": "memory",
+          "memoryId": "tomoko-argument",
+          "lines": [
+            {
+              "speaker": "tomoko",
+              "text": "她对我的婚事说了些不好听的话。"
+            },
+            {
+              "speaker": "tomoko",
+              "text": "我当时只觉得，她没有资格管我的生活。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "后来呢？"
+            },
+            {
+              "speaker": "tomoko",
+              "text": "后来就没有后来。"
+            }
+          ],
+          "next": "gift"
+        },
+        {
+          "id": "gift",
+          "type": "memory",
+          "memoryId": "unopened-blessing",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "峰子后来找过一双樱花纹样的夫妇筷。"
+            },
+            {
+              "speaker": "tomoko",
+              "text": "……夫妇筷？"
+            },
+            {
+              "speaker": "kaga",
+              "text": "像是准备送人的。"
+            },
+            {
+              "speaker": "tomoko",
+              "text": "她连道歉都要绕这么大一圈。"
+            }
+          ],
+          "next": "reflection"
+        },
+        {
+          "id": "reflection",
+          "type": "choice",
+          "prompt": "那双没有送出去的筷子，像什么？",
+          "choices": [
+            {
+              "id": "blessing",
+              "label": "她还是想祝福朋友",
+              "next": "gr1"
+            },
+            {
+              "id": "reconcile",
+              "label": "她准备和好",
+              "next": "gr2"
+            },
+            {
+              "id": "not_ready",
+              "label": "她还没想好怎么开口",
+              "next": "gr3"
+            }
+          ]
+        },
+        {
+          "id": "gr1",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "至少，她并没有把那场争执当成最后一句话。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "gr2",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "tomoko",
+              "text": "如果她真带来了，我大概还是会收下吧。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "gr3",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "tomoko",
+              "text": "这倒像她。什么都准备好了，话却留到最后。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "departure",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "tomoko",
+              "text": "刑警先生。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "嗯？"
+            },
+            {
+              "speaker": "tomoko",
+              "text": "如果那双筷子还在……别扔。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "不会。"
+            }
+          ],
+          "next": "complete"
+        },
+        {
+          "id": "complete",
+          "type": "complete",
+          "feedback": {
+            "title": "记住了一份没送出的礼物",
+            "memoryId": "unopened-blessing"
+          }
+        }
+      ],
+      "memories": [
+        {
+          "id": "tomoko-argument",
+          "importance": "supporting",
+          "title": "最后一次争执",
+          "text": "峰子和多美子最后一次见面时，因为婚事发生了争执。",
+          "showAtNight": true
+        },
+        {
+          "id": "unopened-blessing",
+          "importance": "chapter",
+          "title": "没送出去的樱花筷",
+          "text": "峰子后来寻找过樱花纹样的夫妇筷，像是在准备一份结婚礼物。",
+          "showAtNight": true
+        }
+      ]
+    }
+  },
+  "night": {
+    "policeStation": {
+      "intro": {
+        "title": "一天的调查结束了。",
+        "text": "有些道歉，从来不会写成“对不起”。"
+      },
+      "person": {
+        "id": "tomoko",
+        "name": "吉冈多美子",
+        "summary": "峰子的朋友。两人最后一次见面时发生过争执。"
+      },
+      "memoryCards": [
+        {
+          "memoryId": "tomoko-argument",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "unopened-blessing",
+          "requiresUnlocked": true
+        }
+      ],
+      "kagaNotes": [
+        {
+          "id": "note-1",
+          "text": "她们最后一次见面确实吵了架。"
+        },
+        {
+          "id": "note-2",
+          "text": "可峰子后来又找了一双樱花纹样的夫妇筷。"
+        },
+        {
+          "id": "note-3",
+          "text": "有些关系没有真正断掉，只是两个人都还没找到重新开口的方式。"
+        }
+      ],
+      "judgment": {
+        "prompt": "这份没有送出的礼物更像什么？",
+        "choices": [
+          {
+            "id": "blessing",
+            "label": "迟到的祝福",
+            "response": "至少，她仍然希望朋友过得好。"
+          },
+          {
+            "id": "reconcile",
+            "label": "准备和好",
+            "response": "也许礼物就是她准备迈出的第一步。"
+          },
+          {
+            "id": "unsaid",
+            "label": "一句还没说出口的话",
+            "response": "很像峰子。事情已经做了，话却还留着。"
+          }
+        ],
+        "continueLabel": "整理今晚的记录"
+      },
+      "resolution": {
+        "status": "cleared",
+        "label": "朋友之间的秘密已厘清",
+        "paragraphs": [
+          "峰子和多美子确实带着不愉快分别。",
+          "可她并没有准备让那场争执成为最后一次联系。",
+          "她找了一份礼物，或许只是还没决定什么时候送出去。",
+          "朋友之间有时候不缺心意，只缺一个重新开口的时机。"
+        ],
+        "finalLine": "没送出去的礼物，也曾经装着一个人想把关系重新拾起来的心意。"
+      },
+      "completion": {
+        "title": "DAY 06 COMPLETE",
+        "subtitle": "翻译家的朋友",
+        "actionLabel": "结束今天的调查",
+        "action": "return_to_investigation_hub"
+      }
+    }
+  }
+}

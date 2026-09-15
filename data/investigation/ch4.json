@@ -1,0 +1,369 @@
+{
+  "chapterId": 4,
+  "title": "钟表店的狗",
+  "day": {
+    "playerCharacter": "kaga",
+    "locationId": "terada-clock-shop",
+    "secondaryLocationId": "suitengu",
+    "activeConversation": {
+      "id": "ch4-clock-active",
+      "startNode": "arrival",
+      "characters": [
+        "kaga",
+        "genichi"
+      ],
+      "nodes": [
+        {
+          "id": "arrival",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "genichi",
+              "text": "又来了？我能说的上次都说了。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "人会记错。狗倒不一定。"
+            },
+            {
+              "speaker": "genichi",
+              "text": "你连狗都要问？"
+            }
+          ],
+          "choices": [
+            {
+              "id": "follow_dog",
+              "label": "让它带一次路吧",
+              "next": "walk"
+            },
+            {
+              "id": "ask_place",
+              "label": "你那天到底在哪里遇见峰子？",
+              "next": "place"
+            },
+            {
+              "id": "ask_daughter",
+              "label": "先问问你女儿的事",
+              "next": "daughter"
+            }
+          ]
+        },
+        {
+          "id": "daughter",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "genichi",
+              "text": "那和峰子的事没关系。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "我只是想知道，你为什么不愿意把那天的路线说清楚。"
+            },
+            {
+              "speaker": "genichi",
+              "text": "……家里的事，不想让外人多问。"
+            }
+          ],
+          "next": "walk"
+        },
+        {
+          "id": "place",
+          "type": "memory",
+          "memoryId": "meeting-place-not-told",
+          "lines": [
+            {
+              "speaker": "genichi",
+              "text": "我说过，是在附近。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "“附近”不是一个地点。"
+            },
+            {
+              "speaker": "genichi",
+              "text": "你真是麻烦。"
+            }
+          ],
+          "next": "walk"
+        },
+        {
+          "id": "walk",
+          "type": "choice",
+          "prompt": "狗在路口停了下来。",
+          "choices": [
+            {
+              "id": "park",
+              "label": "往公园方向看看",
+              "next": "wrong_route"
+            },
+            {
+              "id": "suitengu",
+              "label": "往水天宫方向走",
+              "next": "suitengu"
+            },
+            {
+              "id": "observe",
+              "label": "先观察它想往哪边走",
+              "next": "observe"
+            }
+          ]
+        },
+        {
+          "id": "wrong_route",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "genichi",
+              "text": "它平时不走这边。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "那就听它的。"
+            }
+          ],
+          "next": "suitengu"
+        },
+        {
+          "id": "observe",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "它一直看着那边。"
+            },
+            {
+              "speaker": "genichi",
+              "text": "水天宫。每天差不多都是这条路。"
+            }
+          ],
+          "next": "suitengu"
+        },
+        {
+          "id": "suitengu",
+          "type": "memory",
+          "memoryId": "koboinu",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "……小狗。"
+            },
+            {
+              "speaker": "genichi",
+              "text": "什么？"
+            },
+            {
+              "speaker": "kaga",
+              "text": "没什么。只是想起峰子女士邮件里的一句话。"
+            },
+            {
+              "speaker": "genichi",
+              "text": "那不是狗。那是子宝犬。"
+            }
+          ],
+          "next": "why_here"
+        },
+        {
+          "id": "why_here",
+          "type": "memory",
+          "memoryId": "why-suitengu",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "所以她说的“广场”，很可能就是这里。"
+            },
+            {
+              "speaker": "genichi",
+              "text": "她来过不止一次。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "问题是，她为什么来。"
+            }
+          ],
+          "next": "reflection"
+        },
+        {
+          "id": "reflection",
+          "type": "choice",
+          "prompt": "今天真正留下的问题是……",
+          "choices": [
+            {
+              "id": "genichi_lie",
+              "label": "寺田为什么说错地点",
+              "next": "rr1"
+            },
+            {
+              "id": "mineko_here",
+              "label": "峰子为什么来水天宫",
+              "next": "rr2"
+            },
+            {
+              "id": "both",
+              "label": "两个问题都先留下",
+              "next": "rr3"
+            }
+          ]
+        },
+        {
+          "id": "rr1",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "他的谎言也许在保护自己的家庭，但这还不是全部。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "rr2",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "我也更在意这个。峰子来这里，不像是偶然。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "rr3",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "好。一个是人的秘密，一个是峰子的心事。别混在一起。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "departure",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "genichi",
+              "text": "走够了吗？"
+            },
+            {
+              "speaker": "kaga",
+              "text": "是我走够了，还是它走够了？"
+            },
+            {
+              "speaker": "genichi",
+              "text": "你们刑警都这么爱绕弯子？"
+            }
+          ],
+          "next": "complete"
+        },
+        {
+          "id": "complete",
+          "type": "complete",
+          "feedback": {
+            "title": "记住了一个地点",
+            "memoryId": "why-suitengu"
+          }
+        }
+      ],
+      "memories": [
+        {
+          "id": "meeting-place-not-told",
+          "importance": "soft",
+          "title": "没有说清的相遇地点",
+          "text": "寺田没有一开始说清自己与峰子相遇的真正地点。",
+          "showAtNight": false
+        },
+        {
+          "id": "koboinu",
+          "importance": "supporting",
+          "title": "“小狗”不是狗",
+          "text": "邮件里的“小狗”很可能指水天宫的子宝犬铜像。",
+          "showAtNight": true
+        },
+        {
+          "id": "why-suitengu",
+          "importance": "chapter",
+          "title": "峰子为什么来水天宫？",
+          "text": "峰子曾多次来到与安产、生育有关的水天宫。",
+          "showAtNight": true
+        }
+      ]
+    }
+  },
+  "night": {
+    "policeStation": {
+      "intro": {
+        "title": "一天的调查结束了。",
+        "text": "一条散步路线，把峰子的脚步留在了地图上。"
+      },
+      "person": {
+        "id": "genichi",
+        "name": "寺田玄一",
+        "summary": "钟表店老板。没有一开始说清自己和峰子相遇的地点。"
+      },
+      "memoryCards": [
+        {
+          "memoryId": "koboinu",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "why-suitengu",
+          "requiresUnlocked": true
+        }
+      ],
+      "kagaNotes": [
+        {
+          "id": "note-1",
+          "text": "寺田确实说错了相遇地点。"
+        },
+        {
+          "id": "note-2",
+          "text": "但地点上的谎言，更像是在保护他自己的家庭。"
+        },
+        {
+          "id": "note-3",
+          "text": "真正没有解释的，是峰子为什么会一次次来到水天宫。"
+        }
+      ],
+      "judgment": {
+        "prompt": "今晚更值得继续追的是？",
+        "choices": [
+          {
+            "id": "terada",
+            "label": "寺田的谎言",
+            "response": "可以继续记着。不过，他的秘密和峰子的死亡之间还没有直接联系。"
+          },
+          {
+            "id": "mineko",
+            "label": "峰子的来意",
+            "response": "我也是。一个人反复去同一个地方，通常有她自己的理由。"
+          },
+          {
+            "id": "both",
+            "label": "两边都先留下",
+            "response": "好。只是别把别人的家庭秘密和峰子的心事混成一件事。"
+          }
+        ],
+        "continueLabel": "整理今晚的记录"
+      },
+      "resolution": {
+        "status": "open_question",
+        "label": "留下一个问题",
+        "paragraphs": [
+          "寺田没有一开始说清地点。",
+          "但那更像是一个家庭里的秘密。",
+          "峰子为什么来到水天宫，仍然没有答案。",
+          "这一次，真正留下来的不是嫌疑人，而是她生前的一段脚步。"
+        ],
+        "finalLine": "有时，狗记住的路，比人愿意说出口的更多。"
+      },
+      "completion": {
+        "title": "DAY 04 COMPLETE",
+        "subtitle": "钟表店的狗",
+        "actionLabel": "结束今天的调查",
+        "action": "return_to_investigation_hub"
+      }
+    }
+  }
+}

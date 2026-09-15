@@ -1,0 +1,112 @@
+{
+  "chapterId": 1,
+  "title": "仙贝店的女孩",
+  "memories": {
+    "gray-suit": {
+      "id": "gray-suit",
+      "title": "灰色西装",
+      "text": "菜穗记得田仓那天穿着合身的灰色正装。"
+    },
+    "senbei-jacket": {
+      "id": "senbei-jacket",
+      "title": "一件西装上衣",
+      "text": "菜穗确认：田仓到店时仍穿着西装上衣。"
+    }
+  },
+  "activeConversation": {
+    "startNode": "arrival",
+    "feedback": "记住了一个细节",
+    "nodes": {
+      "arrival": {
+        "type": "dialogue",
+        "lines": [
+          { "speaker": "kaga", "text": "关于田仓先生，我想再确认几件小事。" },
+          { "speaker": "naho", "text": "又是那天的事情吗？" }
+        ],
+        "next": "shop-sound"
+      },
+      "shop-sound": {
+        "type": "ambient",
+        "lines": [
+          { "speaker": "naho", "text": "店里和平常一样，大家都忙着招呼客人。" }
+        ],
+        "next": "first-question"
+      },
+      "first-question": {
+        "type": "choice",
+        "prompt": "从哪件小事问起？",
+        "choices": [
+          { "id": "clothes", "label": "先问他的衣着", "next": "clothes" },
+          { "id": "timing", "label": "先问他来店的时间", "next": "timing" }
+        ]
+      },
+      "clothes": {
+        "type": "dialogue",
+        "lines": [
+          { "speaker": "kaga", "text": "你说那天他的衣着和平时不太一样。" },
+          { "speaker": "naho", "text": "对。那天是灰色正装，上次来时是褐色的。" }
+        ],
+        "next": "gray-suit"
+      },
+      "timing": {
+        "type": "dialogue",
+        "lines": [
+          { "speaker": "kaga", "text": "他在店里待了多久，你还记得吗？" },
+          { "speaker": "naho", "text": "准确时间记不清了，可他的衣着我记得很清楚。" }
+        ],
+        "next": "gray-suit"
+      },
+      "gray-suit": {
+        "type": "memory",
+        "memoryId": "gray-suit",
+        "unlockMemory": "gray-suit",
+        "next": "family"
+      },
+      "family": {
+        "type": "dialogue",
+        "lines": [
+          { "speaker": "satoko", "text": "田仓先生是个守信用的人，不会做吓人的事。" },
+          { "speaker": "fumitaka", "text": "可他那天为什么不把行程说清楚呢？" },
+          { "speaker": "kaga", "text": "所以我才想把这些不起眼的细节重新摆在一起。" }
+        ],
+        "next": "second-question"
+      },
+      "second-question": {
+        "type": "choice",
+        "prompt": "继续确认哪一点？",
+        "choices": [
+          { "id": "jacket", "label": "他当时穿着上衣吗？", "next": "jacket" },
+          { "id": "memory", "label": "为什么会记得他的衣着？", "next": "remembering" }
+        ]
+      },
+      "remembering": {
+        "type": "dialogue",
+        "lines": [
+          { "speaker": "naho", "text": "那身正装很合身，所以我多看了一眼。" },
+          { "speaker": "kaga", "text": "正因为普通，才更值得记下来。" }
+        ],
+        "next": "jacket"
+      },
+      "jacket": {
+        "type": "dialogue",
+        "lines": [
+          { "speaker": "kaga", "text": "颜色先放在一边。当时，他穿着西装上衣吗？" },
+          { "speaker": "naho", "text": "穿着。我记得很清楚。" },
+          { "speaker": "kaga", "text": "谢谢你。这一点也许能让时间重新对上。" }
+        ],
+        "next": "senbei-jacket"
+      },
+      "senbei-jacket": {
+        "type": "memory",
+        "memoryId": "senbei-jacket",
+        "unlockMemory": "senbei-jacket",
+        "next": "complete"
+      },
+      "complete": {
+        "type": "complete",
+        "feedback": "记住了一个细节",
+        "actionLabel": "结束这次谈话"
+      }
+    }
+  }
+}

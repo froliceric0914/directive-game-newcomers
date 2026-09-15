@@ -1,0 +1,435 @@
+{
+  "chapterId": 7,
+  "title": "保洁公司的社长",
+  "day": {
+    "playerCharacter": "kaga",
+    "locationId": "cleaning-company",
+    "secondaryLocationId": "kishida-tax-office",
+    "activeConversation": {
+      "id": "ch7-cleaning-active",
+      "startNode": "arrival",
+      "characters": [
+        "kaga",
+        "naohiro",
+        "yuri",
+        "kishida"
+      ],
+      "nodes": [
+        {
+          "id": "arrival",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "naohiro",
+              "text": "峰子已经和我离婚了。她最近做什么，我并不清楚。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "可她最近又开始问财产的事。"
+            },
+            {
+              "speaker": "naohiro",
+              "text": "……所以你才来公司。"
+            }
+          ],
+          "choices": [
+            {
+              "id": "property",
+              "label": "问离婚后的财产问题",
+              "next": "property"
+            },
+            {
+              "id": "yuri",
+              "label": "问宫本祐理",
+              "next": "yuri"
+            },
+            {
+              "id": "hiroki",
+              "label": "问弘毅",
+              "next": "hiroki"
+            }
+          ]
+        },
+        {
+          "id": "yuri",
+          "type": "memory",
+          "memoryId": "naohiro-yuri-cleared",
+          "lines": [
+            {
+              "speaker": "yuri",
+              "text": "如果一起工作就算暧昧，那公司里大概每个人都有问题。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "峰子曾怀疑过你们。"
+            },
+            {
+              "speaker": "yuri",
+              "text": "我知道。但怀疑和事实不是一回事。"
+            }
+          ],
+          "next": "property"
+        },
+        {
+          "id": "hiroki",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "naohiro",
+              "text": "弘毅和他母亲的事，我插不上手。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "你们一家人很擅长说“那是别人的事”。"
+            },
+            {
+              "speaker": "naohiro",
+              "text": "也许这样比较省事。"
+            }
+          ],
+          "next": "property"
+        },
+        {
+          "id": "property",
+          "type": "memory",
+          "memoryId": "mineko-property-check",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "离婚已经结束，她为什么又找律师问财产？"
+            },
+            {
+              "speaker": "naohiro",
+              "text": "她大概还不相信我。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "公司账目是谁长期负责？"
+            },
+            {
+              "speaker": "naohiro",
+              "text": "岸田先生。很多年了。"
+            }
+          ],
+          "next": "finance"
+        },
+        {
+          "id": "finance",
+          "type": "memory",
+          "memoryId": "kishida-controls-finance",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "一直都是岸田？"
+            },
+            {
+              "speaker": "naohiro",
+              "text": "税务、账目、很多事情都交给他。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "峰子也认识他。"
+            },
+            {
+              "speaker": "naohiro",
+              "text": "当然。以前家里的事，他也知道不少。"
+            }
+          ],
+          "next": "tax_office"
+        },
+        {
+          "id": "tax_office",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "稍后，岸田税务事务所。"
+            },
+            {
+              "speaker": "kishida",
+              "text": "清濑先生公司的账一直很正常。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "我还没问账正不正常。"
+            },
+            {
+              "speaker": "kishida",
+              "text": "……职业习惯。"
+            }
+          ],
+          "choices": [
+            {
+              "id": "phone",
+              "label": "峰子为什么联系过事务所？",
+              "next": "office_call"
+            },
+            {
+              "id": "years",
+              "label": "你替清濑公司做了多少年账？",
+              "next": "years"
+            },
+            {
+              "id": "calm",
+              "label": "先聊聊峰子这个人",
+              "next": "mineko"
+            }
+          ]
+        },
+        {
+          "id": "years",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "kishida",
+              "text": "很多年。久到很多事不需要清濑先生亲自过问。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "这听起来像信任。"
+            },
+            {
+              "speaker": "kishida",
+              "text": "生意上没有信任，只有分工。"
+            }
+          ],
+          "next": "office_call"
+        },
+        {
+          "id": "mineko",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "kishida",
+              "text": "她很认真，也很固执。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "所以一旦决定查什么，就会查到底？"
+            },
+            {
+              "speaker": "kishida",
+              "text": "……大概吧。"
+            }
+          ],
+          "next": "office_call"
+        },
+        {
+          "id": "office_call",
+          "type": "memory",
+          "memoryId": "kishida-office-call",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "峰子的手机里，有和你事务所联系的记录。"
+            },
+            {
+              "speaker": "kishida",
+              "text": "她问过一些旧事。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "旧事有时候比新事更麻烦。"
+            },
+            {
+              "speaker": "kishida",
+              "text": "刑警先生，你到底想问什么？"
+            }
+          ],
+          "next": "reflection"
+        },
+        {
+          "id": "reflection",
+          "type": "choice",
+          "prompt": "调查开始从哪里发生变化？",
+          "choices": [
+            {
+              "id": "naohiro",
+              "label": "直弘和祐理的误会正在散开",
+              "next": "h1"
+            },
+            {
+              "id": "money",
+              "label": "公司的钱开始变得重要",
+              "next": "h2"
+            },
+            {
+              "id": "kishida",
+              "label": "岸田一直站在账目旁边",
+              "next": "h3"
+            }
+          ]
+        },
+        {
+          "id": "h1",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "对。越显眼的关系，反而越快有了答案。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "h2",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "从这里开始，钱不再只是离婚后的旧账。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "h3",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "而且站了很多年。这个位置值得重新看。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "departure",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "公司照常有人进出。清洁车停在门口，电话仍在响。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "越普通的日子，越容易把某些东西藏得很久。"
+            }
+          ],
+          "next": "complete"
+        },
+        {
+          "id": "complete",
+          "type": "complete",
+          "feedback": {
+            "title": "调查方向发生了变化",
+            "memoryId": "kishida-controls-finance"
+          }
+        }
+      ],
+      "memories": [
+        {
+          "id": "naohiro-yuri-cleared",
+          "importance": "supporting",
+          "title": "并不存在的婚外情",
+          "text": "直弘与宫本祐理之间没有峰子怀疑的婚外关系。",
+          "showAtNight": true
+        },
+        {
+          "id": "mineko-property-check",
+          "importance": "supporting",
+          "title": "峰子重新调查财产",
+          "text": "离婚结束后，峰子仍在重新咨询财产问题。",
+          "showAtNight": true
+        },
+        {
+          "id": "kishida-controls-finance",
+          "importance": "chapter",
+          "title": "长期掌握账目的岸田",
+          "text": "清濑公司的税务和账目长期由岸田负责。",
+          "showAtNight": true
+        },
+        {
+          "id": "kishida-office-call",
+          "importance": "chapter",
+          "title": "峰子联系过岸田事务所",
+          "text": "峰子被害前曾与岸田事务所发生联系。",
+          "showAtNight": true
+        }
+      ]
+    }
+  },
+  "night": {
+    "policeStation": {
+      "intro": {
+        "title": "一天的调查结束了。",
+        "text": "从今晚开始，街坊的小秘密慢慢退到一边。"
+      },
+      "person": {
+        "id": "kishida",
+        "name": "岸田要作",
+        "summary": "长期负责清濑公司账目与税务的人。峰子被害前曾重新接触到他的事务所。"
+      },
+      "memoryCards": [
+        {
+          "memoryId": "naohiro-yuri-cleared",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "mineko-property-check",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "kishida-controls-finance",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "kishida-office-call",
+          "requiresUnlocked": true
+        }
+      ],
+      "kagaNotes": [
+        {
+          "id": "note-1",
+          "text": "原本显眼的“前夫”和“秘书”正在退到一边。"
+        },
+        {
+          "id": "note-2",
+          "text": "峰子真正重新触碰到的，是清濑公司的财务。"
+        },
+        {
+          "id": "note-3",
+          "text": "而岸田的名字，一直安静地站在那些账目旁边。"
+        }
+      ],
+      "judgment": {
+        "prompt": "接下来更值得看什么？",
+        "choices": [
+          {
+            "id": "naohiro",
+            "label": "继续看直弘",
+            "response": "可以。但目前他身上最显眼的疑点已经得到不少解释。"
+          },
+          {
+            "id": "money",
+            "label": "看公司的钱",
+            "response": "我也是。钱不会说谎，只是人会替它安排很多说法。"
+          },
+          {
+            "id": "kishida",
+            "label": "看岸田和峰子的联系",
+            "response": "这条线从今天开始，不能再当成普通旧识来看。"
+          }
+        ],
+        "continueLabel": "整理今晚的记录"
+      },
+      "resolution": {
+        "status": "direction_shift",
+        "label": "调查方向转向财务线",
+        "paragraphs": [
+          "峰子重新调查财产，本来只是想弄清离婚后的旧事。",
+          "可她接触到的，并不只是一段已经结束的婚姻。",
+          "有些关系很吵，很容易被所有人看见。",
+          "有些关系却安静地藏在账本、电话和多年的信任里。"
+        ],
+        "finalLine": "从今晚开始，真正危险的东西第一次离峰子的生活这么近。"
+      },
+      "completion": {
+        "title": "DAY 07 COMPLETE",
+        "subtitle": "保洁公司的社长",
+        "actionLabel": "结束今天的调查",
+        "action": "return_to_investigation_hub"
+      }
+    }
+  }
+}

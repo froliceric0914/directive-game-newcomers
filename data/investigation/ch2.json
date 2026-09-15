@@ -1,0 +1,234 @@
+{
+  "chapterId": 2,
+  "title": "料亭的小伙计",
+
+  "day": {
+    "locationId": "kiku",
+    "activeConversation": {
+      "id": "ch2-kiku-active",
+      "startNode": "arrival",
+      "characters": ["kaga", "shuhei", "yoriko", "taiji"],
+      "nodes": [],
+      "memories": [
+        {
+          "id": "shuhei-evasive",
+          "importance": "soft",
+          "title": "没有马上说出口",
+          "text": "提到人形烧去向时，修平明显有所回避。",
+          "showAtNight": false
+        },
+        {
+          "id": "ningyoyaki-not-direct",
+          "importance": "supporting",
+          "title": "不是直接送给峰子的",
+          "text": "修平买下的人形烧并不是直接交给峰子的。",
+          "showAtNight": true
+        },
+        {
+          "id": "ningyoyaki-route",
+          "importance": "chapter",
+          "title": "被转送的人形烧",
+          "text": "人形烧先到了别人手里，后来才被转送给峰子。",
+          "showAtNight": true
+        }
+      ]
+    },
+    "optionalVisits": [
+      {
+        "id": "confirm-ningyoyaki-purchase",
+
+        "locationId": "shigemori",
+
+        "title": "确认人形烧的来处",
+
+        "availableAfterMemory": "ningyoyaki-not-direct",
+
+        "required": false,
+
+        "conversation": {
+          "startNode": "arrival",
+
+          "nodes": [
+            {
+              "id": "arrival",
+
+              "type": "dialogue",
+
+              "lines": [
+                {
+                  "speaker": "kaga",
+
+                  "text": "想确认一件事。这个年轻人最近来这里买过人形烧吗？"
+                },
+
+                {
+                  "speaker": "shop-clerk",
+
+                  "text": "照片上的人？……有印象。来买过。"
+                }
+              ],
+
+              "choices": [
+                {
+                  "id": "ask-when",
+
+                  "label": "大概什么时候？",
+
+                  "next": "confirm-time"
+                },
+
+                {
+                  "id": "ask-package",
+
+                  "label": "还记得他买的包装吗？",
+
+                  "next": "confirm-package"
+                }
+              ]
+            },
+
+            {
+              "id": "confirm-time",
+
+              "type": "dialogue",
+
+              "lines": [
+                {
+                  "speaker": "shop-clerk",
+
+                  "text": "具体时间记不准，不过应该就是前些日子。"
+                },
+
+                {
+                  "speaker": "kaga",
+
+                  "text": "够了。谢谢。"
+                }
+              ],
+
+              "next": "complete"
+            },
+
+            {
+              "id": "confirm-package",
+
+              "type": "dialogue",
+
+              "lines": [
+                {
+                  "speaker": "shop-clerk",
+
+                  "text": "普通的人形烧。这样的包装每天会卖出去不少。"
+                },
+
+                {
+                  "speaker": "kaga",
+
+                  "text": "也就是说，只凭包装认不出最后去了谁那里。"
+                }
+              ],
+
+              "next": "complete"
+            },
+
+            {
+              "id": "complete",
+
+              "type": "complete",
+
+              "feedback": {
+                "title": "确认了一件小事",
+
+                "text": "修平确实买过人形烧。"
+              },
+
+              "unlockMemory": "ningyoyaki-purchase-confirmed"
+            }
+          ]
+        }
+      }
+    ]
+  },
+
+  "night": {
+    "policeStation": {
+      "intro": {
+        "title": "一天的调查结束了。",
+        "text": "再看看那盒绕了一段路的人形烧。"
+      },
+
+      "person": {
+        "id": "shuhei",
+        "name": "佐佐木修平",
+        "summary": "松矢料亭的年轻学徒。买过出现在峰子房间里的人形烧，也没有一开始说清它的去向。"
+      },
+
+      "memoryCards": [
+        {
+          "memoryId": "ningyoyaki-not-direct",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "ningyoyaki-route",
+          "requiresUnlocked": true
+        }
+      ],
+
+      "kagaNotes": [
+        {
+          "id": "note-1",
+          "text": "修平确实隐瞒了人形烧的去向。"
+        },
+        {
+          "id": "note-2",
+          "text": "可这盒点心并不是由他直接交给峰子的。"
+        },
+        {
+          "id": "note-3",
+          "text": "一件东西出现在现场，并不能说明它一路只经过一个人的手。"
+        }
+      ],
+
+      "judgment": {
+        "prompt": "人形烧能直接把修平与案件连在一起吗？",
+        "choices": [
+          {
+            "id": "keep-suspicious",
+            "label": "仍然值得怀疑",
+            "response": "可以保留谨慎。不过，这盒点心已经经过了不止一个人。"
+          },
+          {
+            "id": "not-direct",
+            "label": "还不能直接联系",
+            "response": "嗯。知道谁买了它，还不等于知道谁把它带进了案件。"
+          },
+          {
+            "id": "trace-route",
+            "label": "想再看看它的去向",
+            "response": "我也这么想。礼物的路线，要一段一段确认。"
+          }
+        ],
+        "continueLabel": "整理今晚的记录"
+      },
+
+      "resolution": {
+        "status": "cleared",
+        "label": "排除嫌疑",
+        "paragraphs": [
+          "修平确实隐瞒了人形烧的去向。",
+          "可那盒点心经过别人手里，最后才到了峰子那里。",
+          "有时候，一件东西被递来递去，也会带着每个人不愿多说的理由。",
+          "要理解一个人，不能只问“他碰过什么”。"
+        ],
+        "finalLine": "人形町里，一份点心也有自己的来路。"
+      },
+
+      "completion": {
+        "title": "DAY 02 COMPLETE",
+        "subtitle": "料亭的小伙计",
+        "actionLabel": "结束今天的调查",
+        "action": "return_to_investigation_hub"
+      }
+    }
+  }
+}

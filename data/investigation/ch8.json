@@ -1,0 +1,333 @@
+{
+  "chapterId": 8,
+  "title": "民间艺术品店的顾客",
+  "day": {
+    "playerCharacter": "kaga",
+    "locationId": "domeya",
+    "activeConversation": {
+      "id": "ch8-domeya-active",
+      "startNode": "arrival",
+      "characters": [
+        "kaga",
+        "shopkeeper"
+      ],
+      "nodes": [
+        {
+          "id": "arrival",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "shopkeeper",
+              "text": "陀螺？现在还真有人为了这个特地来。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "我想看同一款的。"
+            },
+            {
+              "speaker": "shopkeeper",
+              "text": "同一款不难。难的是你想看哪一部分。"
+            }
+          ],
+          "choices": [
+            {
+              "id": "body",
+              "label": "比较陀螺本体",
+              "next": "body"
+            },
+            {
+              "id": "length",
+              "label": "比较绳的长度",
+              "next": "length"
+            },
+            {
+              "id": "weave",
+              "label": "比较绳的编法",
+              "next": "weave"
+            }
+          ]
+        },
+        {
+          "id": "body",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "shopkeeper",
+              "text": "本体几乎一样。木头、重量、形状都差不多。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "那差别不在陀螺。"
+            }
+          ],
+          "next": "weave"
+        },
+        {
+          "id": "length",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "shopkeeper",
+              "text": "长度有一点差，但不是关键。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "那关键是什么？"
+            }
+          ],
+          "next": "weave"
+        },
+        {
+          "id": "weave",
+          "type": "memory",
+          "memoryId": "spinning-top-string",
+          "lines": [
+            {
+              "speaker": "shopkeeper",
+              "text": "摸一下。左边是捻绳，右边是组绳。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "看起来很像。"
+            },
+            {
+              "speaker": "shopkeeper",
+              "text": "用起来可不一样。手会记得。"
+            }
+          ],
+          "next": "compare"
+        },
+        {
+          "id": "compare",
+          "type": "choice",
+          "prompt": "两根绳最重要的不同是？",
+          "choices": [
+            {
+              "id": "twist",
+              "label": "编法不同",
+              "next": "correct_compare"
+            },
+            {
+              "id": "color",
+              "label": "颜色略有不同",
+              "next": "retry_compare"
+            },
+            {
+              "id": "feel",
+              "label": "手感不一样",
+              "next": "correct_compare"
+            }
+          ]
+        },
+        {
+          "id": "retry_compare",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "shopkeeper",
+              "text": "颜色会变，编法不会骗人。再摸一下。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "明白了。"
+            }
+          ],
+          "next": "correct_compare"
+        },
+        {
+          "id": "correct_compare",
+          "type": "memory",
+          "memoryId": "missing-top",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "如果原本应该配捻绳，却出现了组绳……"
+            },
+            {
+              "speaker": "shopkeeper",
+              "text": "那就不是原来那根。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "而另一只同款陀螺又不见了。"
+            }
+          ],
+          "next": "reflection"
+        },
+        {
+          "id": "reflection",
+          "type": "choice",
+          "prompt": "这一次，细节没有像前几章那样散开。",
+          "choices": [
+            {
+              "id": "kishida",
+              "label": "继续怀疑岸田",
+              "next": "ir1"
+            },
+            {
+              "id": "more",
+              "label": "还需要更多证据",
+              "next": "ir2"
+            },
+            {
+              "id": "timeline",
+              "label": "把绳和时间线放在一起",
+              "next": "ir3"
+            }
+          ]
+        },
+        {
+          "id": "ir1",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "可以。只是从现在开始，每一步都要比前面更谨慎。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "ir2",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "当然。真正的案件，不会因为一个漂亮的细节就自动结束。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "ir3",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "我也是这么想的。物品只有放回时间里，才会开始说话。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "departure",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "shopkeeper",
+              "text": "要买一个吗？"
+            },
+            {
+              "speaker": "kaga",
+              "text": "今天不买。"
+            },
+            {
+              "speaker": "shopkeeper",
+              "text": "你们刑警总是看得比客人久，买得比客人少。"
+            }
+          ],
+          "next": "complete"
+        },
+        {
+          "id": "complete",
+          "type": "complete",
+          "feedback": {
+            "title": "这一次，疑点没有散开",
+            "memoryId": "spinning-top-string"
+          }
+        }
+      ],
+      "memories": [
+        {
+          "id": "spinning-top-string",
+          "importance": "chapter",
+          "title": "不同编法的陀螺绳",
+          "text": "同款陀螺上的绳并非同一种：捻绳与组绳存在差异。",
+          "showAtNight": true
+        },
+        {
+          "id": "missing-top",
+          "importance": "chapter",
+          "title": "失踪的另一只陀螺",
+          "text": "案发前后另有同款陀螺失窃，绳的差异因此变得重要。",
+          "showAtNight": true
+        }
+      ]
+    }
+  },
+  "night": {
+    "policeStation": {
+      "intro": {
+        "title": "一天的调查结束了。",
+        "text": "前几天的秘密都有了主人。只有今天的细节，还没有散开。"
+      },
+      "person": {
+        "id": "kishida",
+        "name": "岸田要作",
+        "summary": "财务线、时间线与物品细节开始逐渐向他靠近。"
+      },
+      "memoryCards": [
+        {
+          "memoryId": "spinning-top-string",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "missing-top",
+          "requiresUnlocked": true
+        }
+      ],
+      "kagaNotes": [
+        {
+          "id": "note-1",
+          "text": "前面那些奇怪的小事，最后大多都有普通的解释。"
+        },
+        {
+          "id": "note-2",
+          "text": "这一次，陀螺绳的差异却没有离开案件。"
+        },
+        {
+          "id": "note-3",
+          "text": "把它和失踪的陀螺、岸田的时间空白放在一起，疑点开始集中。"
+        }
+      ],
+      "judgment": {
+        "prompt": "今晚该怎么留下这个疑点？",
+        "choices": [
+          {
+            "id": "suspect",
+            "label": "继续怀疑岸田",
+            "response": "可以。这一次，怀疑已经不只是来自一个人的谎言。"
+          },
+          {
+            "id": "evidence",
+            "label": "还需要更多证据",
+            "response": "对。疑点集中不等于案件已经结束。"
+          },
+          {
+            "id": "timeline",
+            "label": "优先重建时间线",
+            "response": "我也是。物品和人，都必须放回案发那几个小时里。"
+          }
+        ],
+        "continueLabel": "整理今晚的记录"
+      },
+      "resolution": {
+        "status": "suspect_narrowed",
+        "label": "嫌疑开始集中",
+        "paragraphs": [
+          "前几章里，人们为了家人、朋友、工作和感情说过很多谎。",
+          "那些谎言最后都找到了自己的位置。",
+          "可这根绳还没有。",
+          "它没有把调查带离案件，反而把几个原本分开的疑点拉到了一起。"
+        ],
+        "finalLine": "前几天那些小小的秘密，最后都找到了各自的主人。只有这根绳，还没有。"
+      },
+      "completion": {
+        "title": "DAY 08 COMPLETE",
+        "subtitle": "民间艺术品店的顾客",
+        "actionLabel": "结束今天的调查",
+        "action": "return_to_investigation_hub"
+      }
+    }
+  }
+}

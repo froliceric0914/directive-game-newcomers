@@ -11,18 +11,19 @@
         "id": "kiku",
         "name": "菊家",
         "kind": "松矢料亭",
-        "x": 4,
+        "x": 7,
         "y": 3,
-        "w": 5,
+        "w": 3,
         "h": 4,
         "door": {
-          "x": 6,
+          "x": 8,
           "y": 7
         },
         "npc": "料亭店员",
         "venueId": "kiku",
         "visualKey": "kiku",
-        "trackerOrder": 2
+        "trackerOrder": 2,
+        "storyLocationId": "kikuya"
       },
       {
         "id": "ubukeya",
@@ -39,7 +40,8 @@
         "npc": "刀具店员",
         "venueId": "yanagisawa",
         "visualKey": "yanagisawa",
-        "trackerOrder": 3
+        "trackerOrder": 3,
+        "storyLocationId": "yanagisawa-shop"
       },
       {
         "id": "tamahide",
@@ -56,7 +58,8 @@
         "npc": "料理店员",
         "venueId": "tamahide",
         "visualKey": "tamahide",
-        "trackerOrder": 7
+        "trackerOrder": null,
+        "storyLocationId": "tamahide"
       },
       {
         "id": "kaiseiken",
@@ -73,7 +76,8 @@
         "npc": "咖啡店员",
         "venueId": "kaiseiken",
         "visualKey": "kaiseiken",
-        "trackerOrder": 7
+        "trackerOrder": null,
+        "storyLocationId": "kaiseiken"
       },
       {
         "id": "sokaya",
@@ -90,7 +94,8 @@
         "npc": "仙贝店员",
         "venueId": "sokaya",
         "visualKey": "sokaya",
-        "trackerOrder": 1
+        "trackerOrder": 1,
+        "storyLocationId": "sokaya"
       },
       {
         "id": "craft",
@@ -107,7 +112,8 @@
         "npc": "工艺品店员",
         "venueId": "craft",
         "visualKey": "craft",
-        "trackerOrder": 8
+        "trackerOrder": 8,
+        "storyLocationId": "domeya"
       },
       {
         "id": "benkei",
@@ -115,7 +121,7 @@
         "kind": "街边地标",
         "x": 25,
         "y": 12,
-        "w": 3,
+        "w": 4,
         "h": 3,
         "door": {
           "x": 26,
@@ -123,7 +129,8 @@
         },
         "venueId": "terada",
         "visualKey": "terada",
-        "trackerOrder": 4
+        "trackerOrder": 4,
+        "storyLocationId": "terada-clock-shop"
       },
       {
         "id": "shigemori",
@@ -140,7 +147,8 @@
         "npc": "点心店员",
         "venueId": "kiku",
         "visualKey": "kiku",
-        "trackerOrder": 2
+        "trackerOrder": null,
+        "storyLocationId": "shigemori"
       },
       {
         "id": "suitengu",
@@ -156,7 +164,8 @@
         },
         "venueId": "suitengu",
         "visualKey": "suitengu",
-        "trackerOrder": 4
+        "trackerOrder": null,
+        "storyLocationId": "suitengu"
       },
       {
         "id": "cleaning-company",
@@ -173,7 +182,9 @@
         "npc": "公司职员",
         "venueId": "cleaning-company",
         "visualKey": "cleaning-company",
-        "trackerOrder": 7
+        "trackerOrder": 7,
+        "mapArea": "kodemmacho",
+        "storyLocationId": "cleaning-company"
       },
       {
         "id": "quattro",
@@ -190,7 +201,61 @@
         "npc": "西饼店员",
         "venueId": "quattro",
         "visualKey": "quattro",
-        "trackerOrder": 5
+        "trackerOrder": 5,
+        "storyLocationId": "quattro"
+      },
+      {
+        "id": "kishida-tax-office",
+        "storyLocationId": "kishida-tax-office",
+        "name": "岸田税务事务所",
+        "kind": "税务事务所",
+        "x": 4,
+        "y": 18,
+        "w": 5,
+        "h": 3,
+        "door": {
+          "x": 9,
+          "y": 19
+        },
+        "npc": "税务事务所职员",
+        "venueId": "kishida-office",
+        "mapArea": "kodemmacho",
+        "trackerOrder": 9
+      },
+      {
+        "id": "yoriko-hotel-bar",
+        "storyLocationId": "yoriko-hotel-bar",
+        "name": "赖子常去的酒吧",
+        "kind": "酒店地下酒吧",
+        "x": 0,
+        "y": 3,
+        "w": 5,
+        "h": 4,
+        "door": {
+          "x": 2,
+          "y": 7
+        },
+        "npc": "酒吧客人",
+        "venueId": "yoriko-hotel-bar",
+        "trackerOrder": null
+      },
+      {
+        "id": "hiroki-rehearsal-studio",
+        "storyLocationId": "hiroki-rehearsal-studio",
+        "name": "弘毅的剧团排练场",
+        "kind": "剧团排练场",
+        "x": 4,
+        "y": 15,
+        "w": 5,
+        "h": 3,
+        "door": {
+          "x": 9,
+          "y": 16
+        },
+        "npc": "剧团成员",
+        "venueId": "hiroki-rehearsal-studio",
+        "mapArea": "kodemmacho",
+        "trackerOrder": null
       }
     ]
   },
@@ -279,7 +344,7 @@
     "kishida-office": {
       "id": "kishida-office",
       "name": "岸田税务师事务所",
-      "mapLocationId": null,
+      "mapLocationId": "kishida-tax-office",
       "source": "第七、九章",
       "npcIds": [
         "yasaku"
@@ -356,6 +421,26 @@
         "hiroki"
       ],
       "visualKey": "kaiseiken"
+    },
+    "yoriko-hotel-bar": {
+      "id": "yoriko-hotel-bar",
+      "name": "赖子常去的酒吧",
+      "kind": "酒店地下酒吧",
+      "mapLocationId": "yoriko-hotel-bar",
+      "source": "第二章",
+      "npcIds": [
+        "yoriko"
+      ]
+    },
+    "hiroki-rehearsal-studio": {
+      "id": "hiroki-rehearsal-studio",
+      "name": "弘毅的剧团排练场",
+      "kind": "剧团排练场",
+      "mapLocationId": "hiroki-rehearsal-studio",
+      "source": "第五、七、九章",
+      "npcIds": [
+        "hiroki"
+      ]
     }
   },
   "scenes": {
@@ -474,7 +559,7 @@
         ]
       ],
       "visualKey": "tamahide",
-      "background": "assets/locations/ryotei.png"
+      "background": "assets/locations/street.png"
     },
     "kaiseiken": {
       "npcId": "hiroki",
@@ -492,7 +577,7 @@
         ]
       ],
       "visualKey": "kaiseiken",
-      "background": "assets/locations/pastry-shop.png"
+      "background": "assets/locations/street.png"
     },
     "craft": {
       "npcId": "craft-owner",
@@ -535,7 +620,7 @@
       "npcRole": "料亭的小伙计",
       "curtain": "人形烧",
       "clueId": "ningyoyaki-route",
-      "background": "assets/locations/ryotei.png",
+      "background": "assets/locations/street.png",
       "dialogue": [
         [
           "kaga",

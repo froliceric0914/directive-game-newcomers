@@ -1,0 +1,386 @@
+{
+  "chapterId": 3,
+  "title": "陶瓷器店的媳妇",
+  "day": {
+    "playerCharacter": "kaga",
+    "locationId": "yanagisawa-shop",
+    "activeConversation": {
+      "id": "ch3-yanagisawa-active",
+      "startNode": "arrival",
+      "characters": [
+        "kaga",
+        "maki",
+        "suzue"
+      ],
+      "nodes": [
+        {
+          "id": "arrival",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "suzue",
+              "text": "欢迎光临。要找茶碗的话，里面还有一些。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "我今天不是来买陶器的。"
+            },
+            {
+              "speaker": "suzue",
+              "text": "来我们店的人，最后多少都会看两眼。"
+            }
+          ],
+          "choices": [
+            {
+              "id": "look_bowls",
+              "label": "看看柜台上的碗",
+              "next": "bowls"
+            },
+            {
+              "id": "ask_maki",
+              "label": "麻纪小姐在吗？",
+              "next": "maki_enters"
+            },
+            {
+              "id": "ask_daily",
+              "label": "老人家平时吃东西方便吗？",
+              "next": "daily_use"
+            }
+          ]
+        },
+        {
+          "id": "bowls",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "suzue",
+              "text": "这只轻一点，老人家用着不累。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "店里会替客人挑这些细节？"
+            },
+            {
+              "speaker": "suzue",
+              "text": "日用品嘛，顺手比漂亮更重要。"
+            }
+          ],
+          "next": "maki_enters"
+        },
+        {
+          "id": "daily_use",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "suzue",
+              "text": "年纪大了，肉和菜有时候得剪小一点。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "所以店里也会有人问剪刀？"
+            },
+            {
+              "speaker": "suzue",
+              "text": "这种事问麻纪更清楚。"
+            }
+          ],
+          "next": "maki_enters"
+        },
+        {
+          "id": "maki_enters",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "maki",
+              "text": "刑警先生，是峰子女士那把剪刀的事吧？"
+            },
+            {
+              "speaker": "kaga",
+              "text": "看来你已经猜到了。"
+            }
+          ],
+          "choices": [
+            {
+              "id": "why_scissors",
+              "label": "为什么是厨剪？",
+              "next": "why_scissors"
+            },
+            {
+              "id": "ask_price",
+              "label": "六千三百元是什么？",
+              "next": "price"
+            },
+            {
+              "id": "why_mineko",
+              "label": "峰子为什么替你买？",
+              "next": "favor"
+            }
+          ]
+        },
+        {
+          "id": "why_scissors",
+          "type": "memory",
+          "memoryId": "scissors-for-elder",
+          "lines": [
+            {
+              "speaker": "maki",
+              "text": "我本来是想找一把给老人剪食物用的剪刀。"
+            },
+            {
+              "speaker": "maki",
+              "text": "峰子女士听见以后，说她可以帮我找找。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "所以，她买那把剪刀不是为了自己。"
+            }
+          ],
+          "next": "price"
+        },
+        {
+          "id": "price",
+          "type": "memory",
+          "memoryId": "6300yen-match",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "峰子的邮件里写着：买了，六千三百元。"
+            },
+            {
+              "speaker": "maki",
+              "text": "那应该就是那把剪刀。价钱我记得。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "两个看起来无关的东西，原来是同一件事。"
+            }
+          ],
+          "next": "favor"
+        },
+        {
+          "id": "favor",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "maki",
+              "text": "她就是顺手帮忙。说下次来店里时带给我。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "只是这样？"
+            },
+            {
+              "speaker": "maki",
+              "text": "只是这样。"
+            }
+          ],
+          "next": "chopsticks"
+        },
+        {
+          "id": "chopsticks",
+          "type": "memory",
+          "memoryId": "sakura-chopsticks-question",
+          "lines": [
+            {
+              "speaker": "maki",
+              "text": "对了，她那天还问过一种筷子。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "什么样的？"
+            },
+            {
+              "speaker": "maki",
+              "text": "樱花纹样的。成对的。像是要送人的。"
+            }
+          ],
+          "next": "reflection"
+        },
+        {
+          "id": "reflection",
+          "type": "choice",
+          "prompt": "今天真正留下来的是什么？",
+          "choices": [
+            {
+              "id": "ordinary_purchase",
+              "label": "剪刀只是一次普通代购",
+              "next": "r1"
+            },
+            {
+              "id": "email_link",
+              "label": "邮件和剪刀终于对上了",
+              "next": "r2"
+            },
+            {
+              "id": "chopsticks",
+              "label": "更在意那双樱花筷",
+              "next": "r3"
+            }
+          ]
+        },
+        {
+          "id": "r1",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "嗯。看起来可疑的东西，也可能只是生活里的一件小事。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "r2",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "至少这条线索有了来处。接下来要看的是还没解释的部分。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "r3",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "我也是。剪刀解释清楚了，筷子却还在等一个主人。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "departure",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "suzue",
+              "text": "刑警先生，真的不带个茶杯走？"
+            },
+            {
+              "speaker": "kaga",
+              "text": "今天已经带走不少东西了。"
+            },
+            {
+              "speaker": "maki",
+              "text": "可那些都装不进袋子里吧。"
+            }
+          ],
+          "next": "complete"
+        },
+        {
+          "id": "complete",
+          "type": "complete",
+          "feedback": {
+            "title": "记住了两件事",
+            "memoryId": "sakura-chopsticks-question"
+          }
+        }
+      ],
+      "memories": [
+        {
+          "id": "scissors-for-elder",
+          "importance": "supporting",
+          "title": "给老人用的剪刀",
+          "text": "峰子买下的剪刀，本来是替麻纪寻找的老人食物剪。",
+          "showAtNight": true
+        },
+        {
+          "id": "6300yen-match",
+          "importance": "chapter",
+          "title": "六千三百元对上了",
+          "text": "邮件里的6300元，与峰子买下的剪刀价格对应。",
+          "showAtNight": true
+        },
+        {
+          "id": "sakura-chopsticks-question",
+          "importance": "chapter",
+          "title": "成对的樱花筷",
+          "text": "峰子还询问过一双樱花纹样的夫妇筷，像是准备送人。",
+          "showAtNight": true
+        }
+      ]
+    }
+  },
+  "night": {
+    "policeStation": {
+      "intro": {
+        "title": "一天的调查结束了。",
+        "text": "有些看起来奇怪的东西，只是普通生活留下的痕迹。"
+      },
+      "person": {
+        "id": "maki",
+        "name": "柳泽麻纪",
+        "summary": "峰子曾替她寻找适合老人剪食物用的剪刀。"
+      },
+      "memoryCards": [
+        {
+          "memoryId": "scissors-for-elder",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "6300yen-match",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "sakura-chopsticks-question",
+          "requiresUnlocked": true
+        }
+      ],
+      "kagaNotes": [
+        {
+          "id": "note-1",
+          "text": "新厨剪看起来突兀，但它有一个很普通的来处。"
+        },
+        {
+          "id": "note-2",
+          "text": "六千三百元的邮件，只是把这个来处补完整。"
+        },
+        {
+          "id": "note-3",
+          "text": "真正还没解释的，是峰子为什么在找一双成对的樱花筷。"
+        }
+      ],
+      "judgment": {
+        "prompt": "今晚更值得留下什么？",
+        "choices": [
+          {
+            "id": "scissors-cleared",
+            "label": "剪刀已经解释清楚",
+            "response": "嗯。它不再像刚发现时那么可疑。"
+          },
+          {
+            "id": "chopsticks",
+            "label": "更在意那双樱花筷",
+            "response": "我也是。没送出去的东西，往往更让人想知道原本要送给谁。"
+          },
+          {
+            "id": "both",
+            "label": "两件事都先记着",
+            "response": "也好。已经解释的和还没解释的，最好分开记。"
+          }
+        ],
+        "continueLabel": "整理今晚的记录"
+      },
+      "resolution": {
+        "status": "cleared",
+        "label": "剪刀线索已厘清",
+        "paragraphs": [
+          "峰子买那把剪刀，不是因为自己的厨房缺了什么。",
+          "她只是替别人找了一件顺手的日用品。",
+          "一件东西出现在案发现场，很容易立刻变得可疑。",
+          "可物品本身没有恶意，它只是跟着人的生活来到那里。"
+        ],
+        "finalLine": "有些东西来到一个人的房间，只因为她本来想替别人做件小事。"
+      },
+      "completion": {
+        "title": "DAY 03 COMPLETE",
+        "subtitle": "陶瓷器店的媳妇",
+        "actionLabel": "结束今天的调查",
+        "action": "return_to_investigation_hub"
+      }
+    }
+  }
+}

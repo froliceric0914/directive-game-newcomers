@@ -1,4 +1,4 @@
-![Development progress](docs/development-progress.svg)
+![Development progress — 80%](docs/development-progress.svg)
 
 [试玩已发布版本](https://shinzanmono-seven-days-wei.froliceric.chatgpt.site)
 

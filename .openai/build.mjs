@@ -2,15 +2,20 @@
 import {readFile,writeFile,cp,access,rm} from 'node:fs/promises';
 const root=new URL('../',import.meta.url);
 const isDevMode=process.argv.includes('--dev');
-const names=['characters','relationships','clues','locations','phases','suspectReview','minekoApartmentEvidence','chapterEndReviews'];
+const files={characters:'characters',relationships:'relationships',clues:'clues',locations:'locations',phases:'phases',suspectReview:'suspectReview',minekoApartmentEvidence:'minekoApartmentEvidence',chapterEndReviews:'chapterEndReviews',storyLocations:'story-locations'};
+const names=Object.keys(files);
 const data={};
-for(const name of names)data[name]=JSON.parse(await readFile(new URL(`data/${name}.json`,root),'utf8'));
+for(const name of names)data[name]=JSON.parse(await readFile(new URL(`data/${files[name]}.json`,root),'utf8'));
+data.ch1Day=JSON.parse(await readFile(new URL('src/data/investigation/ch1/day.json',root),'utf8'));
+data.ch1Night=JSON.parse(await readFile(new URL('src/data/investigation/ch1/night.json',root),'utf8'));
+names.push('ch1Day','ch1Night');
 const locationVisuals=JSON.parse(await readFile(new URL('data/location-visuals.json',root),'utf8'));
 const characterScope=JSON.parse(await readFile(new URL('data/character-scope.json',root),'utf8'));
 const characterIds=new Set([...characterScope.v1Core,...characterScope.v1PrimaryNpc,...characterScope.v2Secondary].map(character=>character.id));
 const mapIds=new Set(data.locations.map.locations.map(location=>location.id));
 const clueIds=new Set(data.clues.entries.map(clue=>clue.id));
 for(const location of data.locations.map.locations)if(location.venueId&&!data.locations.venues[location.venueId])throw Error(`Unknown venue for map location ${location.id}: ${location.venueId}`);
+for(const location of Object.values(data.storyLocations.locations))if(location.mapRequired&&!data.locations.map.locations.some(item=>(item.storyLocationId??item.id)===location.id))throw Error(`Missing required story map location: ${location.id}`);
 for(const chapter of data.suspectReview.chapters)if(chapter.locationId&&!mapIds.has(chapter.locationId))throw Error(`Unknown Tracker location for ${chapter.chapterId}: ${chapter.locationId}`);
 for(const [id,venue] of Object.entries(data.locations.venues)){
   if(venue.mapLocationId&&!mapIds.has(venue.mapLocationId))throw Error(`Unknown mapLocationId for ${id}: ${venue.mapLocationId}`);

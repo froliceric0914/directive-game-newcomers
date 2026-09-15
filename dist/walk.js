@@ -3,12 +3,20 @@ import { chapters } from "./location-reading.mjs";
 import { createMovement } from "./movement.mjs";
 import { createVisit } from "./visit.mjs";
 import { zoomCameraFrame } from "./camera.mjs";
-import { start, locations, step, nearby } from "./walk-map.mjs";
+import {
+  start,
+  locations,
+  ningyochoLocations,
+  step,
+  nearby,
+} from "./walk-map.mjs";
 import {
   clues,
   locations as storyLocations,
   suspectReview,
   minekoApartmentEvidence,
+  ch1Day,
+  ch1Night,
 } from "./game-data.mjs";
 import {
   currentChapterNumber,
@@ -16,6 +24,13 @@ import {
   visibleEvidence,
 } from "./location-state.mjs";
 import { isDevMode } from "./runtime-config.mjs";
+import {
+  dialogueStateForMapState,
+  mapLocationIdForStory,
+  mapLocationIdsForChapter,
+  trackerLocationForOrder,
+} from "./story-locations.mjs";
+import { readCh1Progress, writeCh1Progress } from "./ch1-progress.mjs";
 let player = { ...start },
   steps = 0,
   lastLocation = "";
@@ -33,8 +48,21 @@ const $ = (s) => document.querySelector(s),
         })[c],
     );
 const esc = escape;
+const kodemmachoLocations = locations.filter(
+  (location) => location.mapArea === "kodemmacho",
+);
+const devAccessKey = "devAccessMode";
+const devProgressKey = "devPreviewChapter";
+let devAccessMode = isDevMode
+    ? (localStorage.getItem(devAccessKey) ?? "all")
+    : "progress",
+  devFullAccess = devAccessMode === "all",
+  devPreviewChapter = Math.min(
+    suspectReview.chapters.length,
+    Math.max(1, Number(localStorage.getItem(devProgressKey)) || 1),
+  );
 $("#app").innerHTML =
-  `<header class="header"><div class="brand-mark">新</div><div><h1>人形町散步</h1><p>在街道与书页之间</p></div><div class="header-end"><span class="edition">新参者 · 阅读漫游</span><button class="text-button" id="open-reading" aria-keyshortcuts="r">打开书页 <kbd>R</kbd></button></div></header><main><section class="map-panel"><div class="map-heading"><div><span class="eyebrow">NIHONBASHI · NINGYOCHO</span><h2>日本桥，人形町。</h2></div><div class="map-tools"><span class="map-tag">街区导览图</span><div class="zoom-controls" role="group" aria-label="地图缩放"><button id="zoom-out" aria-label="缩小地图" aria-keyshortcuts="-">−</button><output id="zoom-level" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大地图" aria-keyshortcuts="+ =">+</button></div></div></div><div class="map-scroll" tabindex="0" role="region" aria-label="人形町地图，长按方向键连续移动加贺警官"><div id="map"><div class="road vertical"></div><div class="road horizontal"></div><div class="street-label">甘 酒 横 丁</div><div class="north-label">↑ 小传马町方向</div><div class="east-label">滨町公园 →</div><div class="station">人形町站<span>出发点</span></div>${locations.map((l) => `<div class="shop ${l.npc ? "" : "landmark"}" data-shop="${l.id}" style="--x:${l.x};--y:${l.y};--w:${l.w};--h:${l.h}"><span class="shop-number">${String(l.trackerOrder ?? "").padStart(2, "0")}</span><strong>${l.name}</strong><small>${l.kind}</small></div><div class="entrance" style="--x:${l.door.x};--y:${l.door.y}" aria-label="${l.name}入口">${l.npc ? '<span class="npc" title="' + l.npc + '">店</span>' : "◇"}</div>`).join("")}<div id="player" aria-label="加贺警官"><img src="${portraitFor("kaga", "map")}" alt="" draggable="false"></div></div></div><div class="map-caption"><span><i class="legend player-key"></i>加贺 <i class="legend npc-key"></i>店家 <i class="legend road-key"></i>街道</span><span>依参考图绘制 · 非等比例</span></div><div class="walking-bar"><div><span class="eyebrow">正在漫游</span><p id="walking-place">人形町站</p><small id="walk-hint" role="status" aria-live="polite">沿街走近一家店。</small></div><div class="move-controls"><span class="keyboard-hint">长按方向键连续移动</span><div class="dpad">${[
+  `<header class="header"><div class="brand-mark">新</div><div><h1>人形町散步</h1><p>在街道与书页之间</p></div><div class="header-end"><span class="edition">新参者 · 阅读漫游</span><button class="text-button" id="open-reading" aria-keyshortcuts="r">打开书页 <kbd>R</kbd></button></div></header><main><section class="map-panel"><div class="map-heading"><div><span class="eyebrow">NIHONBASHI · NINGYOCHO</span><h2>日本桥，人形町。</h2></div><div class="map-tools"><span class="map-tag">街区导览图</span><div class="zoom-controls" role="group" aria-label="地图缩放"><button id="zoom-out" aria-label="缩小地图" aria-keyshortcuts="-">−</button><output id="zoom-level" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大地图" aria-keyshortcuts="+ =">+</button></div></div></div><div class="map-scroll" tabindex="0" role="region" aria-label="人形町地图，长按方向键连续移动加贺警官"><div id="map"><div class="road vertical"></div><div class="road horizontal"></div><div class="street-label">甘 酒 横 丁</div><div class="north-label">↑ 小传马町方向</div><div class="east-label">滨町公园 →</div><div class="station">人形町站<span>出发点</span></div>${ningyochoLocations.map((l) => `<div class="shop ${l.npc ? "" : "landmark"}" data-shop="${l.id}" style="--x:${l.x};--y:${l.y};--w:${l.w};--h:${l.h}"><span class="shop-number">${l.trackerOrder == null ? "" : String(l.trackerOrder).padStart(2, "0")}</span><strong>${l.name}</strong><small>${l.kind}</small></div><div class="entrance" style="--x:${l.door.x};--y:${l.door.y}" aria-label="${l.name}入口">${l.npc ? '<span class="npc" title="' + l.npc + '">店</span>' : "◇"}</div>`).join("")}<div id="player" aria-label="加贺警官"><img src="${portraitFor("kaga", "map")}" alt="" draggable="false"></div></div></div><div class="map-caption"><span><i class="legend player-key"></i>加贺 <i class="legend npc-key"></i>店家 <i class="legend road-key"></i>街道</span><span>依参考图绘制 · 非等比例</span></div><div class="walking-bar"><div><span class="eyebrow">正在漫游</span><p id="walking-place">人形町站</p><small id="walk-hint" role="status" aria-live="polite">沿街走近一家店。</small></div><div class="move-controls"><span class="keyboard-hint">长按方向键连续移动</span><div class="dpad">${[
     [0, -1, "↑", "上"],
     [-1, 0, "←", "左"],
     [0, 1, "↓", "下"],
@@ -63,14 +91,14 @@ detailScreen
     '<div class="area-switcher map-area-switcher"><button data-screen="ningyocho" class="active">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div>',
   );
 $(".header").outerHTML =
-  `<header class="case-header"><div class="case-brand"><div class="brand-mark">新</div><div><h1>新参者 <span>人形町纪事</span></h1><p>NIHONBASHI · A NEIGHBORHOOD MYSTERY</p></div></div><div class="case-status">${isDevMode ? '<span class="dev-indicator">DEV</span>' : ""}<div>六月 · 调查第 <strong>01</strong> 天 / 07</div><div class="stamina" aria-label="六点精力"><i></i><i></i><i></i><i></i><i></i><i></i><span>6 / 6 精力</span></div><button class="text-button" id="guide">玩法与说明 ⓘ</button></div></header>`;
+  `<header class="case-header"><div class="case-brand"><div class="brand-mark">新</div><div><h1>新参者 <span>人形町纪事</span></h1><p>NIHONBASHI · A NEIGHBORHOOD MYSTERY</p></div></div><div class="case-status"><div>六月 · 调查第 <strong>01</strong> 天 / 07</div><div class="stamina" aria-label="六点精力"><i></i><i></i><i></i><i></i><i></i><i></i><span>6 / 6 精力</span></div><button class="text-button" id="guide">玩法与说明 ⓘ</button></div></header>${isDevMode ? `<aside class="dev-tools" aria-label="开发访问模式"><span class="dev-mode-switch" role="group"><b>DEV</b><button data-dev-access="progress" aria-pressed="${devAccessMode === "progress"}">正常进度</button><button data-dev-access="select" aria-pressed="${devAccessMode === "select"}">自由选择</button><button data-dev-access="all" aria-pressed="${devAccessMode === "all"}">解锁全部</button></span><label class="dev-progress-select" ${devAccessMode === "select" ? "" : "hidden"}>当前章节 <select id="dev-progress-select">${suspectReview.chapters.map((chapter, index) => `<option value="${index + 1}" ${devPreviewChapter === index + 1 ? "selected" : ""}>${String(index + 1).padStart(2, "0")} · ${escape(chapter.title)}</option>`).join("")}</select></label></aside>` : ""}`;
 detailScreen.insertAdjacentHTML(
   "beforebegin",
-  `<nav class="case-tabs" aria-label="调查功能"><button data-top="roam" class="active">街区漫游</button><button data-top="notes">调查手帐 <b>1</b></button><button data-top="deduction">线索推理</button></nav><main class="hub-screen" id="hub-screen"><section class="hub-scene"><div class="hub-copy"><span>日本桥 / INVESTIGATION HUB</span><h2>人形町纪事</h2><p>七日循迹，在人形町的街巷中，寻找散落其中的线索，逐步揭开真相。</p></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div></section></main><main class="area-screen" id="kodemmacho-screen" hidden><section class="area-scene reading-home"><div class="area-copy"><span>小传马町 / STORY PROGRESS</span><h2>沿着峰子的足迹阅读。</h2><p>章节是故事进度；街区地图帮助你找到下一段故事发生的地方。</p></div><div class="reading-dashboard"><section class="story-progress hero" id="hub-story-progress" aria-label="故事进度"></section><div class="apartment-return"><div><small id="apartment-state">调查据点</small><strong>峰子公寓</strong><span id="apartment-copy">随时返回查看已经发现的线索。</span></div><button data-screen="apartment">进入公寓</button></div></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho" class="active">小传马町</button><button data-screen="police">警局</button></div><p class="area-status" role="status">阅读与调查进度会保存在当前浏览器。</p></section></main><main class="police-screen" id="police-screen" hidden><button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>把事实放在一起。</h2><p>这里将用于整理线索与人物关系。正式推理机制将在后续加入。</p></div><div class="police-grid"><article><small>CLUES</small><h3>收集的线索</h3><p>查看从街区与调查地点带回的事实。</p></article><article><small>RELATIONSHIPS</small><h3>人物与关系</h3><p>确认人与地点之间已经查明的联系。</p></article><article><small>SUMMARY</small><h3>调查总结</h3><p>记录当前问题，并决定下一步调查方向。</p></article></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div></main>`,
+  `<nav class="case-tabs" aria-label="调查功能"><button data-top="roam" class="active">街区漫游</button><button data-top="notes">调查手帐 <b>1</b></button><button data-top="deduction">线索推理</button></nav><main class="hub-screen" id="hub-screen"><section class="hub-scene"><div class="hub-copy"><span>日本桥 / INVESTIGATION HUB</span><h2>人形町纪事</h2><p>七日循迹，在人形町的街巷中，寻找散落其中的线索，逐步揭开真相。</p></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div></section></main><main class="area-screen" id="kodemmacho-screen" hidden><section class="area-scene reading-home"><div class="area-copy"><span>小传马町 / STORY PROGRESS</span><h2>沿着峰子的足迹阅读。</h2><p>章节是故事进度；街区地图帮助你找到下一段故事发生的地方。</p></div><div class="reading-dashboard"><section class="story-progress hero" id="hub-story-progress" aria-label="故事进度"></section><div class="apartment-return"><div><small id="apartment-state">调查据点</small><strong>峰子公寓</strong><span id="apartment-copy">随时返回查看已经发现的线索。</span></div><button data-screen="apartment">进入公寓</button></div></div><section class="kodemmacho-location-map" aria-label="小传马町调查地图"><header><small>KODEMMACHO · INVESTIGATION MAP</small><strong>后续调查地点</strong></header><div class="kodemmacho-map-grid">${kodemmachoLocations.map((location) => `<button data-kodemmacho-location="${location.id}"><span class="kodemmacho-map-marker">${location.trackerOrder == null ? "•" : String(location.trackerOrder).padStart(2, "0")}</span><strong>${escape(location.name)}</strong><small>${escape(location.kind)}</small><em class="location-status"></em></button>`).join("")}</div></section><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho" class="active">小传马町</button><button data-screen="police">警局</button></div><p class="area-status" role="status">阅读与调查进度会保存在当前浏览器。</p></section></main><main class="police-screen" id="police-screen" hidden><button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>把事实放在一起。</h2><p>这里将用于整理线索与人物关系。正式推理机制将在后续加入。</p></div><div class="police-grid"><article><small>CLUES</small><h3>收集的线索</h3><p>查看从街区与调查地点带回的事实。</p></article><article><small>RELATIONSHIPS</small><h3>人物与关系</h3><p>确认人与地点之间已经查明的联系。</p></article><article><small>SUMMARY</small><h3>调查总结</h3><p>记录当前问题，并决定下一步调查方向。</p></article></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div></main>`,
 );
 $("#kodemmacho-screen .back-hub")?.remove();
 $("#police-screen").innerHTML =
-  `<button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>嫌疑复核与警局档案</h2><p>根据已经取得的事实作出调查判断。</p></div><section class="suspect-review" id="suspect-review"></section><section class="police-archive"><div class="archive-head"><div><small>POLICE ARCHIVE</small><h3>警局档案</h3></div><div class="archive-tabs"><button data-archive="all" class="active">全部</button><button data-archive="conclusion">结论</button><button data-archive="doubt">疑点</button></div></div><div id="archive-list"></div></section><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div>`;
+  `<button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>嫌疑复核与警局档案</h2><p>根据已经取得的事实作出调查判断。</p></div><section class="suspect-review" id="suspect-review"></section><section class="police-archive"><div class="archive-head"><div><small>POLICE ARCHIVE</small><h3>警局档案</h3></div><div class="archive-tabs"><button data-archive="all" class="active">全部</button><button data-archive="doubt">疑点</button><button data-archive="conclusion">结论</button></div></div><div id="archive-list"></div></section><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div>`;
 $("#police-screen .back-hub").dataset.screen = "kodemmacho";
 $("#police-screen").insertAdjacentHTML(
   "afterend",
@@ -154,17 +182,32 @@ let selectedReview = null,
   reviewChapterScroll = 0,
   archiveFilter = "all",
   evidenceTab = "current";
+let ch1NightStage = readCh1Progress().nightCompleted ? 6 : 0,
+  ch1NoteCount = 1;
+let dismissedArchiveDoubts = new Set();
+try {
+  dismissedArchiveDoubts = new Set(
+    JSON.parse(localStorage.getItem("dismissedArchiveDoubts") || "[]"),
+  );
+} catch {}
 const chapterLabelExceptions = { ch06: "樱花筷子", ch09: "日本桥警署" };
-const storyNodes = suspectReview.chapters.map((chapter, index) => ({
-  id: chapter.chapterId,
-  label:
-    chapterLabelExceptions[chapter.chapterId] ??
-    chapter.title.replace(/的(?:女孩|小伙计|媳妇|狗|店员|社长|顾客|刑警)$/, ""),
-  chapterId: index + 1,
-  locationId: chapter.locationId ?? null,
-  linkedLocationIds: chapter.linkedLocationIds ?? [],
-  screen: chapter.screen ?? null,
-}));
+const storyNodes = suspectReview.chapters.map((chapter, index) => {
+  const trackerLocation = trackerLocationForOrder(index + 1);
+  return {
+    id: chapter.chapterId,
+    label:
+      trackerLocation?.name ??
+      chapterLabelExceptions[chapter.chapterId] ??
+      chapter.title.replace(
+        /的(?:女孩|小伙计|媳妇|狗|店员|社长|顾客|刑警)$/,
+        "",
+      ),
+    chapterId: index + 1,
+    locationId: mapLocationIdForStory(trackerLocation?.id),
+    linkedLocationIds: mapLocationIdsForChapter(index + 1),
+    screen: trackerLocation ? null : (chapter.screen ?? null),
+  };
+});
 function storyStarted() {
   return (
     discoveredApartmentEvidence.has("insurance_material") ||
@@ -179,6 +222,13 @@ function readingReviews() {
   };
 }
 function storySnapshot() {
+  if (devAccessMode === "select")
+    return {
+      started: true,
+      complete: false,
+      currentIndex: devPreviewChapter - 1,
+      total: suspectReview.chapters.length,
+    };
   return storyProgress(
     readingReviews(),
     storyStarted(),
@@ -190,11 +240,17 @@ function currentStoryNode() {
   return snapshot.complete ? null : storyNodes[snapshot.currentIndex];
 }
 function storyNodeState(node, index) {
+  if (devAccessMode === "select")
+    return index < devPreviewChapter - 1
+      ? "completed"
+      : index === devPreviewChapter - 1
+        ? "current"
+        : "future";
   if (readingReviews()[node.id]) return "completed";
   return index === storySnapshot().currentIndex ? "current" : "future";
 }
 function storyNodeReveal(index, snapshot) {
-  if (isDevMode) return "";
+  if (devFullAccess) return "";
   if (index < snapshot.currentIndex || index === snapshot.currentIndex)
     return "";
   const distance = index - (snapshot.currentIndex ?? -1);
@@ -217,7 +273,7 @@ function storyProgressMarkup(compact = false) {
           index < storyNodes.length - 1
             ? `<i class="${snapshot.started && index < snapshot.currentIndex ? "completed" : ""}" aria-hidden="true"></i>`
             : "";
-      return `<button class="story-node ${state} ${reveal}" data-story-node="${node.id}" ${state === "future" && !isDevMode ? "disabled" : ""} ${state === "current" ? 'aria-current="step"' : ""} ${mystery ? `aria-label="${number} 后续章节，待探索"` : ""}>${state === "current" && !compact ? `<span class="story-avatar"><img src="${portraitFor("kaga", "map")}" alt="加贺当前所在章节"></span>` : ""}<span class="story-dot" aria-hidden="true"></span><span class="story-label"><small>${number}</small><strong>${mystery && compact ? "待探索" : mystery ? "&nbsp;" : esc(node.label)}</strong></span></button>${connector}`;
+      return `<button class="story-node ${state} ${reveal}" data-story-node="${node.id}" ${state === "future" && !devFullAccess ? "disabled" : ""} ${state === "current" ? 'aria-current="step"' : ""} ${mystery ? `aria-label="${number} 后续章节，待探索"` : ""}>${state === "current" && !compact ? `<span class="story-avatar"><img src="${portraitFor("kaga", "map")}" alt="加贺当前所在章节"></span>` : ""}<span class="story-dot" aria-hidden="true"></span><span class="story-label"><small>${number}</small><strong>${mystery && compact ? "待探索" : mystery ? "&nbsp;" : esc(node.label)}</strong></span></button>${connector}`;
     })
     .join("");
   if (compact) return `<div class="story-track">${track}</div>`;
@@ -267,8 +323,18 @@ function renderStoryProgress() {
   }
 }
 function stateForPlace(place) {
-  if (isDevMode)
-    return storyLocations.scenes[place.id] ? "active" : "ambient";
+  if (devFullAccess) return "active";
+  if (devAccessMode === "select") {
+    const relevantIndexes = storyNodes
+      .map((node, index) =>
+        node.linkedLocationIds.includes(place.id) ? index : -1,
+      )
+      .filter((index) => index >= 0);
+    if (relevantIndexes.includes(devPreviewChapter - 1)) return "active";
+    if (relevantIndexes.some((index) => index < devPreviewChapter - 1))
+      return "visited_cleared";
+    return "ambient";
+  }
   if (currentStoryNode()?.linkedLocationIds.includes(place.id)) return "active";
   const completed = storyNodes
     .filter(
@@ -283,6 +349,17 @@ function stateForPlace(place) {
 }
 function chapterForPlace(place) {
   if (!place) return null;
+  if (devFullAccess)
+    return storyNodes.find((node) => node.linkedLocationIds.includes(place.id))
+      ?.chapterId;
+  if (devAccessMode === "select")
+    return storyNodes
+      .filter(
+        (node, index) =>
+          index <= devPreviewChapter - 1 &&
+          node.linkedLocationIds.includes(place.id),
+      )
+      .at(-1)?.chapterId;
   const current = currentStoryNode();
   if (current?.linkedLocationIds.includes(place.id)) return current.chapterId;
   return storyNodes
@@ -301,8 +378,11 @@ function renderMapStates() {
     ambient: "街区地点",
   };
   for (const place of locations) {
-    const element = document.querySelector(`[data-shop="${place.id}"]`),
+    const element =
+        document.querySelector(`[data-shop="${place.id}"]`) ??
+        document.querySelector(`[data-kodemmacho-location="${place.id}"]`),
       state = stateForPlace(place);
+    if (!element) continue;
     element.classList.remove(
       "locked",
       "active",
@@ -382,9 +462,14 @@ function renderApartment() {
     );
 }
 function readyReviewIds() {
-  if (isDevMode)
+  if (devFullAccess)
     return suspectReview.chapters.map((chapter) => chapter.chapterId);
+  if (devAccessMode === "select")
+    return suspectReview.chapters
+      .slice(0, devPreviewChapter)
+      .map((chapter) => chapter.chapterId);
   const ids = new Set([...Object.keys(savedReviews), ...storyReadyReviews]);
+  if (readCh1Progress().dayCompleted) ids.add("ch01");
   for (const clueId of collectedClues) {
     const clue = clues.entries.find((item) => item.id === clueId),
       reading = storyLocations.readings[clue?.locationId];
@@ -394,6 +479,33 @@ function readyReviewIds() {
   return suspectReview.chapters
     .map((chapter) => chapter.chapterId)
     .filter((id) => ids.has(id));
+}
+function ch1NightMarkup(progress) {
+  const data = ch1Night.policeStation,
+    memories = data.memoryCards
+      .filter(
+        (card) =>
+          !card.requiresUnlocked ||
+          progress.unlockedMemories.includes(card.memoryId),
+      )
+      .map((card) => ch1Day.memories[card.memoryId])
+      .filter(Boolean),
+    choice = data.judgment.choices.find(
+      (item) => item.id === progress.nightJudgment,
+    );
+  if (ch1NightStage === 0)
+    return `<article class="ch1-night"><small>${esc(data.intro.eyebrow)}</small><h3>${esc(data.intro.title)}</h3><p>${esc(data.intro.text)}</p><button class="primary" data-ch1-stage="1">回看今天</button></article>`;
+  if (ch1NightStage === 1)
+    return `<article class="ch1-night"><small>${esc(data.sectionLabels.memories)}</small><h3>${esc(data.person.name)}</h3><p>${esc(data.person.summary)}</p><div class="ch1-memory-grid">${memories.length ? memories.map(memory=>`<div><strong>${esc(memory.title)}</strong><p>${esc(memory.text)}</p></div>`).join('') : '<p>今天还没有留下可回看的记忆。</p>'}</div><button class="primary" data-ch1-stage="2">翻看加贺的记录</button></article>`;
+  if (ch1NightStage === 2)
+    return `<article class="ch1-night"><small>${esc(data.sectionLabels.notes)}</small><h3>加贺的记录</h3><ol class="ch1-notes">${data.kagaNotes.slice(0,ch1NoteCount).map(note=>`<li>${esc(note.text)}</li>`).join('')}</ol><button class="primary" data-ch1-note>${ch1NoteCount<data.kagaNotes.length?'下一条记录':'形成今晚的判断'}</button></article>`;
+  if (ch1NightStage === 3)
+    return `<article class="ch1-night"><small>${esc(data.sectionLabels.judgment)}</small><h3>${esc(data.judgment.prompt)}</h3><div class="ch1-judgments">${data.judgment.choices.map(item=>`<button data-ch1-judgment="${item.id}">${esc(item.label)}</button>`).join('')}</div></article>`;
+  if (ch1NightStage === 4)
+    return `<article class="ch1-night"><small>${esc(data.sectionLabels.judgment)}</small><h3>${esc(choice?.label??'今晚的判断')}</h3><p>${esc(choice?.response??'')}</p><button class="primary" data-ch1-stage="5">${esc(data.judgment.continueLabel)}</button></article>`;
+  if (ch1NightStage === 5)
+    return `<article class="ch1-night ch1-resolution"><small>${esc(data.sectionLabels.resolution)}</small><h3>${esc(data.resolution.label)}</h3>${data.resolution.paragraphs.map(paragraph=>`<p>${esc(paragraph)}</p>`).join('')}<p class="ch1-final-line">${esc(data.resolution.finalLine)}</p><button class="primary" data-ch1-stage="6">继续</button></article>`;
+  return `<article class="ch1-night ch1-completion"><small>${esc(data.completion.eyebrow)}</small><h3>${esc(data.completion.title)}</h3><p>${esc(data.completion.subtitle)}</p><button class="primary" data-ch1-finish>${esc(data.completion.actionLabel)}</button></article>`;
 }
 function archiveEntries() {
   const entries = [],
@@ -434,7 +546,7 @@ function archiveEntries() {
   }
   return entries.map((entry) => ({
     ...entry,
-    resolved: resolved.has(entry.id),
+    resolved: resolved.has(entry.id) || dismissedArchiveDoubts.has(entry.id),
   }));
 }
 function renderPolice() {
@@ -446,11 +558,15 @@ function renderPolice() {
       ready.find((id) => !savedReviews[id]) ?? ready.at(-1) ?? null;
   const chapter = reviewById[selectedReview],
     choice = chapter && savedReviews[selectedReview],
-    result = choice && chapter.resolution[choice];
-  $("#suspect-review").innerHTML = chapter
+    result = choice && chapter.resolution[choice],
+    ch1Progress = readCh1Progress(),
+    showCh1Night = selectedReview === "ch01" && ch1Progress.dayCompleted;
+  $("#suspect-review").innerHTML = showCh1Night
+    ? `<div class="review-chapters">${ready.map((id) => `<button data-review="${id}" class="${id === selectedReview ? "active" : ""}">${esc(reviewById[id].title)}</button>`).join("")}</div>${ch1NightMarkup(ch1Progress)}`
+    : chapter
     ? `<div class="review-chapters">${ready.map((id) => `<button data-review="${id}" class="${id === selectedReview ? "active" : ""}">${esc(reviewById[id].title)}</button>`).join("")}</div><article class="review-card"><small>${esc(chapter.chapterId.toUpperCase())} · ${esc(chapter.title)}</small><h3>${esc(chapter.initialSuspect.name)}</h3><p class="suspicion-reason">${esc(chapter.initialSuspect.reason)}</p>${choice ? `<div class="review-resolution"><strong>${esc(chapter.choices.find((item) => item.id === choice)?.label ?? choice)}</strong><p>${esc(result.text)}</p>${chapter.nextSuspect ? `<p class="next-suspect">新调查对象：${esc(chapter.nextSuspect.name)}<br>${esc(chapter.nextSuspect.reason)}</p>` : ""}${chapter.finalState === "confirmed" && choice === "confirm" ? '<span class="confirmed">核心嫌疑人已确认</span>' : ""}</div>` : `<p class="review-question">${esc(chapter.reviewQuestion)}</p><div class="review-choices">${chapter.choices.map((item) => `<button data-choice="${item.id}">${esc(item.label)}</button>`).join("")}</div>`}</article>`
     : '<div class="review-empty"><h3>尚无可复核人物</h3><p>完成地点对话并取得相关事实后，章节嫌疑复核会出现在这里。</p></div>';
-  if (choice) {
+  if (choice && !showCh1Night) {
     const button = document.createElement("button");
     button.className = "reconsider";
     button.dataset.reconsider = selectedReview;
@@ -460,13 +576,16 @@ function renderPolice() {
   const renderedTabs = $("#suspect-review .review-chapters");
   if (renderedTabs) renderedTabs.scrollLeft = reviewChapterScroll;
   const entries = archiveEntries().filter(
-    (entry) => archiveFilter === "all" || entry.type === archiveFilter,
+    (entry) =>
+      archiveFilter === "all" ||
+      (entry.type === archiveFilter &&
+        (archiveFilter !== "doubt" || !entry.resolved)),
   );
   $("#archive-list").innerHTML = entries.length
     ? entries
         .map(
           (entry) =>
-            `<details class="archive-item ${entry.resolved ? "resolved" : ""}"><summary><span><small>${esc(entry.chapter)}</small><strong>${esc(entry.character)}</strong></span><b>${entry.type === "conclusion" ? "结论" : "疑点"}${entry.resolved ? " · 已解决" : ""}</b></summary><div><strong>${esc(entry.decision)}</strong><p>${esc(entry.text)}</p></div></details>`,
+            `<details class="archive-item ${entry.resolved ? "resolved" : ""}"><summary><span><small>${esc(entry.chapter)}</small><strong>${esc(entry.character)}</strong></span><b>${entry.type === "conclusion" ? "结论" : "疑点"}${entry.resolved ? " · 已解决" : ""}</b></summary><div><strong>${esc(entry.decision)}</strong><p>${esc(entry.text)}</p>${archiveFilter === "doubt" && !entry.resolved ? `<button class="dismiss-doubt" data-dismiss-doubt="${esc(entry.id)}">排除疑点</button>` : ""}</div></details>`,
         )
         .join("")
     : '<p class="archive-empty">档案尚为空。</p>';
@@ -493,6 +612,11 @@ function nextChapterStep(id) {
 const scene = createVisit(reader, {
   stop,
   onClue: collectClue,
+  onCh1Progress: () => {
+    renderStoryProgress();
+    renderMapStates();
+    renderPolice();
+  },
   chapterForLocation: (id) =>
     chapterForPlace(locations.find((place) => place.id === id)),
   onClose: () => {
@@ -549,7 +673,7 @@ function showScreen(name) {
   document.querySelector("footer").hidden = name !== "ningyocho";
   renderStoryProgress();
   if (name === "ningyocho") {
-    const destination = locations.find(
+    const destination = ningyochoLocations.find(
       (place) => place.id === currentStoryNode()?.locationId,
     );
     if (destination) {
@@ -566,8 +690,18 @@ function showScreen(name) {
     );
     viewport.focus({ preventScroll: true });
   }
+  if (name === "kodemmacho") renderMapStates();
   if (name === "police") renderPolice();
   if (name === "apartment") renderApartment();
+}
+function scrollToDestinationMap(mapArea = "ningyocho") {
+  requestAnimationFrame(() => {
+    const map =
+      mapArea === "kodemmacho"
+        ? document.querySelector("#kodemmacho-screen .kodemmacho-location-map")
+        : detailScreen.querySelector(".map-panel");
+    map?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 }
 function openStoryNode(node, preferMap = false) {
   if (!node) return;
@@ -581,6 +715,15 @@ function openStoryNode(node, preferMap = false) {
   }
   const place = locations.find((item) => item.id === node.locationId);
   if (preferMap && place) {
+    if (place.mapArea === "kodemmacho") {
+      showScreen("kodemmacho");
+      requestAnimationFrame(() =>
+        document
+          .querySelector(`[data-kodemmacho-location="${place.id}"]`)
+          ?.focus(),
+      );
+      return;
+    }
     showScreen("ningyocho");
     player = { ...place.door };
     visual = { ...player };
@@ -702,21 +845,7 @@ function enterPlace(place) {
     update("这里尚未进入调查范围。");
     return;
   }
-  if (state === "ambient") {
-    scene.openAmbient(place);
-    return;
-  }
-  if (state === "visited_cleared") {
-    const id = "ch" + String(chapterForPlace(place)).padStart(2, "0"),
-      chapter = reviewById[id],
-      choice = savedReviews[id];
-    scene.openSummary(place, {
-      suspectName: chapter.initialSuspect.name,
-      text: chapter.resolution[choice].text,
-    });
-    return;
-  }
-  scene.open(false, place);
+  scene.open(false, place, dialogueStateForMapState(state));
 }
 function visitPlace() {
   if (reader.open || movement.moving) return;
@@ -759,7 +888,8 @@ document.addEventListener("keydown", (e) => {
     return;
   }
   if (e.key === "Escape") {
-    $("#notebook").open = false;
+    e.preventDefault();
+    showScreen("kodemmacho");
     return;
   }
   if (!directions[e.key] && !["e", "j", "r", "h"].includes(key)) return;
@@ -825,6 +955,47 @@ document
   .querySelectorAll("[data-screen]")
   .forEach(
     (button) => (button.onclick = () => showScreen(button.dataset.screen)),
+  );
+function refreshDevView() {
+  if (activeScreen === "police") renderPolice();
+  else {
+    renderStoryProgress();
+    renderMapStates();
+    if (activeScreen === "apartment") renderApartment();
+  }
+  if (activeScreen === "ningyocho") update();
+}
+document.querySelectorAll("[data-dev-access]").forEach(
+  (button) =>
+    (button.onclick = () => {
+      devAccessMode = button.dataset.devAccess;
+      devFullAccess = devAccessMode === "all";
+      localStorage.setItem(devAccessKey, devAccessMode);
+      document.querySelectorAll("[data-dev-access]").forEach((option) =>
+        option.setAttribute(
+          "aria-pressed",
+          String(option.dataset.devAccess === devAccessMode),
+        ),
+      );
+      $(".dev-progress-select").hidden = devAccessMode !== "select";
+      refreshDevView();
+    }),
+);
+$("#dev-progress-select")?.addEventListener("change", (event) => {
+  devPreviewChapter = Number(event.target.value);
+  localStorage.setItem(devProgressKey, String(devPreviewChapter));
+  refreshDevView();
+});
+document
+  .querySelectorAll("[data-kodemmacho-location]")
+  .forEach(
+    (button) =>
+      (button.onclick = () =>
+        enterPlace(
+          locations.find(
+            (place) => place.id === button.dataset.kodemmachoLocation,
+          ),
+        )),
   );
 document.addEventListener("click", (event) => {
   const trigger = event.target.closest(
@@ -902,14 +1073,59 @@ $("#apartment-screen").addEventListener("click", (event) => {
       (item) => item.id === evidence?.investigation.locationId,
     );
   if (!place) return;
+  if (place.mapArea === "kodemmacho") {
+    showScreen("kodemmacho");
+    requestAnimationFrame(() => {
+      document
+        .querySelector(`[data-kodemmacho-location="${place.id}"]`)
+        ?.focus({ preventScroll: true });
+      scrollToDestinationMap("kodemmacho");
+    });
+    return;
+  }
   showScreen("ningyocho");
   player = { ...place.door };
   visual = { ...player };
   lastLocation = "";
   camera = null;
   update("当前线索指向：" + place.name);
+  scrollToDestinationMap();
 });
 $("#police-screen").addEventListener("click", (event) => {
+  const ch1Stage = event.target.closest("[data-ch1-stage]");
+  if (ch1Stage) {
+    ch1NightStage = Number(ch1Stage.dataset.ch1Stage);
+    renderPolice();
+    return;
+  }
+  if (event.target.closest("[data-ch1-note]")) {
+    if (ch1NoteCount < ch1Night.policeStation.kagaNotes.length)
+      ch1NoteCount++;
+    else ch1NightStage = 3;
+    renderPolice();
+    return;
+  }
+  const ch1Judgment = event.target.closest("[data-ch1-judgment]");
+  if (ch1Judgment) {
+    writeCh1Progress({ nightJudgment: ch1Judgment.dataset.ch1Judgment });
+    ch1NightStage = 4;
+    renderPolice();
+    return;
+  }
+  if (event.target.closest("[data-ch1-finish]")) {
+    writeCh1Progress({ nightCompleted: true });
+    savedReviews.ch01 = "clear";
+    storyReadyReviews.delete("ch01");
+    localStorage.setItem("suspectReviews", JSON.stringify(savedReviews));
+    localStorage.setItem(
+      "storyReadyReviews",
+      JSON.stringify([...storyReadyReviews]),
+    );
+    renderStoryProgress();
+    renderMapStates();
+    showScreen("kodemmacho");
+    return;
+  }
   const review = event.target.closest("[data-review]");
   if (review) {
     selectedReview = review.dataset.review;
@@ -938,6 +1154,16 @@ $("#police-screen").addEventListener("click", (event) => {
       JSON.stringify([...storyReadyReviews]),
     );
     selectedReview = reconsider.dataset.reconsider;
+    renderPolice();
+    return;
+  }
+  const dismissDoubt = event.target.closest("[data-dismiss-doubt]");
+  if (dismissDoubt) {
+    dismissedArchiveDoubts.add(dismissDoubt.dataset.dismissDoubt);
+    localStorage.setItem(
+      "dismissedArchiveDoubts",
+      JSON.stringify([...dismissedArchiveDoubts]),
+    );
     renderPolice();
     return;
   }

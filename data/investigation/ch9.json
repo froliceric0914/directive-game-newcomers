@@ -1,0 +1,373 @@
+{
+  "chapterId": 9,
+  "title": "日本桥的刑警",
+  "day": {
+    "playerCharacter": "kaga",
+    "locationId": "kishida-tax-office",
+    "activeConversation": {
+      "id": "ch9-final-investigation",
+      "startNode": "review",
+      "characters": [
+        "kaga",
+        "kishida",
+        "naohiro",
+        "hiroki",
+        "mineko"
+      ],
+      "nodes": [
+        {
+          "id": "review",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "最后一天。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "奇怪的事情很多。真正和杀人有关的，却不会有那么多。"
+            }
+          ],
+          "choices": [
+            {
+              "id": "false_leads",
+              "label": "先回看已经解释的线索",
+              "next": "cleared"
+            },
+            {
+              "id": "phone",
+              "label": "直接看案发前的公用电话",
+              "next": "phone"
+            },
+            {
+              "id": "timeline",
+              "label": "先重建案发时间线",
+              "next": "timeline"
+            }
+          ]
+        },
+        {
+          "id": "cleared",
+          "type": "memory",
+          "memoryId": "cleared-life-secrets",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "灰色西装。人形烧。新厨剪。水天宫。育儿杂志。樱花筷。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "这些东西曾经都很奇怪。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "可它们最后都回到了普通人的生活里。"
+            }
+          ],
+          "next": "phone"
+        },
+        {
+          "id": "phone",
+          "type": "memory",
+          "memoryId": "public-phone-call",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "案发前约十八点四十五分，峰子接到一通公用电话。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "她没有使用敬语。对方是熟人。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "熟人却不用自己的手机。为什么？"
+            }
+          ],
+          "choices": [
+            {
+              "id": "hide_number",
+              "label": "不想留下自己的号码",
+              "next": "phone_inference"
+            },
+            {
+              "id": "nearby",
+              "label": "当时就在附近",
+              "next": "phone_inference"
+            },
+            {
+              "id": "both",
+              "label": "两者可能同时成立",
+              "next": "phone_inference"
+            }
+          ]
+        },
+        {
+          "id": "phone_inference",
+          "type": "memory",
+          "memoryId": "phone-inference",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "至少有一点很清楚：这通电话不是普通联系。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "来电者既熟悉峰子，又有理由隐藏自己的手机记录。"
+            }
+          ],
+          "next": "timeline"
+        },
+        {
+          "id": "timeline",
+          "type": "memory",
+          "memoryId": "final-timeline",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "公用电话、岸田事务所、财务调查、没有搏斗的房间。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "峰子很可能主动让来访者进了门。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "这不是陌生人闯入的案件。"
+            }
+          ],
+          "next": "final_choice"
+        },
+        {
+          "id": "final_choice",
+          "type": "choice",
+          "prompt": "排除那些与杀人无关的秘密后，剩下来的矛盾指向谁？",
+          "choices": [
+            {
+              "id": "kishida",
+              "label": "岸田要作",
+              "next": "kishida"
+            },
+            {
+              "id": "review_mineko",
+              "label": "再看一次峰子的足迹",
+              "next": "mineko_review"
+            }
+          ]
+        },
+        {
+          "id": "mineko_review",
+          "type": "memory",
+          "memoryId": "mineko-life",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "草加屋、料亭、柳泽商店、水天宫、西饼店、朋友、公司。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "我们认识峰子，并不是从她活着的时候开始。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "可走过这些地方以后，她已经不只是案卷上的一个名字。"
+            }
+          ],
+          "next": "kishida"
+        },
+        {
+          "id": "kishida",
+          "type": "memory",
+          "memoryId": "final-evidence-chain",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "岸田长期掌握清濑公司的财务。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "峰子的调查让她重新靠近那些账目。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "公用电话、时间线和前面留下的物证，终于落在同一条线上。"
+            }
+          ],
+          "next": "confront"
+        },
+        {
+          "id": "confront",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kishida",
+              "text": "刑警先生，你从一开始就在怀疑我？"
+            },
+            {
+              "speaker": "kaga",
+              "text": "不是。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "一开始，我只是听每个人把自己的事情说完。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "最后剩下来的，才是你的。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "departure",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "人形町的街上照常有人经过。店铺没有因为一桩案件停下来。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "案子会结束。生活不会。"
+            }
+          ],
+          "next": "complete"
+        },
+        {
+          "id": "complete",
+          "type": "complete",
+          "feedback": {
+            "title": "最后的线索已经连在一起",
+            "memoryId": "final-evidence-chain"
+          }
+        }
+      ],
+      "memories": [
+        {
+          "id": "cleared-life-secrets",
+          "importance": "supporting",
+          "title": "已经解释的小秘密",
+          "text": "前八章许多看似可疑的线索，最终都回到了普通人的生活。",
+          "showAtNight": true
+        },
+        {
+          "id": "public-phone-call",
+          "importance": "chapter",
+          "title": "案发前的公用电话",
+          "text": "案发前约18:45，峰子接到熟人从公用电话打来的电话。",
+          "showAtNight": true
+        },
+        {
+          "id": "phone-inference",
+          "importance": "chapter",
+          "title": "熟人却隐藏了号码",
+          "text": "来电者与峰子关系熟悉，却有意避免留下自己的手机号码。",
+          "showAtNight": true
+        },
+        {
+          "id": "final-timeline",
+          "importance": "chapter",
+          "title": "没有搏斗的时间线",
+          "text": "峰子很可能主动让熟人进入房间，案件与熟人来访有关。",
+          "showAtNight": true
+        },
+        {
+          "id": "mineko-life",
+          "importance": "character",
+          "title": "峰子的足迹",
+          "text": "走过人形町之后，峰子不再只是案卷中的被害者。",
+          "showAtNight": true
+        },
+        {
+          "id": "final-evidence-chain",
+          "importance": "final",
+          "title": "最后的证据链",
+          "text": "财务调查、岸田、电话与时间线最终汇合。",
+          "showAtNight": true
+        }
+      ]
+    }
+  },
+  "night": {
+    "policeStation": {
+      "intro": {
+        "title": "最后一晚。",
+        "text": "今天不是再找一个新的秘密，而是把已经听过的故事放回正确的位置。"
+      },
+      "person": {
+        "id": "kishida",
+        "name": "岸田要作",
+        "summary": "长期掌握清濑公司财务，并最终进入峰子被害前的核心时间线。"
+      },
+      "memoryCards": [
+        {
+          "memoryId": "cleared-life-secrets",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "public-phone-call",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "phone-inference",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "final-timeline",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "final-evidence-chain",
+          "requiresUnlocked": true
+        }
+      ],
+      "kagaNotes": [
+        {
+          "id": "note-1",
+          "text": "案件里最容易让人分心的，往往是那些看起来奇怪的事情。"
+        },
+        {
+          "id": "note-2",
+          "text": "可奇怪，不等于犯罪。"
+        },
+        {
+          "id": "note-3",
+          "text": "排除那些属于普通生活的秘密后，剩下来的事实才真正属于这桩案件。"
+        }
+      ],
+      "judgment": {
+        "prompt": "理解了峰子的生活之后，最后剩下来的事实指向谁？",
+        "choices": [
+          {
+            "id": "kishida",
+            "label": "岸田要作",
+            "response": "这一次，人物、时间和物证终于没有再向别处散开。"
+          },
+          {
+            "id": "mineko",
+            "label": "先再看看峰子的足迹",
+            "response": "也好。知道她怎样生活过，才能知道哪些事情真正不属于她原本的生活。"
+          }
+        ],
+        "continueLabel": "整理最后的记录"
+      },
+      "resolution": {
+        "status": "case_resolved",
+        "label": "案件收束",
+        "paragraphs": [
+          "案子会结束。",
+          "草加屋明天还会烤仙贝，料亭还会继续忙着备菜，钟表店的狗也会沿熟悉的路散步。",
+          "那些曾经和峰子擦肩而过的人，也会继续过自己的日子。",
+          "而我们终于知道，她来到这里以后，曾经怎样看过这些街道、这些人和自己还没有来得及完成的生活。"
+        ],
+        "finalLine": "加贺来到这里时还是个“新参者”。而现在，他已经认识了这条街上的一些人。"
+      },
+      "completion": {
+        "title": "《新参者》",
+        "subtitle": "END",
+        "actionLabel": "回到人形町",
+        "action": "return_to_investigation_hub"
+      }
+    }
+  }
+}

@@ -1,0 +1,403 @@
+{
+  "chapterId": 5,
+  "title": "西饼店的店员",
+  "day": {
+    "playerCharacter": "mineko",
+    "locationId": "quattro",
+    "activeConversation": {
+      "id": "ch5-quattro-mineko-active",
+      "startNode": "flashback",
+      "characters": [
+        "mineko",
+        "miyuki"
+      ],
+      "nodes": [
+        {
+          "id": "flashback",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "几天以前。"
+            },
+            {
+              "speaker": "system",
+              "text": "峰子来到卡特罗西饼店。"
+            },
+            {
+              "speaker": "miyuki",
+              "text": "欢迎光临。"
+            }
+          ],
+          "choices": [
+            {
+              "id": "cakes",
+              "label": "看看橱窗里的蛋糕",
+              "next": "cakes"
+            },
+            {
+              "id": "name_tag",
+              "label": "看一眼店员的名牌",
+              "next": "name_tag"
+            },
+            {
+              "id": "pregnancy",
+              "label": "注意她微微隆起的腹部",
+              "next": "pregnancy"
+            }
+          ]
+        },
+        {
+          "id": "cakes",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "mineko",
+              "text": "今天的草莓看起来很好。"
+            },
+            {
+              "speaker": "miyuki",
+              "text": "是啊，早上刚到的。这个季节很甜。"
+            }
+          ],
+          "next": "observe_again"
+        },
+        {
+          "id": "name_tag",
+          "type": "memory",
+          "memoryId": "miyuki-name",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "北村美雪。"
+            },
+            {
+              "speaker": "mineko",
+              "text": "……北村小姐。"
+            },
+            {
+              "speaker": "miyuki",
+              "text": "您认识我？"
+            },
+            {
+              "speaker": "mineko",
+              "text": "没有。只是看见了名牌。"
+            }
+          ],
+          "next": "observe_again"
+        },
+        {
+          "id": "pregnancy",
+          "type": "memory",
+          "memoryId": "miyuki-pregnant",
+          "lines": [
+            {
+              "speaker": "mineko",
+              "text": "……几个月了？"
+            },
+            {
+              "speaker": "miyuki",
+              "text": "快六个月了。"
+            },
+            {
+              "speaker": "mineko",
+              "text": "这样啊。恭喜你。"
+            },
+            {
+              "speaker": "miyuki",
+              "text": "谢谢。"
+            }
+          ],
+          "next": "pregnancy_talk"
+        },
+        {
+          "id": "observe_again",
+          "type": "choice",
+          "prompt": "峰子又看了她一眼。",
+          "choices": [
+            {
+              "id": "ask_months",
+              "label": "问问宝宝什么时候出生",
+              "next": "pregnancy_talk"
+            },
+            {
+              "id": "congrats",
+              "label": "只是说一句恭喜",
+              "next": "pregnancy_talk"
+            },
+            {
+              "id": "leave_it",
+              "label": "先不多问",
+              "next": "quiet_moment"
+            }
+          ]
+        },
+        {
+          "id": "pregnancy_talk",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "miyuki",
+              "text": "最近还好，就是站久了容易累。"
+            },
+            {
+              "speaker": "mineko",
+              "text": "工作的时候要小心。"
+            },
+            {
+              "speaker": "miyuki",
+              "text": "大家都这么说。"
+            }
+          ],
+          "next": "misunderstanding"
+        },
+        {
+          "id": "quiet_moment",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "峰子没有继续问。美雪低头替客人包好蛋糕。"
+            },
+            {
+              "speaker": "mineko",
+              "text": "……那就要这个吧。"
+            }
+          ],
+          "next": "misunderstanding"
+        },
+        {
+          "id": "misunderstanding",
+          "type": "memory",
+          "memoryId": "mineko-expecting-grandchild",
+          "lines": [
+            {
+              "speaker": "mineko",
+              "text": "你男朋友……也在附近工作吗？"
+            },
+            {
+              "speaker": "miyuki",
+              "text": "男朋友？"
+            },
+            {
+              "speaker": "mineko",
+              "text": "啊……没什么。是我多问了。"
+            },
+            {
+              "speaker": "system",
+              "text": "美雪有些疑惑，峰子却没有解释。"
+            }
+          ],
+          "next": "magazine"
+        },
+        {
+          "id": "magazine",
+          "type": "memory",
+          "memoryId": "childcare-interest",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "离开店后，峰子在书店停了一会儿。"
+            },
+            {
+              "speaker": "system",
+              "text": "她从架上拿起一本育儿杂志。"
+            },
+            {
+              "speaker": "mineko",
+              "text": "……原来要准备这么多东西。"
+            }
+          ],
+          "next": "reflection"
+        },
+        {
+          "id": "reflection",
+          "type": "choice",
+          "prompt": "峰子此刻更像是在想什么？",
+          "choices": [
+            {
+              "id": "future_family",
+              "label": "也许很快会多一个家人",
+              "next": "fr1"
+            },
+            {
+              "id": "hiroki",
+              "label": "弘毅会不会过得好",
+              "next": "fr2"
+            },
+            {
+              "id": "both",
+              "label": "两件事其实连在一起",
+              "next": "fr3"
+            }
+          ]
+        },
+        {
+          "id": "fr1",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "mineko",
+              "text": "如果真是那样……至少该准备点什么。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "fr2",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "mineko",
+              "text": "他大概不希望我突然出现。还是远远看看吧。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "fr3",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "mineko",
+              "text": "也许，等有了孩子，很多话会比较容易重新说起。"
+            }
+          ],
+          "next": "departure"
+        },
+        {
+          "id": "departure",
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "system",
+              "text": "峰子把杂志夹在手臂下，慢慢走进人形町的街道。"
+            },
+            {
+              "speaker": "system",
+              "text": "她没有回头。"
+            }
+          ],
+          "next": "complete"
+        },
+        {
+          "id": "complete",
+          "type": "complete",
+          "feedback": {
+            "title": "记住了峰子的一点期待",
+            "memoryId": "mineko-expecting-grandchild"
+          }
+        }
+      ],
+      "memories": [
+        {
+          "id": "miyuki-name",
+          "importance": "soft",
+          "title": "北村美雪",
+          "text": "峰子记住了西饼店店员的名字。",
+          "showAtNight": false
+        },
+        {
+          "id": "miyuki-pregnant",
+          "importance": "supporting",
+          "title": "怀孕的美雪",
+          "text": "峰子注意到美雪已经怀孕。",
+          "showAtNight": true
+        },
+        {
+          "id": "mineko-expecting-grandchild",
+          "importance": "chapter",
+          "title": "误以为快要成为祖母",
+          "text": "峰子误以为美雪是弘毅的女朋友，并把她的孩子想成了自己的孙辈。",
+          "showAtNight": true
+        },
+        {
+          "id": "childcare-interest",
+          "importance": "chapter",
+          "title": "育儿杂志",
+          "text": "峰子开始阅读育儿资料，像是在为某个未来做准备。",
+          "showAtNight": true
+        }
+      ]
+    }
+  },
+  "night": {
+    "policeStation": {
+      "intro": {
+        "title": "这一晚，我们换了一个位置。",
+        "text": "不是从别人嘴里听峰子的故事，而是短暂地站在她看世界的位置上。"
+      },
+      "person": {
+        "id": "mineko",
+        "name": "三井峰子",
+        "summary": "一个刚搬来不久、正在重新整理自己生活的人。"
+      },
+      "memoryCards": [
+        {
+          "memoryId": "miyuki-pregnant",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "mineko-expecting-grandchild",
+          "requiresUnlocked": true
+        },
+        {
+          "memoryId": "childcare-interest",
+          "requiresUnlocked": true
+        }
+      ],
+      "kagaNotes": [
+        {
+          "id": "note-1",
+          "text": "峰子和美雪其实并不认识。"
+        },
+        {
+          "id": "note-2",
+          "text": "她误以为这个怀孕的女孩，是弘毅的女朋友。"
+        },
+        {
+          "id": "note-3",
+          "text": "于是水天宫、育儿杂志，还有她一次次来到西饼店，都有了不同的意义。"
+        }
+      ],
+      "judgment": {
+        "prompt": "峰子当时在期待什么？",
+        "choices": [
+          {
+            "id": "family",
+            "label": "一个尚未来到的家人",
+            "response": "也许。她甚至已经开始替那个还不存在的关系做准备。"
+          },
+          {
+            "id": "hiroki",
+            "label": "与弘毅重新靠近",
+            "response": "也许她真正等待的，是一个重新靠近儿子的机会。"
+          },
+          {
+            "id": "both",
+            "label": "也许两者都是",
+            "response": "很多期待并不会分得那么清楚。家人和未来，本来就常常连在一起。"
+          }
+        ],
+        "continueLabel": "整理今晚的记录"
+      },
+      "resolution": {
+        "status": "character_reconstruction",
+        "label": "重新认识峰子",
+        "paragraphs": [
+          "峰子并不是在监视美雪。",
+          "她只是隔着柜台，看着一个自己以为会成为家人的女孩。",
+          "她没有走上前说明身份，也没有真正加入那个未来。",
+          "可她已经悄悄为那个未来想了很多。"
+        ],
+        "finalLine": "有些期待，还没来得及告诉任何人，就已经变成了回忆。"
+      },
+      "completion": {
+        "title": "DAY 05 COMPLETE",
+        "subtitle": "西饼店的店员",
+        "actionLabel": "结束今天的调查",
+        "action": "return_to_investigation_hub"
+      }
+    }
+  }
+}
