@@ -2,101 +2,181 @@
   "chapterId": 1,
   "title": "仙贝店的女孩",
   "day": {
-    "chapterId": 1,
-    "title": "仙贝店的女孩",
-
-    "policeStation": {
-      "id": "ch1-night",
-
-      "intro": {
-        "eyebrow": "调查结束后",
-        "title": "一天的调查结束了。",
-        "text": "把今天听到的话重新想一遍。"
-      },
-
-      "person": {
-        "id": "takura",
-        "name": "田仓慎一",
-        "summary": "保险公司业务员。案发当天曾去过峰子的住处，之后的行动并没有全部说清楚。"
-      },
-
-      "sectionLabels": {
-        "memories": "今天记住的事",
-        "notes": "加贺的记录",
-        "judgment": "今晚怎么看",
-        "resolution": "这一晚的判断"
-      },
-
-      "memoryCards": [
-        {
+    "locationId": "sokaya",
+    "playerCharacter": "kaga",
+    "activeConversation": {
+      "startNode": "arrival",
+      "feedback": "记住了一个细节",
+      "nodes": {
+        "arrival": {
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "关于田仓先生，我想再确认几件小事。"
+            },
+            {
+              "speaker": "naho",
+              "text": "又是那天的事情吗？"
+            }
+          ],
+          "next": "shop-sound"
+        },
+        "shop-sound": {
+          "type": "ambient",
+          "lines": [
+            {
+              "speaker": "naho",
+              "text": "店里和平常一样，大家都忙着招呼客人。"
+            }
+          ],
+          "next": "first-question"
+        },
+        "first-question": {
+          "type": "choice",
+          "prompt": "从哪件小事问起？",
+          "choices": [
+            {
+              "id": "clothes",
+              "label": "先问他的衣着",
+              "next": "clothes"
+            },
+            {
+              "id": "timing",
+              "label": "先问他来店的时间",
+              "next": "timing"
+            }
+          ]
+        },
+        "clothes": {
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "你说那天他的衣着和平时不太一样。"
+            },
+            {
+              "speaker": "naho",
+              "text": "对。那天是灰色正装，上次来时是褐色的。"
+            }
+          ],
+          "next": "gray-suit"
+        },
+        "timing": {
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "他在店里待了多久，你还记得吗？"
+            },
+            {
+              "speaker": "naho",
+              "text": "准确时间记不清了，可他的衣着我记得很清楚。"
+            }
+          ],
+          "next": "gray-suit"
+        },
+        "gray-suit": {
+          "type": "memory",
           "memoryId": "gray-suit",
-          "requiresUnlocked": true
+          "unlockMemory": "gray-suit",
+          "next": "family"
         },
-        {
+        "family": {
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "satoko",
+              "text": "田仓先生是个守信用的人，不会做吓人的事。"
+            },
+            {
+              "speaker": "fumitaka",
+              "text": "可他那天为什么不把行程说清楚呢？"
+            },
+            {
+              "speaker": "kaga",
+              "text": "所以我才想把这些不起眼的细节重新摆在一起。"
+            }
+          ],
+          "next": "second-question"
+        },
+        "second-question": {
+          "type": "choice",
+          "prompt": "继续确认哪一点？",
+          "choices": [
+            {
+              "id": "jacket",
+              "label": "他当时穿着上衣吗？",
+              "next": "jacket"
+            },
+            {
+              "id": "memory",
+              "label": "为什么会记得他的衣着？",
+              "next": "remembering"
+            }
+          ]
+        },
+        "remembering": {
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "naho",
+              "text": "那身正装很合身，所以我多看了一眼。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "正因为普通，才更值得记下来。"
+            }
+          ],
+          "next": "jacket"
+        },
+        "jacket": {
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "颜色先放在一边。当时，他穿着西装上衣吗？"
+            },
+            {
+              "speaker": "naho",
+              "text": "穿着。我记得很清楚。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "谢谢你。这一点也许能让时间重新对上。"
+            }
+          ],
+          "next": "senbei-jacket"
+        },
+        "senbei-jacket": {
+          "type": "memory",
           "memoryId": "senbei-jacket",
-          "requiresUnlocked": true
-        }
-      ],
-
-      "kagaNotes": [
-        {
-          "id": "note-1",
-          "text": "田仓确实有事情没有说出来。"
+          "unlockMemory": "senbei-jacket",
+          "next": "complete"
         },
-        {
-          "id": "note-2",
-          "text": "仙贝店里那些不起眼的记忆，帮助重新拼起了他当天的行动。"
-        },
-        {
-          "id": "note-3",
-          "text": "可一个人有所隐瞒，并不意味着他隐瞒的是犯罪。"
+        "complete": {
+          "type": "complete",
+          "feedback": "记住了一个细节",
+          "actionLabel": "结束这次谈话"
         }
+      },
+      "characters": [
+        "kaga",
+        "naho",
+        "satoko",
+        "fumitaka"
       ],
-
-      "judgment": {
-        "prompt": "现在怎么看田仓？",
-
-        "choices": [
-          {
-            "id": "keep-suspicious",
-            "label": "继续怀疑",
-            "response": "还有让人在意的地方。不过，疑点本身并不能说明他杀了人。"
-          },
-          {
-            "id": "clear-for-now",
-            "label": "暂时排除",
-            "response": "至少目前，没有事实能把他的隐瞒和峰子的死亡直接连在一起。"
-          },
-          {
-            "id": "wait",
-            "label": "还想再看看",
-            "response": "也好。有些事情，不必急着在今晚得出答案。"
-          }
-        ],
-
-        "continueLabel": "整理今晚的记录"
-      },
-
-      "resolution": {
-        "status": "cleared",
-        "label": "排除嫌疑",
-
-        "paragraphs": [
-          "田仓确实说了谎。",
-          "但他说谎，是为了隐瞒一件与杀人无直接关系的私事。",
-          "人总有一些事情，不愿马上说出口。",
-          "警察要找出谎言，也要分清谎言背后藏着的，究竟是罪行，还是一个普通人的生活。"
-        ],
-
-        "finalLine": "今天的人形町，也有人替别人守住了一个秘密。"
-      },
-
-      "completion": {
-        "eyebrow": "调查第一日",
-        "title": "DAY 01 COMPLETE",
-        "subtitle": "仙贝店的女孩",
-        "actionLabel": "结束今天的调查",
-        "action": "return_to_investigation_hub"
+      "memories": {
+        "gray-suit": {
+          "id": "gray-suit",
+          "title": "灰色西装",
+          "text": "菜穗记得田仓那天穿着合身的灰色正装。"
+        },
+        "senbei-jacket": {
+          "id": "senbei-jacket",
+          "title": "一件西装上衣",
+          "text": "菜穗确认：田仓到店时仍穿着西装上衣。"
+        }
       }
     }
   },
@@ -105,26 +185,22 @@
     "title": "仙贝店的女孩",
     "policeStation": {
       "id": "ch1-night",
-
       "intro": {
         "eyebrow": "调查结束后",
         "title": "一天的调查结束了。",
         "text": "把今天听到的话重新想一遍。"
       },
-
       "person": {
         "id": "takura",
         "name": "田仓慎一",
         "summary": "保险公司业务员。案发当天曾去过峰子的住处，之后的行动并没有全部说清楚。"
       },
-
       "sectionLabels": {
         "memories": "今天记住的事",
         "notes": "加贺的记录",
         "judgment": "今晚怎么看",
         "resolution": "这一晚的判断"
       },
-
       "memoryCards": [
         {
           "memoryId": "gray-suit",
@@ -135,7 +211,6 @@
           "requiresUnlocked": true
         }
       ],
-
       "kagaNotes": [
         {
           "id": "note-1",
@@ -150,10 +225,8 @@
           "text": "可一个人有所隐瞒，并不意味着他隐瞒的是犯罪。"
         }
       ],
-
       "judgment": {
         "prompt": "现在怎么看田仓？",
-
         "choices": [
           {
             "id": "keep-suspicious",
@@ -171,24 +244,19 @@
             "response": "也好。有些事情，不必急着在今晚得出答案。"
           }
         ],
-
         "continueLabel": "整理今晚的记录"
       },
-
       "resolution": {
         "status": "cleared",
         "label": "排除嫌疑",
-
         "paragraphs": [
           "田仓确实说了谎。",
           "但他说谎，是为了隐瞒一件与杀人无直接关系的私事。",
           "人总有一些事情，不愿马上说出口。",
           "警察要找出谎言，也要分清谎言背后藏着的，究竟是罪行，还是一个普通人的生活。"
         ],
-
         "finalLine": "今天的人形町，也有人替别人守住了一个秘密。"
       },
-
       "completion": {
         "eyebrow": "调查第一日",
         "title": "DAY 01 COMPLETE",

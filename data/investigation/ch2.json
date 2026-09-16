@@ -1,14 +1,82 @@
 {
   "chapterId": 2,
   "title": "料亭的小伙计",
-
   "day": {
     "locationId": "kiku",
     "activeConversation": {
       "id": "ch2-kiku-active",
       "startNode": "arrival",
-      "characters": ["kaga", "shuhei", "yoriko", "taiji"],
-      "nodes": [],
+      "characters": [
+        "kaga",
+        "shuhei",
+        "yoriko",
+        "taiji"
+      ],
+      "nodes": [
+        {
+          "id": "arrival",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "这些人形烧，是你买的？"
+            },
+            {
+              "speaker": "shuhei",
+              "text": "是。那天顺路买的。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "之后呢？它们为什么会到峰子女士那里？"
+            }
+          ],
+          "next": "shuhei-evasive"
+        },
+        {
+          "id": "shuhei-evasive",
+          "type": "memory",
+          "memoryId": "shuhei-evasive",
+          "next": "route"
+        },
+        {
+          "id": "route",
+          "type": "dialogue",
+          "lines": [
+            {
+              "speaker": "kaga",
+              "text": "我想再听一次人形烧转手的过程。"
+            },
+            {
+              "speaker": "shuhei",
+              "text": "我已经说过了。"
+            },
+            {
+              "speaker": "kaga",
+              "text": "顺序很重要。尤其是谁碰过盒子。"
+            }
+          ],
+          "next": "ningyoyaki-not-direct"
+        },
+        {
+          "id": "ningyoyaki-not-direct",
+          "type": "memory",
+          "memoryId": "ningyoyaki-not-direct",
+          "next": "ningyoyaki-route"
+        },
+        {
+          "id": "ningyoyaki-route",
+          "type": "memory",
+          "memoryId": "ningyoyaki-route",
+          "next": "complete"
+        },
+        {
+          "id": "complete",
+          "type": "complete",
+          "feedback": {
+            "title": "被转送的人形烧"
+          }
+        }
+      ],
       "memories": [
         {
           "id": "shuhei-evasive",
@@ -36,112 +104,76 @@
     "optionalVisits": [
       {
         "id": "confirm-ningyoyaki-purchase",
-
         "locationId": "shigemori",
-
         "title": "确认人形烧的来处",
-
         "availableAfterMemory": "ningyoyaki-not-direct",
-
         "required": false,
-
         "conversation": {
           "startNode": "arrival",
-
           "nodes": [
             {
               "id": "arrival",
-
               "type": "dialogue",
-
               "lines": [
                 {
                   "speaker": "kaga",
-
                   "text": "想确认一件事。这个年轻人最近来这里买过人形烧吗？"
                 },
-
                 {
                   "speaker": "shop-clerk",
-
                   "text": "照片上的人？……有印象。来买过。"
                 }
               ],
-
               "choices": [
                 {
                   "id": "ask-when",
-
                   "label": "大概什么时候？",
-
                   "next": "confirm-time"
                 },
-
                 {
                   "id": "ask-package",
-
                   "label": "还记得他买的包装吗？",
-
                   "next": "confirm-package"
                 }
               ]
             },
-
             {
               "id": "confirm-time",
-
               "type": "dialogue",
-
               "lines": [
                 {
                   "speaker": "shop-clerk",
-
                   "text": "具体时间记不准，不过应该就是前些日子。"
                 },
-
                 {
                   "speaker": "kaga",
-
                   "text": "够了。谢谢。"
                 }
               ],
-
               "next": "complete"
             },
-
             {
               "id": "confirm-package",
-
               "type": "dialogue",
-
               "lines": [
                 {
                   "speaker": "shop-clerk",
-
                   "text": "普通的人形烧。这样的包装每天会卖出去不少。"
                 },
-
                 {
                   "speaker": "kaga",
-
                   "text": "也就是说，只凭包装认不出最后去了谁那里。"
                 }
               ],
-
               "next": "complete"
             },
-
             {
               "id": "complete",
-
               "type": "complete",
-
               "feedback": {
                 "title": "确认了一件小事",
-
                 "text": "修平确实买过人形烧。"
               },
-
               "unlockMemory": "ningyoyaki-purchase-confirmed"
             }
           ]
@@ -149,20 +181,17 @@
       }
     ]
   },
-
   "night": {
     "policeStation": {
       "intro": {
         "title": "一天的调查结束了。",
         "text": "再看看那盒绕了一段路的人形烧。"
       },
-
       "person": {
         "id": "shuhei",
         "name": "佐佐木修平",
         "summary": "松矢料亭的年轻学徒。买过出现在峰子房间里的人形烧，也没有一开始说清它的去向。"
       },
-
       "memoryCards": [
         {
           "memoryId": "ningyoyaki-not-direct",
@@ -173,7 +202,6 @@
           "requiresUnlocked": true
         }
       ],
-
       "kagaNotes": [
         {
           "id": "note-1",
@@ -188,7 +216,6 @@
           "text": "一件东西出现在现场，并不能说明它一路只经过一个人的手。"
         }
       ],
-
       "judgment": {
         "prompt": "人形烧能直接把修平与案件连在一起吗？",
         "choices": [
@@ -210,7 +237,6 @@
         ],
         "continueLabel": "整理今晚的记录"
       },
-
       "resolution": {
         "status": "cleared",
         "label": "排除嫌疑",
@@ -222,7 +248,6 @@
         ],
         "finalLine": "人形町里，一份点心也有自己的来路。"
       },
-
       "completion": {
         "title": "DAY 02 COMPLETE",
         "subtitle": "料亭的小伙计",

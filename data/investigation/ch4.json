@@ -161,7 +161,8 @@
               "text": "那不是狗。那是子宝犬。"
             }
           ],
-          "next": "why_here"
+          "next": "why_here",
+          "locationId": "suitengu"
         },
         {
           "id": "why_here",

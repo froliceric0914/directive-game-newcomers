@@ -174,7 +174,8 @@
               "label": "先聊聊峰子这个人",
               "next": "mineko"
             }
-          ]
+          ],
+          "locationId": "kishida-tax-office"
         },
         {
           "id": "years",

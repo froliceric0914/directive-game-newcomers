@@ -6,9 +6,9 @@ const files={characters:'characters',relationships:'relationships',clues:'clues'
 const names=Object.keys(files);
 const data={};
 for(const name of names)data[name]=JSON.parse(await readFile(new URL(`data/${files[name]}.json`,root),'utf8'));
-data.ch1Day=JSON.parse(await readFile(new URL('src/data/investigation/ch1/day.json',root),'utf8'));
-data.ch1Night=JSON.parse(await readFile(new URL('src/data/investigation/ch1/night.json',root),'utf8'));
-names.push('ch1Day','ch1Night');
+data.investigationChapters={};
+for(let chapter=1;chapter<=9;chapter++)data.investigationChapters[chapter]=JSON.parse(await readFile(new URL(`data/investigation/ch${chapter}.json`,root),'utf8'));
+names.push('investigationChapters');
 const locationVisuals=JSON.parse(await readFile(new URL('data/location-visuals.json',root),'utf8'));
 const characterScope=JSON.parse(await readFile(new URL('data/character-scope.json',root),'utf8'));
 const characterIds=new Set([...characterScope.v1Core,...characterScope.v1PrimaryNpc,...characterScope.v2Secondary].map(character=>character.id));
