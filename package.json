@@ -1,5 +1,6 @@
 {
   "private": true,
+  "version": "0.1.0",
   "scripts": {
     "dev": "node .openai/build.mjs --dev && node .openai/serve.mjs",
     "build": "node .openai/build.mjs",
