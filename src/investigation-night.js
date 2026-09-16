@@ -1,4 +1,4 @@
-import {nightMemories} from './investigation.mjs';
+import {nightMemories} from './investigation.js';
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 export function renderNight(chapter,progress,view){
  const data=chapter.night.policeStation,labels=data.sectionLabels??{},choice=data.judgment.choices.find(item=>item.id===progress.nightJudgment);

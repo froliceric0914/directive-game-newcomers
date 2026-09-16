@@ -1,36 +1,36 @@
-import { portraitFor } from "./npcs.mjs";
-import { chapters } from "./location-reading.mjs";
-import { createMovement } from "./movement.mjs";
-import { createVisit } from "./visit.mjs";
-import { zoomCameraFrame } from "./camera.mjs";
+import { portraitFor } from "./npcs.js";
+import { chapters } from "./location-reading.js";
+import { createMovement } from "./movement.js";
+import { createVisit } from "./visit.js";
+import { zoomCameraFrame } from "./camera.js";
 import {
   start,
   locations,
   ningyochoLocations,
   step,
   nearby,
-} from "./walk-map.mjs";
+} from "./walk-map.js";
 import {
   clues,
   locations as storyLocations,
   suspectReview,
   minekoApartmentEvidence,
-} from "./game-data.mjs";
+} from "./game-data.js";
 import {
   currentChapterNumber,
   storyProgress,
   visibleEvidence,
-} from "./location-state.mjs";
-import { isDevMode } from "./runtime-config.mjs";
+} from "./location-state.js";
+import { isDevMode } from "./runtime-config.js";
 import {
   dialogueStateForMapState,
   mapLocationIdForStory,
   mapLocationIdsForChapter,
   trackerLocationForOrder,
-} from "./story-locations.mjs";
-import {readInvestigationProgress,writeInvestigationProgress} from "./investigation-progress.mjs";
-import {loadChapter,chapterLocationIds,investigationLocationId} from "./investigation.mjs";
-import {renderNight} from "./investigation-night.mjs";
+} from "./story-locations.js";
+import {readInvestigationProgress,writeInvestigationProgress} from "./investigation-progress.js";
+import {loadChapter,chapterLocationIds,investigationLocationId} from "./investigation.js";
+import {renderNight} from "./investigation-night.js";
 let player = { ...start },
   steps = 0,
   lastLocation = "";

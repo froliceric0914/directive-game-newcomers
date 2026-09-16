@@ -1,4 +1,4 @@
-import {characters,locations,storyLocations} from './game-data.mjs';
+import {characters,locations,storyLocations} from './game-data.js';
 
 const entries=storyLocations.locations;
 const seenByLocation=new Map();

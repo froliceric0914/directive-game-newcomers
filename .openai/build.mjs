@@ -1,48 +1,127 @@
 // Dependency-free build for the existing static game. Run: node .openai/build.mjs
-import {readFile,writeFile,cp,access,rm} from 'node:fs/promises';
-const root=new URL('../',import.meta.url);
-const isDevMode=process.argv.includes('--dev');
-const files={characters:'characters',relationships:'relationships',clues:'clues',locations:'locations',phases:'phases',suspectReview:'suspectReview',minekoApartmentEvidence:'minekoApartmentEvidence',chapterEndReviews:'chapterEndReviews',storyLocations:'story-locations'};
-const names=Object.keys(files);
-const data={};
-for(const name of names)data[name]=JSON.parse(await readFile(new URL(`data/${files[name]}.json`,root),'utf8'));
-data.investigationChapters={};
-for(let chapter=1;chapter<=9;chapter++)data.investigationChapters[chapter]=JSON.parse(await readFile(new URL(`data/investigation/ch${chapter}.json`,root),'utf8'));
-names.push('investigationChapters');
-const locationVisuals=JSON.parse(await readFile(new URL('data/location-visuals.json',root),'utf8'));
-const characterScope=JSON.parse(await readFile(new URL('data/character-scope.json',root),'utf8'));
-const characterIds=new Set([...characterScope.v1Core,...characterScope.v1PrimaryNpc,...characterScope.v2Secondary].map(character=>character.id));
-const mapIds=new Set(data.locations.map.locations.map(location=>location.id));
-const clueIds=new Set(data.clues.entries.map(clue=>clue.id));
-for(const location of data.locations.map.locations)if(location.venueId&&!data.locations.venues[location.venueId])throw Error(`Unknown venue for map location ${location.id}: ${location.venueId}`);
-for(const location of Object.values(data.storyLocations.locations))if(location.mapRequired&&!data.locations.map.locations.some(item=>(item.storyLocationId??item.id)===location.id))throw Error(`Missing required story map location: ${location.id}`);
-for(const chapter of data.suspectReview.chapters)if(chapter.locationId&&!mapIds.has(chapter.locationId))throw Error(`Unknown Tracker location for ${chapter.chapterId}: ${chapter.locationId}`);
-for(const [id,venue] of Object.entries(data.locations.venues)){
-  if(venue.mapLocationId&&!mapIds.has(venue.mapLocationId))throw Error(`Unknown mapLocationId for ${id}: ${venue.mapLocationId}`);
-  for(const npcId of venue.npcIds??[])if(!characterIds.has(npcId))throw Error(`Unknown venue NPC for ${id}: ${npcId}`);
+import { readFile, writeFile, cp, access, rm } from "node:fs/promises";
+const root = new URL("../", import.meta.url);
+const isDevMode = process.argv.includes("--dev");
+const files = {
+  characters: "characters",
+  relationships: "relationships",
+  clues: "clues",
+  locations: "locations",
+  phases: "phases",
+  suspectReview: "suspectReview",
+  minekoApartmentEvidence: "minekoApartmentEvidence",
+  chapterEndReviews: "chapterEndReviews",
+  storyLocations: "story-locations",
+};
+const names = Object.keys(files);
+const data = {};
+for (const name of names)
+  data[name] = JSON.parse(
+    await readFile(new URL(`data/${files[name]}.json`, root), "utf8"),
+  );
+data.investigationChapters = {};
+for (let chapter = 1; chapter <= 9; chapter++)
+  data.investigationChapters[chapter] = JSON.parse(
+    await readFile(
+      new URL(`data/investigation/ch${chapter}.json`, root),
+      "utf8",
+    ),
+  );
+names.push("investigationChapters");
+const locationVisuals = JSON.parse(
+  await readFile(new URL("data/location-visuals.json", root), "utf8"),
+);
+const characterScope = JSON.parse(
+  await readFile(new URL("data/character-scope.json", root), "utf8"),
+);
+const characterIds = new Set(
+  [
+    ...characterScope.v1Core,
+    ...characterScope.v1PrimaryNpc,
+    ...characterScope.v2Secondary,
+  ].map((character) => character.id),
+);
+const mapIds = new Set(
+  data.locations.map.locations.map((location) => location.id),
+);
+const clueIds = new Set(data.clues.entries.map((clue) => clue.id));
+for (const location of data.locations.map.locations)
+  if (location.venueId && !data.locations.venues[location.venueId])
+    throw Error(
+      `Unknown venue for map location ${location.id}: ${location.venueId}`,
+    );
+for (const location of Object.values(data.storyLocations.locations))
+  if (
+    location.mapRequired &&
+    !data.locations.map.locations.some(
+      (item) => (item.storyLocationId ?? item.id) === location.id,
+    )
+  )
+    throw Error(`Missing required story map location: ${location.id}`);
+for (const chapter of data.suspectReview.chapters)
+  if (chapter.locationId && !mapIds.has(chapter.locationId))
+    throw Error(
+      `Unknown Tracker location for ${chapter.chapterId}: ${chapter.locationId}`,
+    );
+for (const [id, venue] of Object.entries(data.locations.venues)) {
+  if (venue.mapLocationId && !mapIds.has(venue.mapLocationId))
+    throw Error(`Unknown mapLocationId for ${id}: ${venue.mapLocationId}`);
+  for (const npcId of venue.npcIds ?? [])
+    if (!characterIds.has(npcId))
+      throw Error(`Unknown venue NPC for ${id}: ${npcId}`);
 }
-for(const [id,scene] of Object.entries(data.locations.scenes)){
-  const mapLocation=data.locations.map.locations.find(location=>location.id===id);
-  const venue=data.locations.venues[mapLocation?.venueId??id];
-  const visualKey=scene.visualKey??venue?.visualKey??id;
-  if(!locationVisuals[visualKey])throw Error(`Unknown visualKey for ${id}: ${visualKey}`);
-  if(!characterIds.has(scene.npcId))throw Error(`Unknown scene NPC for ${id}: ${scene.npcId}`);
-  if(!clueIds.has(scene.clueId))throw Error(`Unknown scene clue for ${id}: ${scene.clueId}`);
-  for(const [speaker] of scene.dialogue)if(!characterIds.has(speaker))throw Error(`Unknown dialogue speaker for ${id}: ${speaker}`);
-  for(const variant of Object.values(scene.chapterVariants??{})){
-    if(!characterIds.has(variant.npcId))throw Error(`Unknown variant NPC for ${id}: ${variant.npcId}`);
-    if(!clueIds.has(variant.clueId))throw Error(`Unknown variant clue for ${id}: ${variant.clueId}`);
-    for(const [speaker] of variant.dialogue)if(!characterIds.has(speaker))throw Error(`Unknown variant speaker for ${id}: ${speaker}`);
+for (const [id, scene] of Object.entries(data.locations.scenes)) {
+  const mapLocation = data.locations.map.locations.find(
+    (location) => location.id === id,
+  );
+  const venue = data.locations.venues[mapLocation?.venueId ?? id];
+  const visualKey = scene.visualKey ?? venue?.visualKey ?? id;
+  if (!locationVisuals[visualKey])
+    throw Error(`Unknown visualKey for ${id}: ${visualKey}`);
+  if (!characterIds.has(scene.npcId))
+    throw Error(`Unknown scene NPC for ${id}: ${scene.npcId}`);
+  if (!clueIds.has(scene.clueId))
+    throw Error(`Unknown scene clue for ${id}: ${scene.clueId}`);
+  for (const [speaker] of scene.dialogue)
+    if (!characterIds.has(speaker))
+      throw Error(`Unknown dialogue speaker for ${id}: ${speaker}`);
+  for (const variant of Object.values(scene.chapterVariants ?? {})) {
+    if (!characterIds.has(variant.npcId))
+      throw Error(`Unknown variant NPC for ${id}: ${variant.npcId}`);
+    if (!clueIds.has(variant.clueId))
+      throw Error(`Unknown variant clue for ${id}: ${variant.clueId}`);
+    for (const [speaker] of variant.dialogue)
+      if (!characterIds.has(speaker))
+        throw Error(`Unknown variant speaker for ${id}: ${speaker}`);
   }
-  if(!mapLocation)throw Error(`Scene has no map location: ${id}`);
-  await access(new URL('public/'+scene.background,root));
+  if (!mapLocation) throw Error(`Scene has no map location: ${id}`);
+  await access(new URL("public/" + scene.background, root));
 }
-for(const npc of Object.values(data.characters))for(const path of Object.values(npc.portraits))await access(new URL('public/'+path,root));
-for(const clue of data.clues.entries)if(!data.locations.map.locations.some(l=>l.id===clue.locationId))throw Error('Unknown clue location: '+clue.locationId);
-await access(new URL('src/index.html',root));
-await rm(new URL('dist/',root),{recursive:true,force:true});
-await cp(new URL('src/',root),new URL('dist/',root),{recursive:true});
-await cp(new URL('public/',root),new URL('dist/',root),{recursive:true});
-await writeFile(new URL('dist/game-data.mjs',root),'// Generated by .openai/build.mjs; edit root data/*.json instead.\n'+names.map(name=>`export const ${name}=${JSON.stringify(data[name],null,2)};`).join('\n')+'\n');
-await writeFile(new URL('dist/runtime-config.mjs',root),`// Generated by .openai/build.mjs.\nexport const isDevMode=${isDevMode};\n`);
-console.log(`Built ${isDevMode?'DEV':'PROD'} dist from src, public, and ${names.length} data files.`);
+for (const npc of Object.values(data.characters))
+  for (const path of Object.values(npc.portraits))
+    await access(new URL("public/" + path, root));
+for (const clue of data.clues.entries)
+  if (!data.locations.map.locations.some((l) => l.id === clue.locationId))
+    throw Error("Unknown clue location: " + clue.locationId);
+await access(new URL("src/index.html", root));
+await rm(new URL("dist/", root), { recursive: true, force: true });
+await cp(new URL("src/", root), new URL("dist/", root), { recursive: true });
+await cp(new URL("public/", root), new URL("dist/", root), { recursive: true });
+await writeFile(
+  new URL("dist/game-data.js", root),
+  "// Generated by .openai/build.mjs; edit root data/*.json instead.\n" +
+    names
+      .map(
+        (name) =>
+          `export const ${name}=${JSON.stringify(data[name], null, 2)};`,
+      )
+      .join("\n") +
+    "\n",
+);
+await writeFile(
+  new URL("dist/runtime-config.js", root),
+  `// Generated by .openai/build.mjs.\nexport const isDevMode=${isDevMode};\n`,
+);
+console.log(
+  `Built ${isDevMode ? "DEV" : "PROD"} dist from src, public, and ${names.length} data files.`,
+);

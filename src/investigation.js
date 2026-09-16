@@ -1,5 +1,5 @@
-import {investigationChapters,locations} from './game-data.mjs';
-import {mapLocationIdForStory} from './story-locations.mjs';
+import {investigationChapters,locations} from './game-data.js';
+import {mapLocationIdForStory} from './story-locations.js';
 export const investigationLocationId=id=>mapLocationIdForStory(id)??locations.map.locations.find(place=>place.id===id)?.id??null;
 export const loadChapter=id=>investigationChapters[Number(id)];
 export const conversationNodes=flow=>Array.isArray(flow?.nodes)?Object.fromEntries(flow.nodes.map(node=>[node.id,node])):flow?.nodes??{};

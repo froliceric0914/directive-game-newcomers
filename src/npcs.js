@@ -1,4 +1,4 @@
-import {characters,locations} from './game-data.mjs';
+import {characters,locations} from './game-data.js';
 export const npcs=characters;
 export const npcVenues=locations.venues;
 export function portraitFor(id,variant){const npc=npcs[id];return npc?.portraits[variant??npc.defaultPortrait]??null;}

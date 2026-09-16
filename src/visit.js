@@ -1,12 +1,12 @@
-import {readProgress,writeProgress,scrollProgress} from './reader-progress.mjs';
-import {clues,locations,chapterEndReviews} from './game-data.mjs';
-import {chapters,readingForLocation} from './location-reading.mjs';
-import {sceneAction} from './shortcuts.mjs';
-import {npcs,portraitFor} from './npcs.mjs';
-import {resolveCharacterId,selectStoryDialogue,storyLocationForMap} from './story-locations.mjs';
-import {readInvestigationProgress,writeInvestigationProgress} from './investigation-progress.mjs';
-import {loadChapter,conversationNodes,conversationForLocation,chapterMemories,investigationLocationId} from './investigation.mjs';
-import {speakerLabel} from './story-locations.mjs';
+import {readProgress,writeProgress,scrollProgress} from './reader-progress.js';
+import {clues,locations,chapterEndReviews} from './game-data.js';
+import {chapters,readingForLocation} from './location-reading.js';
+import {sceneAction} from './shortcuts.js';
+import {npcs,portraitFor} from './npcs.js';
+import {resolveCharacterId,selectStoryDialogue,storyLocationForMap} from './story-locations.js';
+import {readInvestigationProgress,writeInvestigationProgress} from './investigation-progress.js';
+import {loadChapter,conversationNodes,conversationForLocation,chapterMemories,investigationLocationId} from './investigation.js';
+import {speakerLabel} from './story-locations.js';
 export function createVisit(dialog,{stop,onClose,onClue=()=>{},onNarrativeProgress=()=>{},onVisitLocation=()=>{},onChapterComplete=()=>{},canCompleteChapter=()=>false,nextChapterStep=()=>null,chapterForLocation=()=>null}){
  let mode='talk',returnMode='talk',line=0,origin=false,ambient=false,notes=false,request=0,fullChapter=false,readingPlace=null,chapterId=1,scene=null,clue=null,selectedDialogue=null,dialogueState='ambient',narrative=null,conversation=null,nodeId=null,nodeLine=0,nodeMemoryShown=false,dayScene=null,dayNpc=null;
  let cleanupReading=()=>{};

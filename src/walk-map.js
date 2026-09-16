@@ -1,7 +1,7 @@
-import {locations as world} from './game-data.mjs';
-import {readingForLocation} from './location-reading.mjs';
-import {npcsAtLocation} from './npcs.mjs';
-import {trackerOrderForMap} from './story-locations.mjs';
+import {locations as world} from './game-data.js';
+import {readingForLocation} from './location-reading.js';
+import {npcsAtLocation} from './npcs.js';
+import {trackerOrderForMap} from './story-locations.js';
 // Relative positions transcribed from the user's station-map photograph; not a surveyed map.
 export const {width,height,start}=world.map;
 export const locations=world.map.locations.map(location=>({...location}));

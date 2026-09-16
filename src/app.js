@@ -1,5 +1,5 @@
-import {fresh,act,connect,verdict,nextDay} from './engine.mjs';
-import {districts,clues,places,deductions,dayNotes} from './data.mjs';
+import {fresh,act,connect,verdict,nextDay} from './engine.js';
+import {districts,clues,places,deductions,dayNotes} from './data.js';
 const key='ningyocho-seven-days-v1';
 let state=fresh(),storage=true;try{let old=JSON.parse(localStorage.getItem(key));if(old?.version===1&&old.day>=1&&old.day<=7&&Array.isArray(old.clues)&&Array.isArray(old.done)&&Array.isArray(old.journals)&&Array.isArray(old.solved)&&places.some(p=>p.id===old.place))state=old}catch{}
 let view='street',speech='',modalType='',filter='全部';
