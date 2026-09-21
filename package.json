@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "dev": "node .openai/build.mjs --dev && node .openai/serve.mjs",
     "build": "node .openai/build.mjs",
