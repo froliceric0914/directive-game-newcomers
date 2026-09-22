@@ -1,6 +1,5 @@
-![Development progress — 100%](docs/development-progress.svg)
-
 [Current development version](https://shinzanmono-seven-days-wei.froliceric.chatgpt.site)
+
 [试玩已发布版本](https://shinzanmono-seven-days-wei.froliceric.chatgpt.site)
 
 - AGENTS.md → how agents work inside this repository
