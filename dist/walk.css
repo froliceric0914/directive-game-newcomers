@@ -152,3 +152,4 @@ kbd{display:inline-block;font:11px/1.6 system-ui;padding:1px 5px;border:1px soli
 @media(max-width:700px){.kodemmacho-location-map{margin-bottom:100px;padding-inline:12px}.kodemmacho-map-grid{grid-template-columns:1fr;gap:10px;padding:12px;background:#e8e6d8}.kodemmacho-location-map>header{align-items:flex-start;flex-direction:column}}
 
 .narrative-night{max-width:820px;margin-inline:auto}.narrative-judgments button{min-height:44px}.archive-item p{white-space:pre-line}
+.language-switch{min-height:38px;padding:7px 11px;border:1px solid #aeb8ae;border-radius:4px;background:#fffdf6;color:#3d5c56;font-size:12px;font-weight:700;letter-spacing:.06em;white-space:nowrap}.language-switch:hover{background:#edf1e9}@media(max-width:850px){.language-switch{min-height:34px;padding:5px 9px}.case-status{flex-wrap:wrap;justify-content:flex-end}}
