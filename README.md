@@ -1,244 +1,246 @@
-[Current development version](https://shinzanmono-seven-days-wei.froliceric.chatgpt.site)
-
-[试玩已发布版本](https://shinzanmono-seven-days-wei.froliceric.chatgpt.site)
-
-- AGENTS.md → how agents work inside this repository
-- SKILL.md → reusable book → interactive reading experience methodology for future books
-
 # Shinzanmono · A Walk Through Ningyocho
 
-An interactive reading prototype inspired by Shinzanmono. Follow Kaga as he investigates Mineko’s apartment, walks through Ningyocho, visits local shops, reads the original novel, and reviews clues, suspects, and conclusions at the police station.
+> An interactive reading prototype inspired by *Shinzanmono*.
 
-This project also serves as the first reference implementation for a reusable Book → Interactive Reading Experience development workflow.
+[Play the current development version](https://shinzanmono-seven-days-wei.froliceric.chatgpt.site) · [中文说明](#新参者--人形町散步)
 
-See SKILL.md⁠￼ for the generalized methodology extracted from this project, including book ingestion, narrative modeling, interaction design, structured data generation, asset planning, implementation, and validation.
+Follow Kaga as he investigates Mineko's apartment, walks through Ningyocho, visits local shops, reads the original novel, and reviews clues, suspects, and conclusions at the police station.
 
-## Development Log
+This project is also the first reference implementation of a reusable **Book → Interactive Reading Experience** workflow. See [SKILL.md](SKILL.md) for the generalized methodology and [AGENTS.md](AGENTS.md) for repository-specific collaboration rules.
 
-2026-09-13 — Established the navigation hierarchy of Kodenmacho Hub → Ningyocho Map → Investigation Location. Added chapter-level suspect review, police-station conclusions and unresolved-clue records, four investigation states on the map, and revisit behavior. Mineko’s apartment now reveals evidence progressively according to the current chapter and can lead the reader into existing locations through discovered clues. In-location dialogue, notebook access, and full Chapter N reading are now parallel entry points. Full-text reading continues to use the existing fullscreen reader with saved reading progress and bookmarks.
+## Contents
+
+- [Current experience](#current-experience)
+- [Project structure](#project-structure)
+- [Run locally](#run-locally)
+- [Development approach](#development-approach)
+- [Book-adaptation workflow](#book-adaptation-workflow)
+- [Existing checks](#existing-checks)
+- [中文说明](#新参者--人形町散步)
+
+## Current Experience
+
+The current navigation hierarchy is:
+
+```text
+Kodenmacho Hub → Ningyocho Map → Investigation Location
+```
+
+The prototype includes:
+
+- chapter-level suspect review;
+- police-station conclusions and unresolved-clue records;
+- four investigation states on the map, including revisit behavior;
+- evidence in Mineko's apartment revealed progressively by chapter;
+- clue-driven routes from the apartment to existing locations; and
+- parallel access to location dialogue, the notebook, and full chapter reading.
+
+The fullscreen reader preserves reading progress and bookmarks. The earlier seven-day deduction prototype remains in the repository but is not loaded by the current experience.
+
+_Last development-log update: 2026-09-13._
 
 ## Project Structure
 
-.openai/ Existing site configuration and build.mjs tooling
-src/ Static UI and runtime logic source
-dist/ Build output only; do not edit directly
-tests/ Existing behavior and data checks
-AGENTS.md Collaboration and repository-specific agent rules
-SKILL.md Reusable book → interactive reading workflow
-README.md
-docs/
-GAME_FLOW.md Implemented flow, shortcuts, and current scope
-NARRATIVE.md Narrative principles, sources, and deferred directions
-ART_DIRECTION.md Visual guidelines and asset status
-data/
-characters.json Characters and avatars
-relationships.json Confirmed character relationships (partial)
-clues.json Current scene observations / clues
-locations.json Locations, map coordinates, characters, and full-text links
-phases.json Current phases and deferred chapters
-public/ Novel JSON, chapters/, and assets/
-assets/
-characters/ kaga/casual.png, kaga/formal.png, mineko.png, etc.
-locations/ Existing street and location artwork
-items/ Reserved item assets
+```text
+.
+├── .openai/                 Site configuration and build tooling
+├── data/                    Structured game data
+│   ├── characters.json     Characters and avatars
+│   ├── relationships.json  Confirmed relationships (partial)
+│   ├── clues.json          Current scene observations and clues
+│   ├── locations.json      Locations, coordinates, characters, and reading links
+│   └── phases.json         Current phases and deferred chapters
+├── docs/
+│   ├── GAME_FLOW.md        Implemented flow, shortcuts, and current scope
+│   ├── NARRATIVE.md        Narrative principles, sources, and deferred directions
+│   └── ART_DIRECTION.md    Visual guidelines and asset status
+├── public/                  Novel JSON, chapters, and assets
+│   └── assets/
+│       ├── characters/     Character artwork
+│       ├── locations/      Street and location artwork
+│       └── items/          Reserved item assets
+├── src/                     Static UI and runtime logic
+├── tests/                   Existing behavior and data checks
+├── dist/                    Generated output; do not edit directly
+├── AGENTS.md                Repository collaboration rules
+└── SKILL.md                 Reusable book-adaptation workflow
+```
 
-## Editing and Running
+`data/*.json` is the source of truth for structured game data. `public/assets/` is the source of truth for images.
 
-Treat data/\*.json as the source of truth for structured game data and public/assets/ as the source of truth for images.
+## Run Locally
 
-Development with all existing content accessible:
+Node.js 24 is recommended.
 
-`npm run dev`
+```bash
+# Development server with all existing content
+npm run dev
 
-Production build:
+# Production build
+npm run build
 
-`npm run build`
+# Preview the production build
+npm run preview
+```
 
-Local production preview:
+The build regenerates `dist/` from `src/`, `public/`, and `data/*.json`, including `dist/game-data.mjs` for the current data-adapter layer. Original novel JSON sources live under `public/`.
 
-`npm run preview`
-
-The build tooling regenerates the full dist/ output from src/, public/, and data/\*.json.
-
-Node.js 24 is recommended for local development.
-
-UI and runtime logic live in src/ and intentionally remain in the existing plain JavaScript/CSS structure. The build step generates dist/game-data.mjs for the current data-adapter layer. Original novel JSON sources live under public/.
-
-Do not edit dist/ directly.
+> [!IMPORTANT]
+> Do not edit `dist/` directly.
 
 ## Development Approach
 
-The project is currently in rapid MVP iteration.
+The project is in rapid MVP iteration. Its priority is a complete reading and investigation experience implemented as simply as practical.
 
-The priority is to build the complete reading and investigation experience with the smallest practical implementation before investing in deeper architecture or optimization.
-
-### Current principles:
-
-- Keep the reading experience primary and uninterrupted.
-- Reuse existing components, data, assets, routes, and state wherever possible.
-- Prefer simple V1 solutions over speculative or highly extensible architecture.
+- Keep reading primary and uninterrupted.
+- Reuse existing components, data, assets, routes, and state.
+- Prefer simple V1 solutions over speculative architecture.
 - Avoid unrelated refactoring during feature iteration.
-- Use manual testing as the primary validation method during rapid UI/UX development.
-- Existing unit tests are retained but are not expected to be updated or run for every MVP change.
-- Deeper deduction mechanics belong primarily in the police station rather than interrupting the Reader.
-- The map focuses on revisiting locations, NPCs, and details that may have been overlooked while reading.
+- Use manual testing as the primary validation method for rapid UI/UX work.
+- Keep deeper deduction mechanics in the police station rather than interrupting the reader.
+- Use the map for revisiting locations, NPCs, and potentially overlooked details.
 
-### Reusable Book-Adaptation Workflow
+## Book-Adaptation Workflow
 
-The development experience from Shinzanmono has been abstracted into SKILL.md⁠ so that the same process can be reused when starting from a new book.
+The reusable methodology is documented in [SKILL.md](SKILL.md):
 
-At a high level:
+```text
+Book → Ingest → Narrative Model → Interaction Analysis → Adaptation Plan
+     → Human Review → Structured Data → Asset Planning → Implementation → Validation
+```
 
-BOOK
-↓
-Ingest
-↓
-Narrative Model
-↓
-Interaction Analysis
-↓
-Adaptation Plan
-↓
-Human Review
-↓
-Structured Data
-↓
-Asset Planning
-↓
-Implementation
-↓
-Validation
+The workflow separates understanding the book, designing the adaptation, and implementing the application. For a new book, the goal is to replace the source, narrative data, adaptation configuration, and assets—not redesign the entire app.
 
-The skill intentionally separates understanding the book, designing the adaptation, and implementing the application.
+## Existing Checks
 
-SKILL.md is the reusable methodology across books. AGENTS.md remains specific to collaboration and development rules inside this repository.
+Existing behavior and data checks are available under `tests/`. They are optional during MVP development unless a change specifically requires them.
 
-Existing Checks
-
-The repository contains existing behavior and data checks under tests/.
-
-They can be run when needed:
-
+```bash
 node tests/walk.mjs
 node tests/camera.mjs
 node tests/movement.mjs
 node tests/shortcuts.mjs
 node tests/location-reading.mjs
 node tests/game.mjs
+```
 
-During current MVP development, these checks are optional unless a change specifically requires them.
+Additional project documentation:
 
-See GAME_FLOW⁠￼ for the implemented user flow, NARRATIVE⁠￼ for narrative principles and source notes, ART_DIRECTION⁠￼ for visual direction and asset status, and SKILL.md⁠￼ for the reusable book-adaptation workflow.
+- [Game flow](docs/GAME_FLOW.md)
+- [Narrative principles and sources](docs/NARRATIVE.md)
+- [Art direction and asset status](docs/ART_DIRECTION.md)
+- [Reusable adaptation methodology](SKILL.md)
 
-The earlier seven-day deduction prototype is preserved in the repository but is not loaded by the current experience.
-
-⸻
+---
 
 # 新参者 · 人形町散步
 
-以《新参者》为蓝本的交互阅读原型：跟随加贺调查峰子公寓、漫游人形町、访问店家、阅读原著，并在警局复核嫌疑与归档判断。
+> 以《新参者》为蓝本的交互阅读原型。
 
-本项目同时作为一套可复用的 「书籍 → 交互阅读体验」 开发流程的第一个参考实现。
+[试玩当前开发版本](https://shinzanmono-seven-days-wei.froliceric.chatgpt.site) · [English](#shinzanmono--a-walk-through-ningyocho)
 
-完整方法已整理至 SKILL.md⁠￼，包括原著解析、叙事模型、交互设计、结构化数据、素材规划、实现与验证，可用于之后将新的书籍转换为交互阅读项目。
+跟随加贺调查峰子公寓、漫游人形町、访问店家、阅读原著，并在警局复核嫌疑与归档判断。
 
-## 开发日志
+本项目也是「**书籍 → 交互阅读体验**」可复用开发流程的首个参考实现。通用方法见 [SKILL.md](SKILL.md)，仓库内的 Agent 协作规则见 [AGENTS.md](AGENTS.md)。
 
-2026-09-13 — 确立“小传马町 Hub → 人形町地图 → 调查地点”的导航层级；完成章节嫌疑复核、警局结论/疑点档案、地图四种调查状态与重访行为；峰子公寓开始按当前章节逐步展示证物，并可沿线索进入既有地点；店内对话、手帐和第 N 章全文改为并列入口，全文继续使用可续读、可书签的全屏阅读器。
+## 当前体验
 
-## 目录
+当前导航层级为：
 
-.openai/ 现有站点配置与 build.mjs 同步工具
-src/ 静态界面与运行逻辑源文件
-dist/ 仅构建产物，不直接编辑
-tests/ 行为与数据检查
-AGENTS.md 当前仓库的 Agent 协作规则
-SKILL.md 可复用的书籍 → 交互阅读开发流程
-README.md
-docs/
-GAME_FLOW.md 已实现流程、快捷键和范围
-NARRATIVE.md 叙事原则、来源与暂缓方向
-ART_DIRECTION.md 视觉规范和素材状态
-data/
-characters.json 人物与头像
-relationships.json 已确定的人物关系（部分）
-clues.json 当前场景的见闻
-locations.json 地点、地图坐标、人物和全文关联
-phases.json 当前阶段与暂缓章节
-public/ 原著 JSON、chapters/ 及 assets/
-assets/
-characters/ kaga/casual.png、kaga/formal.png、mineko.png 等
-locations/ 已有街景；公寓和办公室素材待提供
-items/ 物品素材预留
+```text
+小传马町 Hub → 人形町地图 → 调查地点
+```
 
-## 编辑与运行
+原型目前包括：
 
-数据以 data/\*.json 为准，图片以 public/assets/ 为准。调整后运行：
+- 按章节复核嫌疑人；
+- 在警局归档结论与未解疑点；
+- 地图上的四种调查状态及重访行为；
+- 峰子公寓随当前章节逐步展示证物；
+- 根据发现的线索，从公寓进入已有地点；
+- 并列进入店内对话、手帐和第 N 章全文。
 
-node .openai/build.mjs
-python3 -m http.server 4173 --directory dist
+全文使用全屏阅读器，并保留阅读进度和书签。早期七日推理版本仍保存在仓库中，但当前体验不会加载。
 
-打开 http://127.0.0.1:4173/。
+_最近一次开发日志更新：2026-09-13。_
 
-构建工具无第三方依赖；从 src/、public/ 和 data/\*.json 重新生成整个 dist/。运行与测试建议使用 Node.js 24。
+## 目录结构
 
-界面与运行逻辑位于 src/，保持原来的纯 JavaScript/CSS 结构。构建生成 dist/game-data.mjs 供现有数据适配模块读取。原著 JSON 的来源位于 public/。
+```text
+.
+├── .openai/                 站点配置与构建工具
+├── data/                    结构化游戏数据
+├── docs/                    流程、叙事与视觉文档
+├── public/                  原著 JSON、章节与素材
+│   └── assets/              人物、地点与物品素材
+├── src/                     静态界面与运行逻辑
+├── tests/                   现有行为与数据检查
+├── dist/                    构建产物；不要直接编辑
+├── AGENTS.md                仓库内的 Agent 协作规则
+└── SKILL.md                 可复用的书籍改编流程
+```
 
-不要直接编辑 dist/。
+结构化游戏数据以 `data/*.json` 为准，图片以 `public/assets/` 为准。
 
-### 可复用开发方法
+## 本地运行
 
-《新参者》的开发过程已经进一步抽象到 SKILL.md⁠￼。
+建议使用 Node.js 24。
 
-原著
-↓
-解析
-↓
-叙事模型
-↓
-交互机会分析
-↓
-改编方案
-↓
-人工确认
-↓
-结构化数据
-↓
-素材规划
-↓
-实现
-↓
-验证
+```bash
+# 启动开发环境并访问全部现有内容
+npm run dev
 
-其中：
+# 生成生产构建
+npm run build
 
-- SKILL.md 负责跨书籍复用的方法论；
-- AGENTS.md 负责当前仓库内的 Agent 协作与开发规则；
-- docs/ 记录《新参者》这个具体项目的流程、叙事和视觉设计；
-- data/ 保存当前作品的结构化游戏内容；
-- src/ 负责运行这些内容。
+# 本地预览生产构建
+npm run preview
+```
 
-这样下一本书原则上应主要替换：
+构建工具会根据 `src/`、`public/` 和 `data/*.json` 重新生成 `dist/`，其中包括供当前数据适配层使用的 `dist/game-data.mjs`。原著 JSON 位于 `public/`。
 
-source
+> [!IMPORTANT]
+> 不要直接编辑 `dist/`。
 
-- narrative data
-- adaptation configuration
-- assets
+## 开发原则
 
-而不是重新设计整个应用。
+项目目前处于快速 MVP 迭代阶段，优先用最简单可行的方式完成阅读与调查体验。
 
-## 验证
+- 保持阅读体验优先且不中断。
+- 尽量复用现有组件、数据、素材、路由和状态。
+- 优先简单的 V1 方案，避免过早设计扩展架构。
+- 功能迭代时避免无关重构。
+- 快速 UI/UX 开发以人工验证为主。
+- 深层推理机制主要放在警局，避免打断阅读器。
+- 地图主要用于重访地点、NPC 和阅读时可能遗漏的细节。
 
-先运行构建，再运行现有测试（测试仍检查构建产物）。
+## 可复用的书籍改编流程
 
+完整方法见 [SKILL.md](SKILL.md)：
+
+```text
+原著 → 解析 → 叙事模型 → 交互机会分析 → 改编方案
+     → 人工确认 → 结构化数据 → 素材规划 → 实现 → 验证
+```
+
+这套流程将理解原著、设计改编和实现应用分开。制作下一本书时，原则上主要替换原始内容、叙事数据、改编配置和素材，而不是重新设计整个应用。
+
+## 现有检查
+
+现有行为和数据检查位于 `tests/`。MVP 开发期间，除非某项修改明确需要，否则不强制运行。
+
+```bash
 node tests/walk.mjs
 node tests/camera.mjs
 node tests/movement.mjs
 node tests/shortcuts.mjs
 node tests/location-reading.mjs
 node tests/game.mjs
+```
 
-流程说明见 GAME_FLOW⁠￼，叙事与来源见 NARRATIVE⁠￼，美术与缺失素材见 ART_DIRECTION⁠￼，跨书籍复用的开发方法见 SKILL.md⁠￼。
+更多项目文档：
 
-早期七日推理版本代码保留，但不在当前页面加载。
+- [已实现流程、快捷键和范围](docs/GAME_FLOW.md)
+- [叙事原则与来源](docs/NARRATIVE.md)
+- [视觉规范与素材状态](docs/ART_DIRECTION.md)
+- [可复用的书籍改编方法](SKILL.md)
