@@ -1,15 +1,38 @@
+import { translationsEn } from "./game-data.js";
+
 const localeKey = "shinzanmonoLocale";
 
 const english = {
+  ...translationsEn,
   "新参者": "Newcomer",
   "人形町纪事": "Chronicles of Ningyocho",
   "玩法与说明 ⓘ": "How to play ⓘ",
+  "玩法说明 ⓘ": "How to play ⓘ",
+  "玩法说明": "How to Play",
+  "关闭玩法说明": "Close instructions",
+  "阅读是主线，地图帮助你找到下一段故事发生的地方。": "Reading drives the story; the map helps you find where the next part unfolds.",
+  "跟随故事进度，进入当前章节。": "Follow the story tracker and enter the current chapter.",
+  "街区探索": "Neighborhood exploration",
+  "在人形町地图移动，走近地点后进入调查。": "Move around the Ningyocho map and approach a location to investigate.",
+  "调查与回顾": "Investigation and review",
+  "通过对话与手帐记录事实，再到警局进行晚间回顾。": "Record facts through dialogue and your notebook, then review the day at the police station.",
+  "自动保存": "Automatic saving",
+  "阅读、书签和调查进度会保存在当前浏览器。": "Reading, bookmarks, and investigation progress are saved in this browser.",
+  "知道了": "Got it",
+  "切换语言": "Switch language",
+  "六月 · 调查第": "June · Investigation Day",
+  "天 / 07": "of 07",
+  "六点精力": "Six stamina points",
   "6 / 6 精力": "6 / 6 stamina",
   "街区漫游": "Explore",
   "调查手帐": "Journal",
   "线索推理": "Reasoning",
   "人形町": "Ningyocho",
   "小传马町": "Kodemmacho",
+  "小传马町方向": "Toward Kodemmacho",
+  "小传马町方向 →": "Toward Kodemmacho →",
+  "← 人形町站方向": "← Toward Ningyocho Station",
+  "小传马町方向地图": "Kodemmacho area map",
   "警局": "Police Station",
   "日本桥 / INVESTIGATION HUB": "NIHONBASHI / INVESTIGATION HUB",
   "七日循迹，在人形町的街巷中，寻找散落其中的线索，逐步揭开真相。": "Follow the trail for seven days through Ningyocho, gathering scattered clues and gradually uncovering the truth.",
@@ -33,6 +56,12 @@ const english = {
   "返回小传马町": "Back to Kodemmacho",
   "返回人形町": "Back to Ningyocho",
   "故事进度": "Story progress",
+  "加贺当前所在章节": "Kaga's current chapter",
+  "后续章节，待探索": "Future chapter · to be explored",
+  "小传马町调查地图": "Kodemmacho investigation map",
+  "已访问": "Visited",
+  "已回顾": "Reviewed",
+  "已解决": "Resolved",
   "当前章节": "Current chapter",
   "继续阅读": "Continue reading",
   "继续调查": "Continue investigation",
@@ -48,6 +77,7 @@ const english = {
   "↑ 小传马町方向": "↑ Toward Kodemmacho",
   "滨町公园 →": "Hamacho Park →",
   "人形町站": "Ningyocho Station",
+  "人形町站周边": "Around Ningyocho Station",
   "出发点": "Starting point",
   "加贺": "Kaga",
   "店家": "Shop",
@@ -154,7 +184,17 @@ function translateText(value) {
   if (!text) return value;
   let translated = english[text];
   if (!translated) {
+    const parts = text.split(" · ");
+    if (parts.length > 1 && parts.some(part => english[part]))
+      translated = parts.map(part => english[part] ?? part).join(" · ");
+  }
+  if (!translated) {
+    const marker = text.match(/^([·•]\s*)(.+)$/);
+    if (marker && english[marker[2]]) translated = marker[1] + english[marker[2]];
+  }
+  if (!translated) {
     translated = text
+      .replace(/后续章节，待探索/g, english["后续章节，待探索"])
       .replace(/^← 返回(.+)$/, (_, place) => `← Back to ${english[place] ?? place}`)
       .replace(/^(第[一二三四五六七八九十]+章)全文$/, (_, chapter) => `${english[chapter] ?? chapter} · Full chapter`)
       .replace(/^(\d+) 步$/, "$1 steps")
@@ -174,12 +214,18 @@ export function localize(root = document) {
   const walker = document.createTreeWalker(start, NodeFilter.SHOW_TEXT);
   const nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);
-  for (const node of nodes) if (!excluded(node)) node.nodeValue = translateText(node.nodeValue);
-  const elements = start.matches?.("[aria-label],[title]") ? [start] : [];
-  elements.push(...(start.querySelectorAll?.("[aria-label],[title]") ?? []));
+  for (const node of nodes) if (!excluded(node)) {
+    const translated = translateText(node.nodeValue);
+    if (translated !== node.nodeValue) node.nodeValue = translated;
+  }
+  const elements = start.matches?.("[aria-label],[title],[alt]") ? [start] : [];
+  elements.push(...(start.querySelectorAll?.("[aria-label],[title],[alt]") ?? []));
   for (const element of elements) {
     if (element.closest("[data-no-i18n], .novel-text")) continue;
-    for (const attr of ["aria-label", "title"]) if (element.hasAttribute(attr)) element.setAttribute(attr, translateText(element.getAttribute(attr)));
+    for (const attr of ["aria-label", "title", "alt"]) if (element.hasAttribute(attr)) {
+      const current = element.getAttribute(attr), translated = translateText(current);
+      if (translated !== current) element.setAttribute(attr, translated);
+    }
   }
 }
 
@@ -187,9 +233,12 @@ export function installI18n() {
   document.documentElement.lang = getLocale() === "en" ? "en" : "zh-CN";
   localize(document.body);
   const observer = new MutationObserver(records => {
-    for (const record of records) for (const node of record.addedNodes) {
-      if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.TEXT_NODE) localize(node);
+    for (const record of records) {
+      if (record.type === "attributes" || record.type === "characterData") localize(record.target);
+      for (const node of record.addedNodes) {
+        if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.TEXT_NODE) localize(node);
+      }
     }
   });
-  observer.observe(document.body, { childList: true, subtree: true });
+  observer.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["aria-label", "title", "alt"] });
 }

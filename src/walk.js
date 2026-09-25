@@ -63,7 +63,7 @@ let devAccessMode = isDevMode
     Math.max(1, Number(localStorage.getItem(devProgressKey)) || 1),
   );
 $("#app").innerHTML =
-  `<header class="header"><div class="brand-mark">新</div><div><h1>人形町散步</h1><p>在街道与书页之间</p></div><div class="header-end"><span class="edition">新参者 · 阅读漫游</span><button class="text-button" id="open-reading" aria-keyshortcuts="r">打开书页 <kbd>R</kbd></button></div></header><main><section class="map-panel"><div class="map-heading"><div><span class="eyebrow">NIHONBASHI · NINGYOCHO</span><h2>日本桥，人形町。</h2></div><div class="map-tools"><span class="map-tag">街区导览图</span><div class="zoom-controls" role="group" aria-label="地图缩放"><button id="zoom-out" aria-label="缩小地图" aria-keyshortcuts="-">−</button><output id="zoom-level" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大地图" aria-keyshortcuts="+ =">+</button></div></div></div><div class="map-scroll" tabindex="0" role="region" aria-label="人形町地图，长按 WASD 或方向键连续移动加贺警官"><div id="map"><div class="road vertical"></div><div class="road horizontal"></div><div class="street-label">甘 酒 横 丁</div><div class="north-label">↑ 小传马町方向</div><div class="east-label">滨町公园 →</div><div class="station">人形町站<span>出发点</span></div>${ningyochoLocations.map((l) => `<div class="shop ${l.npc ? "" : "landmark"}" data-shop="${l.id}" style="--x:${l.x};--y:${l.y};--w:${l.w};--h:${l.h}"><span class="shop-number">${l.trackerOrder == null ? "" : String(l.trackerOrder).padStart(2, "0")}</span><strong>${l.name}</strong><small>${l.kind}</small></div><div class="entrance" style="--x:${l.door.x};--y:${l.door.y}" aria-label="${l.name}入口">${l.npc ? '<span class="npc" title="' + l.npc + '">店</span>' : "◇"}</div>`).join("")}<div id="player" aria-label="加贺警官"><img src="${portraitFor("kaga", "map")}" alt="" draggable="false"></div></div></div><div class="map-caption"><span><i class="legend player-key"></i>加贺 <i class="legend npc-key"></i>店家 <i class="legend road-key"></i>街道</span><span>依参考图绘制 · 非等比例</span></div><div class="walking-bar"><div><span class="eyebrow">正在漫游</span><p id="walking-place">人形町站</p><small id="walk-hint" role="status" aria-live="polite">沿街走近一家店。</small></div><div class="move-controls"><span class="keyboard-hint">长按 WASD 或方向键连续移动</span><div class="dpad">${[
+  `<header class="header"><div class="brand-mark">新</div><div><h1>人形町散步</h1><p>在街道与书页之间</p></div><div class="header-end"><span class="edition">新参者 · 阅读漫游</span><button class="text-button" id="open-reading" aria-keyshortcuts="r">打开书页 <kbd>R</kbd></button></div></header><main><section class="map-panel"><div class="map-heading"><div><span class="eyebrow">NIHONBASHI · NINGYOCHO</span><h2>人形町站周边</h2></div><div class="map-tools"><span class="map-tag">街区导览图</span><div class="zoom-controls" role="group" aria-label="地图缩放"><button id="zoom-out" aria-label="缩小地图" aria-keyshortcuts="-">−</button><output id="zoom-level" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大地图" aria-keyshortcuts="+ =">+</button></div></div></div><div class="map-scroll" tabindex="0" role="region" aria-label="人形町地图，长按 WASD 或方向键连续移动加贺警官"><div id="map"><div class="road vertical"></div><div class="road horizontal"></div><div class="street-label">甘 酒 横 丁</div><div class="north-label">↑ 小传马町方向</div><div class="east-label">滨町公园 →</div><div class="station">人形町站<span>出发点</span></div>${ningyochoLocations.map((l) => `<div class="shop ${l.npc ? "" : "landmark"}" data-shop="${l.id}" style="--x:${l.x};--y:${l.y};--w:${l.w};--h:${l.h}"><span class="shop-number">${l.trackerOrder == null ? "" : String(l.trackerOrder).padStart(2, "0")}</span><strong>${l.name}</strong><small>${l.kind}</small></div><div class="entrance" style="--x:${l.door.x};--y:${l.door.y}" aria-label="${l.name}入口">${l.npc ? '<span class="npc" title="' + l.npc + '">店</span>' : "◇"}</div>`).join("")}<div id="player" aria-label="加贺警官"><img src="${portraitFor("kaga", "map")}" alt="" draggable="false"></div></div></div><div class="map-caption"><span><i class="legend player-key"></i>加贺 <i class="legend npc-key"></i>店家 <i class="legend road-key"></i>街道</span><span>依参考图绘制 · 非等比例</span></div><div class="walking-bar"><div><span class="eyebrow">正在漫游</span><p id="walking-place">人形町站</p><small id="walk-hint" role="status" aria-live="polite">沿街走近一家店。</small></div><div class="move-controls"><span class="keyboard-hint">长按 WASD 或方向键连续移动</span><div class="dpad">${[
     [0, -1, "↑", "上"],
     [-1, 0, "←", "左"],
     [0, 1, "↓", "下"],
@@ -91,12 +91,28 @@ detailScreen
     "beforeend",
     '<div class="area-switcher map-area-switcher"><button data-screen="ningyocho" class="active">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div>',
   );
+const primaryMapView = detailScreen.querySelector(".map-scroll");
+const mapRegionFrame = document.createElement("div");
+mapRegionFrame.className = "map-region-frame";
+primaryMapView.before(mapRegionFrame);
+primaryMapView.classList.add("map-region-view", "is-active");
+primaryMapView.dataset.mapRegion = "ningyocho";
+mapRegionFrame.append(primaryMapView);
+primaryMapView.querySelector("#map").insertAdjacentHTML(
+  "beforeend",
+  '<button class="map-region-exit map-region-exit-east" data-map-region-target="kodemmacho">小传马町方向 →</button>',
+);
+mapRegionFrame.insertAdjacentHTML(
+  "beforeend",
+  `<div class="map-scroll map-region-view kodemmacho-street-map" data-map-region="kodemmacho" hidden tabindex="0" role="region" aria-label="小传马町方向地图"><div class="kodemmacho-street-canvas"><div class="secondary-road secondary-road-main"></div><div class="secondary-road secondary-road-cross"></div><span class="secondary-map-label">小 传 马 町</span><button class="map-region-exit map-region-exit-west" data-map-region-target="ningyocho">← 人形町站方向</button>${kodemmachoLocations.map((location) => `<button class="secondary-location" data-kodemmacho-location="${location.id}" style="--x:${location.x};--y:${location.y};--w:${location.w};--h:${location.h}"><span class="kodemmacho-map-marker">${location.trackerOrder == null ? "•" : String(location.trackerOrder).padStart(2, "0")}</span><strong>${escape(location.name)}</strong><small>${escape(location.kind)}</small><em class="location-status"></em></button>`).join("")}</div></div>`,
+);
 $(".header").outerHTML =
-  `<header class="case-header"><div class="case-brand"><div class="brand-mark">新</div><div><h1>新参者 <span>人形町纪事</span></h1><p>NIHONBASHI · A NEIGHBORHOOD MYSTERY</p></div></div><div class="case-status"><div>六月 · 调查第 <strong>01</strong> 天 / 07</div><div class="stamina" aria-label="六点精力"><i></i><i></i><i></i><i></i><i></i><i></i><span>6 / 6 精力</span></div><button class="language-switch" id="language-toggle" aria-label="切换语言">${getLocale() === "en" ? "中文" : "EN"}</button><button class="text-button" id="guide">玩法与说明 ⓘ</button></div></header>${isDevMode ? `<aside class="dev-tools" aria-label="开发访问模式"><span class="dev-mode-switch" role="group"><b>DEV</b><button data-dev-access="progress" aria-pressed="${devAccessMode === "progress"}">正常进度</button><button data-dev-access="select" aria-pressed="${devAccessMode === "select"}">自由选择</button><button data-dev-access="all" aria-pressed="${devAccessMode === "all"}">解锁全部</button></span><label class="dev-progress-select" ${devAccessMode === "select" ? "" : "hidden"}>当前章节 <select id="dev-progress-select">${suspectReview.chapters.map((chapter, index) => `<option value="${index + 1}" ${devPreviewChapter === index + 1 ? "selected" : ""}>${String(index + 1).padStart(2, "0")} · ${escape(chapter.title)}</option>`).join("")}</select></label></aside>` : ""}`;
+  `<header class="case-header"><div class="case-brand"><div class="brand-mark">新</div><div><h1>新参者 <span>人形町纪事</span></h1><p>NIHONBASHI · A NEIGHBORHOOD MYSTERY</p></div></div><div class="case-status"><div>六月 · 调查第 <strong>01</strong> 天 / 07</div><button class="language-switch" id="language-toggle" aria-label="切换语言">${getLocale() === "en" ? "中文" : "EN"}</button><button class="text-button" id="guide"><span>玩法说明</span><span aria-hidden="true">ⓘ</span></button></div></header>${isDevMode ? `<aside class="dev-tools" aria-label="开发访问模式"><span class="dev-mode-switch" role="group"><b>DEV</b><button data-dev-access="progress" aria-pressed="${devAccessMode === "progress"}">正常进度</button><button data-dev-access="select" aria-pressed="${devAccessMode === "select"}">自由选择</button><button data-dev-access="all" aria-pressed="${devAccessMode === "all"}">解锁全部</button></span><label class="dev-progress-select" ${devAccessMode === "select" ? "" : "hidden"}>当前章节 <select id="dev-progress-select">${suspectReview.chapters.map((chapter, index) => `<option value="${index + 1}" ${devPreviewChapter === index + 1 ? "selected" : ""}>${String(index + 1).padStart(2, "0")} · ${escape(chapter.title)}</option>`).join("")}</select></label></aside>` : ""}`;
 detailScreen.insertAdjacentHTML(
   "beforebegin",
   `<nav class="case-tabs" aria-label="调查功能"><button data-top="roam" class="active">街区漫游</button><button data-top="notes">调查手帐 <b>1</b></button><button data-top="deduction">线索推理</button></nav><main class="hub-screen" id="hub-screen"><section class="hub-scene"><div class="hub-copy"><span>日本桥 / INVESTIGATION HUB</span><h2>人形町纪事</h2><p>七日循迹，在人形町的街巷中，寻找散落其中的线索，逐步揭开真相。</p></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police">警局</button></div></section></main><main class="area-screen" id="kodemmacho-screen" hidden><section class="area-scene reading-home"><div class="area-copy"><span>小传马町 / STORY PROGRESS</span><h2>沿着峰子的足迹阅读。</h2><p>章节是故事进度；街区地图帮助你找到下一段故事发生的地方。</p></div><div class="reading-dashboard"><section class="story-progress hero" id="hub-story-progress" aria-label="故事进度"></section><div class="apartment-return"><div><small id="apartment-state">调查据点</small><strong>峰子公寓</strong><span id="apartment-copy">随时返回查看已经发现的线索。</span></div><button data-screen="apartment">进入公寓</button></div></div><section class="kodemmacho-location-map" aria-label="小传马町调查地图"><header><small>KODEMMACHO · INVESTIGATION MAP</small><strong>后续调查地点</strong></header><div class="kodemmacho-map-grid">${kodemmachoLocations.map((location) => `<button data-kodemmacho-location="${location.id}"><span class="kodemmacho-map-marker">${location.trackerOrder == null ? "•" : String(location.trackerOrder).padStart(2, "0")}</span><strong>${escape(location.name)}</strong><small>${escape(location.kind)}</small><em class="location-status"></em></button>`).join("")}</div></section><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho" class="active">小传马町</button><button data-screen="police">警局</button></div><p class="area-status" role="status">阅读与调查进度会保存在当前浏览器。</p></section></main><main class="police-screen" id="police-screen" hidden><button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>把事实放在一起。</h2><p>这里将用于整理线索与人物关系。正式推理机制将在后续加入。</p></div><div class="police-grid"><article><small>CLUES</small><h3>收集的线索</h3><p>查看从街区与调查地点带回的事实。</p></article><article><small>RELATIONSHIPS</small><h3>人物与关系</h3><p>确认人与地点之间已经查明的联系。</p></article><article><small>SUMMARY</small><h3>调查总结</h3><p>记录当前问题，并决定下一步调查方向。</p></article></div><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div></main>`,
 );
+$("#kodemmacho-screen .kodemmacho-location-map")?.remove();
 $("#kodemmacho-screen .back-hub")?.remove();
 $("#police-screen").innerHTML =
   `<button class="back-hub" data-screen="hub">← 返回调查 Hub</button><div class="area-copy"><span>日本桥署 / POLICE STATION</span><h2>晚间回顾与警局档案</h2><p>回看今天的故事与记录。</p></div><section class="suspect-review" id="suspect-review"></section><section class="police-archive"><div class="archive-head"><div><small>POLICE ARCHIVE</small><h3>警局档案</h3></div><div class="archive-tabs"><button data-archive="all" class="active">全部</button><button data-archive="doubt">疑点</button><button data-archive="conclusion">结论</button></div></div><div id="archive-list"></div></section><div class="area-switcher"><button data-screen="ningyocho">人形町</button><button data-screen="kodemmacho">小传马町</button><button data-screen="police" class="active">警局</button></div>`;
@@ -106,6 +122,10 @@ $("#police-screen").insertAdjacentHTML(
   `<main class="evidence-screen" id="apartment-screen" hidden><button class="back-hub" data-screen="kodemmacho">← 返回小传马町</button><div class="apartment-layout"><section class="apartment-scene"><header class="evidence-heading"><small>CRIME SCENE · MINEKO APARTMENT</small><h2>峰子公寓</h2><p>45岁的峰子独居在这里。房间整洁明亮，仍留着她生活的气息。</p></header><div class="apartment-image" role="img" aria-label="峰子公寓室内调查场景"><div id="evidence-hotspots"></div></div><div class="scene-guidance"><span>ⓘ 点击场景中的放大镜，查看当前发现的证物。随着故事推进，可以再次返回调查。</span></div></section><section class="evidence-panel"><header><small>INVESTIGATION NOTES</small><h2>收集到的线索</h2><p>${escape(minekoApartmentEvidence.ui.description)}</p></header><nav class="evidence-tabs"><button data-evidence-tab="current" class="active">当前线索</button><button data-evidence-tab="resolved">已厘清</button></nav><section id="apartment-evidence"></section></section></div></main>`,
 );
 $(".apartment-image").setAttribute("role", "group");
+document.body.insertAdjacentHTML(
+  "beforeend",
+  `<dialog class="guide-dialog" id="guide-dialog" aria-labelledby="guide-title"><button class="guide-dialog-close" data-guide-close aria-label="关闭玩法说明">×</button><small>HOW TO PLAY</small><h2 id="guide-title">玩法说明</h2><p class="guide-dialog-intro">阅读是主线，地图帮助你找到下一段故事发生的地方。</p><ol><li><strong>故事进度</strong><span>跟随故事进度，进入当前章节。</span></li><li><strong>街区探索</strong><span>在人形町地图移动，走近地点后进入调查。</span></li><li><strong>调查与回顾</strong><span>通过对话与手帐记录事实，再到警局进行晚间回顾。</span></li><li><strong>自动保存</strong><span>阅读、书签和调查进度会保存在当前浏览器。</span></li></ol><button class="primary guide-dialog-confirm" data-guide-close>知道了</button></dialog>`,
+);
 const viewport = $(".map-scroll");
 const stage = document.createElement("div");
 stage.className = "camera-stage";
@@ -380,6 +400,7 @@ function renderMapStates() {
         document.querySelector(`[data-kodemmacho-location="${place.id}"]`),
       state = stateForPlace(place);
     if (!element) continue;
+    if (place.mapArea === "kodemmacho") element.hidden = state === "ambient";
     element.classList.remove(
       "locked",
       "active",
@@ -604,7 +625,54 @@ const scene = createVisit(reader, {
     } else showScreen(route === "directory" ? "kodemmacho" : route);
   },
 });
-function openNarrativeLocation(id){const place=locations.find(item=>item.id===id);if(!place)return;showScreen(place.mapArea==='kodemmacho'?'kodemmacho':'ningyocho');scene.open(false,place,dialogueStateForMapState(stateForPlace(place)));}
+let activeMapRegion = "ningyocho";
+let mapRegionTransition = 0;
+function setMapRegion(region, animate = true) {
+  if (region === activeMapRegion) return;
+  const previous = document.querySelector(
+      `.map-region-view[data-map-region="${activeMapRegion}"]`,
+    ),
+    next = document.querySelector(
+      `.map-region-view[data-map-region="${region}"]`,
+    );
+  if (!previous || !next) return;
+  const token = ++mapRegionTransition,
+    direction = region === "kodemmacho" ? 1 : -1,
+    duration = animate ? 240 : 0;
+  next.hidden = false;
+  next.classList.add("is-active");
+  previous.classList.remove("is-active");
+  if (duration) {
+    previous.animate(
+      [
+        { opacity: 1, transform: "translateX(0)" },
+        { opacity: 0, transform: `translateX(${-direction * 7}%)` },
+      ],
+      { duration, easing: "ease-out" },
+    );
+    next.animate(
+      [
+        { opacity: 0, transform: `translateX(${direction * 7}%)` },
+        { opacity: 1, transform: "translateX(0)" },
+      ],
+      { duration, easing: "ease-out" },
+    );
+  }
+  activeMapRegion = region;
+  detailScreen.querySelector(".walking-bar").hidden = region !== "ningyocho";
+  detailScreen.querySelector(".map-caption").hidden = region !== "ningyocho";
+  detailScreen.querySelector(".map-heading .eyebrow").textContent =
+    region === "ningyocho" ? "NIHONBASHI · NINGYOCHO" : "KODEMMACHO · INVESTIGATION MAP";
+  detailScreen.querySelector(".map-heading h2").textContent =
+    region === "ningyocho" ? "人形町站周边" : "小传马町方向";
+  window.setTimeout(() => {
+    if (token !== mapRegionTransition) return;
+    previous.hidden = true;
+  }, duration);
+  renderMapStates();
+  next.focus({ preventScroll: true });
+}
+function openNarrativeLocation(id){const place=locations.find(item=>item.id===id);if(!place)return;showScreen("ningyocho");setMapRegion(place.mapArea==='kodemmacho'?'kodemmacho':'ningyocho',false);scene.open(false,place,dialogueStateForMapState(stateForPlace(place)));}
 let activeScreen = "hub";
 const screens = {
   hub: $("#hub-screen"),
@@ -635,6 +703,7 @@ function showScreen(name) {
   document.querySelector("footer").hidden = name !== "ningyocho";
   renderStoryProgress();
   if (name === "ningyocho") {
+    setMapRegion("ningyocho", false);
     const destination = ningyochoLocations.find(
       (place) => place.id === currentStoryNode()?.locationId,
     );
@@ -658,10 +727,7 @@ function showScreen(name) {
 }
 function scrollToDestinationMap(mapArea = "ningyocho") {
   requestAnimationFrame(() => {
-    const map =
-      mapArea === "kodemmacho"
-        ? document.querySelector("#kodemmacho-screen .kodemmacho-location-map")
-        : detailScreen.querySelector(".map-panel");
+    const map = detailScreen.querySelector(".map-panel");
     map?.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
@@ -678,7 +744,8 @@ function openStoryNode(node, preferMap = false) {
   const place = locations.find((item) => item.id === node.locationId);
   if (preferMap && place) {
     if (place.mapArea === "kodemmacho") {
-      showScreen("kodemmacho");
+      showScreen("ningyocho");
+      setMapRegion("kodemmacho");
       requestAnimationFrame(() =>
         document
           .querySelector(`[data-kodemmacho-location="${place.id}"]`)
@@ -966,6 +1033,10 @@ document
           ),
         )),
   );
+document.querySelectorAll("[data-map-region-target]").forEach(
+  (button) =>
+    (button.onclick = () => setMapRegion(button.dataset.mapRegionTarget)),
+);
 document.addEventListener("click", (event) => {
   const trigger = event.target.closest(
     "[data-story-node],[data-story-read],[data-story-map],[data-story-apartment]",
@@ -1043,7 +1114,8 @@ $("#apartment-screen").addEventListener("click", (event) => {
     );
   if (!place) return;
   if (place.mapArea === "kodemmacho") {
-    showScreen("kodemmacho");
+    showScreen("ningyocho");
+    setMapRegion("kodemmacho");
     requestAnimationFrame(() => {
       document
         .querySelector(`[data-kodemmacho-location="${place.id}"]`)
@@ -1117,11 +1189,11 @@ $("#police-screen").addEventListener("click", (event) => {
     renderPolice();
   }
 });
-$("#guide").onclick = () => {
-  showScreen("kodemmacho");
-  $(".area-status").textContent =
-    "从人形町收集事实，回警局整理关系，再逐步打开新的调查地点。";
-};
+const guideDialog = $("#guide-dialog");
+$("#guide").onclick = () => guideDialog.showModal();
+guideDialog.addEventListener("click", (event) => {
+  if (event.target.closest("[data-guide-close]")) guideDialog.close();
+});
 $("#language-toggle").onclick = () =>
   setLocale(getLocale() === "en" ? "zh" : "en");
 if (matchMedia("(max-width: 850px)").matches) $("#notebook").open = false;

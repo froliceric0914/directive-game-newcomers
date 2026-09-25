@@ -12,6 +12,7 @@ const files = {
   minekoApartmentEvidence: "minekoApartmentEvidence",
   chapterEndReviews: "chapterEndReviews",
   storyLocations: "story-locations",
+  translationsEn: "i18n/en",
 };
 const names = Object.keys(files);
 const data = {};
@@ -34,6 +35,18 @@ const locationVisuals = JSON.parse(
 const characterScope = JSON.parse(
   await readFile(new URL("data/character-scope.json", root), "utf8"),
 );
+const missingTranslations = new Set();
+const checkTranslations = (value) => {
+  if (typeof value === "string" && /[\u3400-\u9fff]/.test(value) && !data.translationsEn[value])
+    missingTranslations.add(value);
+  else if (Array.isArray(value)) value.forEach(checkTranslations);
+  else if (value && typeof value === "object") Object.values(value).forEach(checkTranslations);
+};
+checkTranslations(data);
+checkTranslations(locationVisuals);
+checkTranslations(characterScope);
+if (missingTranslations.size)
+  throw Error(`Missing English data translations: ${[...missingTranslations].slice(0, 5).join(" | ")}`);
 const characterIds = new Set(
   [
     ...characterScope.v1Core,

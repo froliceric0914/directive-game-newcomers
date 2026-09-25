@@ -58,7 +58,7 @@
     "venueId": "kiku",
     "role": "松矢料亭 学徒",
     "portraits": {
-      "shop": "assets/characters/transparent-profiles/shuhei_transparent.png"
+      "shop": "assets/characters/transparent-profiles/shuhei_kiku.png"
     },
     "defaultPortrait": "shop"
   },
